@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Git入門:ブランチ・コミットと巻き戻し</title>
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+<header><div class="inner"><h1>Git入門:ブランチ・コミットと巻き戻し</h1></div></header>
+<nav class="breadcrumb"><a href="../../">資料トップ</a> / Git入門</nav>
+<main>
+
+<blockquote>
+<p><strong>図の色の見方</strong><br>
+<strong>青</strong> = 基本の流れ・安定した状態(<code>main</code>、コマンド、ポイント)<br>
+<strong>黄</strong> = 作業中・新しく作られるもの・注意が必要なところ<br>
+<strong>白</strong> = 補足・リモートなど外側の状態</p>
+</blockquote>
+<h2 id="toc">目次</h2>
+<ol>
+<li><a href="#sec1">コミットとは</a></li>
+<li><a href="#sec2">ブランチとは</a></li>
+<li><a href="#sec3">ブランチ汚染とは</a></li>
+<li><a href="#sec4">過去のコミットに巻き戻す方法</a></li>
+<li><a href="#sec5">安全に試すコツ</a></li>
+<li><a href="#sec6">GUIツール(GitHub Desktop・SourceTree・TortoiseGit)の用語集</a></li>
+<li><a href="#sec7">練習問題(わざと汚染して巻き戻す)</a></li>
+</ol>
+<hr />
+<h2 id="sec1">1. コミットとは</h2>
+<p>コミットは、ある時点のプロジェクト全体のスナップショットです。それぞれにハッシュ(例: <code>a1b2c3d</code>)が付き、1つ前のコミットを指しています。この連なりが「履歴」です。</p>
+<p>変更は次の4つの場所を通ります。</p>
+<p><img alt="Gitの流れ" src="images/git_flow.svg" /></p>
+<pre><code class="language-bash">git status                  # 今の状態を確認
+git add ファイル名           # コミット対象にする(ステージに載せる)
+git commit -m &quot;メッセージ&quot;    # 手元の履歴に記録する
+git push                    # リモートへ送る
+git log --oneline           # 履歴を一覧で見る
+</code></pre>
+<hr />
+<h2 id="sec2">2. ブランチとは</h2>
+<p>ブランチは、特定のコミットを指す名前付きのポインタです。コピーを作るわけではないので、作成は一瞬で軽く済みます。<code>HEAD</code> は「今自分がいるブランチ」を示します。</p>
+<p>使い方の基本は、<code>main</code> を安定版として保ち、作業は別ブランチで行い、完成したら <code>main</code> に統合することです。</p>
+<p><img alt="ブランチとマージ" src="images/git_branch.svg" /></p>
+<pre><code class="language-bash">git branch                    # ブランチ一覧
+git switch -c feature/timer   # 新規作成して移動
+git switch main               # 移動
+git merge feature/timer       # 今のブランチに統合
+git branch -d feature/timer   # 統合済みブランチを削除
+</code></pre>
+<hr />
+<h2 id="sec3">3. ブランチ汚染とは</h2>
+<p>ブランチ汚染は、本来入れたくないものがブランチに混ざった状態です。よくある例は次のとおりです。</p>
+<ul>
+<li><code>main</code> に直接、作りかけの変更をコミットしてしまった</li>
+<li><code>.vs/</code> や <code>Library/</code> などの不要ファイルをコミットした</li>
+<li>パスワードやAPIキーなどの秘密情報をコミットした</li>
+<li>別の作業のコミットが混ざったままマージした</li>
+</ul>
+<p><strong>予防策</strong></p>
+<ul>
+<li>作業は必ずブランチを切って行う</li>
+<li><code>.gitignore</code> を最初に用意する</li>
+<li>コミット前に <code>git status</code> と <code>git diff --staged</code> で中身を確認する</li>
+<li><strong>プルリクエスト(推奨)</strong>: <code>main</code> へ直接 push せず、作業ブランチを push してプルリクエスト(PR)を作り、差分を確認してからマージする。不要ファイルや秘密情報、別作業のコミットの混入をマージ前に見つけられる。GitHubの設定(ブランチ保護)で <code>main</code> への直接 push を禁止すると、より確実に防げる</li>
+</ul>
+<pre><code class="language-bash">git switch -c feature/timer          # 作業ブランチを作る
+git push -u origin feature/timer     # ブランチを push
+# GitHub上でプルリクエストを作成 → 差分を確認 → マージ
+</code></pre>
+<p>プルリクエストの流れは次の図のとおりです。</p>
+<p><img alt="プルリクエストの流れ" src="images/git_pr.svg" /></p>
+<hr />
+<h2 id="sec4">4. 過去のコミットに巻き戻す方法</h2>
+<p>状況によって使うコマンドが変わります。</p>
+<h3>A. まだコミットしていない変更を捨てる</h3>
+<pre><code class="language-bash">git restore ファイル名           # ファイルの変更を破棄
+git restore --staged ファイル名   # git add を取り消す(変更は残る)
+git clean -fd                    # 追跡されていないファイルを削除
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>: <code>git clean</code> で消えたファイルは戻せません。事前に <code>git clean -nd</code> で削除対象を確認してください。</p>
+</blockquote>
+<h3>B. コミット済みだが、まだ push していない</h3>
+<p><code>git reset</code> で、ブランチの指す位置を過去のコミットまで戻します。</p>
+<pre><code class="language-bash">git log --oneline               # 戻りたいコミットのハッシュを調べる
+git reset --soft HEAD~1         # 1つ前に戻る。変更はステージに残る
+git reset --mixed HEAD~1        # 1つ前に戻る。変更は作業ディレクトリに残る(既定)
+git reset --hard a1b2c3d        # 指定コミットに戻る。以降の変更は消える
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>コミット</th>
+<th>ステージ</th>
+<th>ファイルの中身</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--soft</code></td>
+<td>取り消す</td>
+<td>残る</td>
+<td>残る</td>
+</tr>
+<tr>
+<td><code>--mixed</code></td>
+<td>取り消す</td>
+<td>取り消す</td>
+<td>残る</td>
+</tr>
+<tr>
+<td><code>--hard</code></td>
+<td>取り消す</td>
+<td>取り消す</td>
+<td>消える</td>
+</tr>
+</tbody>
+</table>
+<h3>C. すでに push 済み(共同作業中)</h3>
+<p>履歴を書き換えずに、「打ち消すコミット」を新しく作る <code>git revert</code> を使います。</p>
+<pre><code class="language-bash">git revert a1b2c3d              # そのコミットの変更を打ち消すコミットを作る
+git push
+</code></pre>
+<p><code>reset</code> と <code>revert</code> の違いは次の図のとおりです。</p>
+<p><img alt="resetとrevertの違い" src="images/git_reset_revert.svg" /></p>
+<p><code>git reset --hard</code> の後に <code>git push --force</code> で履歴を書き換える方法もあります。ただし、他の人の履歴と食い違って混乱を招くので、共有ブランチでは避けるのが基本です。自分専用のブランチでやむを得ない場合は、<code>--force</code> より安全な <code>git push --force-with-lease</code> を使います。</p>
+<h3>D. 間違えて <code>reset --hard</code> してしまった</h3>
+<p><code>git reflog</code> は、HEADが動いた記録をすべて残しています。消えたように見えるコミットも、多くの場合ここから戻せます。</p>
+<pre><code class="language-bash">git reflog                      # 操作履歴を見る
+git reset --hard HEAD@{2}       # 戻りたい時点に復帰
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>: reflog の記録は一定期間(既定では約90日)で消えます。</p>
+</blockquote>
+<h3>E. 秘密情報をコミットしてしまった</h3>
+<blockquote>
+<p><strong>注意</strong>: 履歴から消しても、一度 push したものは漏れた前提で考えます。先にパスワードやキーを無効化(再発行)してください。そのうえで、<code>git filter-repo</code> などで履歴から削除します。</p>
+</blockquote>
+<h3>迷ったときの選び方</h3>
+<table>
+<thead>
+<tr>
+<th>やりたいこと</th>
+<th>使うコマンド</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>コミット前の変更を捨てたい</td>
+<td><code>git restore</code></td>
+</tr>
+<tr>
+<td>自分だけのローカルコミットをやり直したい</td>
+<td><code>git reset</code></td>
+</tr>
+<tr>
+<td>push 済みの変更を取り消したい</td>
+<td><code>git revert</code></td>
+</tr>
+<tr>
+<td>消してしまった履歴を探したい</td>
+<td><code>git reflog</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec5">5. 安全に試すコツ</h2>
+<p>巻き戻しの前に、今の状態にバックアップ用のブランチを作っておくと安心です。失敗してもすぐ元に戻せます。</p>
+<pre><code class="language-bash">git branch backup-before-reset
+</code></pre>
+<hr />
+<h2 id="sec6">6. GUIツールの用語集</h2>
+<p>GUIツールのボタンやメニューは、どれもGitのコマンド(CUI)と同じことをしています。</p>
+<table>
+<thead>
+<tr>
+<th>意味</th>
+<th>Git(CUI)</th>
+<th>GitHub Desktop</th>
+<th>SourceTree</th>
+<th>TortoiseGit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>コミット対象に選ぶ</td>
+<td><code>git add</code></td>
+<td>変更ファイルのチェック</td>
+<td>Stage</td>
+<td>Add</td>
+</tr>
+<tr>
+<td>変更を記録する</td>
+<td><code>git commit</code></td>
+<td>Commit</td>
+<td>Commit</td>
+<td>Git Commit</td>
+</tr>
+<tr>
+<td>リモートへ送る</td>
+<td><code>git push</code></td>
+<td>Push origin</td>
+<td>Push</td>
+<td>Git Push</td>
+</tr>
+<tr>
+<td>更新情報だけ取得する</td>
+<td><code>git fetch</code></td>
+<td>Fetch origin</td>
+<td>Fetch</td>
+<td>Git Fetch</td>
+</tr>
+<tr>
+<td>取得して取り込む</td>
+<td><code>git pull</code></td>
+<td>Pull origin</td>
+<td>Pull</td>
+<td>Git Pull</td>
+</tr>
+<tr>
+<td>ブランチを作る</td>
+<td><code>git switch -c</code></td>
+<td>New Branch</td>
+<td>Branch</td>
+<td>Create Branch</td>
+</tr>
+<tr>
+<td>ブランチを切り替える</td>
+<td><code>git switch</code></td>
+<td>Current Branch で選ぶ</td>
+<td>Checkout</td>
+<td>Switch/Checkout</td>
+</tr>
+<tr>
+<td>ブランチを統合する</td>
+<td><code>git merge</code></td>
+<td>Merge into Current Branch</td>
+<td>Merge</td>
+<td>Merge</td>
+</tr>
+<tr>
+<td>未コミットの変更を破棄する</td>
+<td><code>git restore</code></td>
+<td>Discard Changes</td>
+<td>Discard</td>
+<td>Revert</td>
+</tr>
+<tr>
+<td>過去に戻す</td>
+<td><code>git reset</code></td>
+<td>なし</td>
+<td>Reset current branch to this commit</td>
+<td>Reset to this</td>
+</tr>
+<tr>
+<td>打ち消しコミットを作る</td>
+<td><code>git revert</code></td>
+<td>Revert Changes in Commit</td>
+<td>Reverse commit</td>
+<td>Revert change by this commit</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>注意</strong>: メニュー名はバージョンや表示言語で変わることがあります。</p>
+</blockquote>
+<hr />
+<h2 id="sec7">7. 練習問題(わざと汚染して巻き戻す)</h2>
+<p>練習用の新しいフォルダで試します。本物のプロジェクトでは行わないでください。</p>
+<pre><code class="language-bash">mkdir git-practice &amp;&amp; cd git-practice
+git init
+echo &quot;A&quot; &gt; a.txt &amp;&amp; git add a.txt &amp;&amp; git commit -m &quot;A&quot;
+echo &quot;B&quot; &gt; b.txt &amp;&amp; git add b.txt &amp;&amp; git commit -m &quot;B&quot;
+echo &quot;C&quot; &gt; c.txt &amp;&amp; git add c.txt &amp;&amp; git commit -m &quot;C(間違い)&quot;
+git log --oneline
+</code></pre>
+<ol>
+<li><code>git reset --soft HEAD~1</code> を実行し、<code>git status</code> で c.txt がステージに残っていることを確認する</li>
+<li><code>git commit -m "C"</code> でコミットし直す</li>
+<li><code>git reset --hard HEAD~1</code> を実行し、c.txt が消えることを確認する</li>
+<li><code>git reflog</code> で消えたコミットを探し、<code>git reset --hard</code> で復元する</li>
+<li><code>git revert HEAD</code> で「打ち消しコミット」が増えることを <code>git log --oneline</code> で確認する</li>
+</ol>
+</main>
+<footer>Git入門メモ</footer>
+</body>
+</html>

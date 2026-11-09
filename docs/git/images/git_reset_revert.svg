@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 380" width="780" height="380" font-family="'Meiryo','Hiragino Sans','Noto Sans JP',sans-serif">
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/>
+    </marker>
+    <marker id="y" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f9a825"/>
+    </marker>
+  </defs>
+  <rect width="780" height="380" fill="#ffffff"/>
+
+  <!-- Panel 1: reset -->
+  <rect x="10" y="4" width="760" height="208" rx="10" fill="#f5faff" stroke="#bbdefb" stroke-width="1.5"/>
+  <text x="20" y="26" font-size="16" font-weight="bold" fill="#0d47a1">① git reset --hard B(履歴を巻き戻す)</text>
+  <text x="20" y="95" font-size="13" fill="#37474f">実行前</text>
+  <rect x="352" y="42" width="56" height="22" rx="11" fill="#1565c0"/>
+  <text x="380" y="58" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">main</text>
+  <line x1="162" y1="90" x2="238" y2="90" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
+  <line x1="282" y1="90" x2="358" y2="90" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
+  <circle cx="140" cy="90" r="22" fill="#e3f2fd" stroke="#1565c0" stroke-width="3"/>
+  <text x="140" y="96" text-anchor="middle" font-size="16" font-weight="bold" fill="#0d47a1">A</text>
+  <circle cx="260" cy="90" r="22" fill="#e3f2fd" stroke="#1565c0" stroke-width="3"/>
+  <text x="260" y="96" text-anchor="middle" font-size="16" font-weight="bold" fill="#0d47a1">B</text>
+  <circle cx="380" cy="90" r="22" fill="#e3f2fd" stroke="#1565c0" stroke-width="3"/>
+  <text x="380" y="96" text-anchor="middle" font-size="16" font-weight="bold" fill="#0d47a1">C</text>
+
+  <text x="20" y="185" font-size="13" fill="#37474f">実行後</text>
+  <rect x="232" y="132" width="56" height="22" rx="11" fill="#1565c0"/>
+  <text x="260" y="148" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">main</text>
+  <line x1="162" y1="180" x2="238" y2="180" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
+  <line x1="282" y1="180" x2="358" y2="180" stroke="#f9a825" stroke-width="2.5" stroke-dasharray="6,4" marker-end="url(#y)"/>
+  <circle cx="140" cy="180" r="22" fill="#e3f2fd" stroke="#1565c0" stroke-width="3"/>
+  <text x="140" y="186" text-anchor="middle" font-size="16" font-weight="bold" fill="#0d47a1">A</text>
+  <circle cx="260" cy="180" r="22" fill="#e3f2fd" stroke="#1565c0" stroke-width="3"/>
+  <text x="260" y="186" text-anchor="middle" font-size="16" font-weight="bold" fill="#0d47a1">B</text>
+  <circle cx="380" cy="180" r="22" fill="#ffffff" stroke="#f9a825" stroke-width="3" stroke-dasharray="6,4"/>
+  <text x="380" y="186" text-anchor="middle" font-size="16" font-weight="bold" fill="#f9a825">C</text>
+  <rect x="422" y="164" width="332" height="32" rx="8" fill="#fff3b0" stroke="#f9a825" stroke-width="1.5"/>
+  <text x="432" y="185" font-size="13" fill="#333">注意: C は履歴から外れる(共有ブランチでは避ける)</text>
+
+  <!-- Panel 2: revert -->
+  <rect x="10" y="222" width="760" height="150" rx="10" fill="#fffdf0" stroke="#ffe082" stroke-width="1.5"/>
+  <text x="20" y="246" font-size="16" font-weight="bold" fill="#0d47a1">② git revert C(打ち消しコミットを追加)</text>
+  <rect x="472" y="262" width="56" height="22" rx="11" fill="#1565c0"/>
+  <text x="500" y="278" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">main</text>
+  <line x1="162" y1="312" x2="238" y2="312" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
+  <line x1="282" y1="312" x2="358" y2="312" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
+  <line x1="402" y1="312" x2="478" y2="312" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
+  <circle cx="140" cy="312" r="22" fill="#e3f2fd" stroke="#1565c0" stroke-width="3"/>
+  <text x="140" y="318" text-anchor="middle" font-size="16" font-weight="bold" fill="#0d47a1">A</text>
+  <circle cx="260" cy="312" r="22" fill="#e3f2fd" stroke="#1565c0" stroke-width="3"/>
+  <text x="260" y="318" text-anchor="middle" font-size="16" font-weight="bold" fill="#0d47a1">B</text>
+  <circle cx="380" cy="312" r="22" fill="#e3f2fd" stroke="#1565c0" stroke-width="3"/>
+  <text x="380" y="318" text-anchor="middle" font-size="16" font-weight="bold" fill="#0d47a1">C</text>
+  <circle cx="500" cy="312" r="22" fill="#fff3b0" stroke="#f9a825" stroke-width="3"/>
+  <text x="500" y="318" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">C'</text>
+  <text x="540" y="317" font-size="13" font-weight="bold" fill="#0d47a1">← 新しく追加(C の変更を打ち消す)</text>
+  <text x="20" y="362" font-size="13" fill="#37474f">履歴は消えないので、push 済みでも安全に取り消せます。</text>
+</svg>

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 290" width="780" height="290" font-family="'Meiryo','Hiragino Sans','Noto Sans JP',sans-serif">
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/>
+    </marker>
+  </defs>
+  <rect width="780" height="290" fill="#ffffff"/>
+  <text x="390" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#0d47a1">プルリクエスト(PR)の流れ</text>
+
+  <!-- lane labels -->
+  <rect x="10" y="55" width="88" height="66" rx="10" fill="#fff8e1" stroke="#f9a825" stroke-width="1.5"/>
+  <text x="54" y="84" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">手元(PC)</text>
+  <text x="54" y="102" text-anchor="middle" font-size="11" fill="#555">作業する</text>
+  <rect x="10" y="165" width="88" height="66" rx="10" fill="#e3f2fd" stroke="#1e88e5" stroke-width="1.5"/>
+  <text x="54" y="194" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d47a1">GitHub</text>
+  <text x="54" y="212" text-anchor="middle" font-size="11" fill="#37474f">確認して統合</text>
+
+  <!-- row 1 (yellow) -->
+  <rect x="110" y="55" width="190" height="66" rx="10" fill="#fff3b0" stroke="#f9a825" stroke-width="3"/>
+  <text x="205" y="80" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">① ブランチを作る</text>
+  <text x="205" y="102" text-anchor="middle" font-size="12" font-weight="bold" font-family="Consolas,monospace" fill="#0d47a1">git switch -c feature</text>
+
+  <rect x="330" y="55" width="190" height="66" rx="10" fill="#fff3b0" stroke="#f9a825" stroke-width="3"/>
+  <text x="425" y="80" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">② 変更をコミット</text>
+  <text x="425" y="102" text-anchor="middle" font-size="12" font-weight="bold" font-family="Consolas,monospace" fill="#0d47a1">git add / git commit</text>
+
+  <rect x="550" y="55" width="190" height="66" rx="10" fill="#fff3b0" stroke="#f9a825" stroke-width="3"/>
+  <text x="645" y="80" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">③ ブランチを push</text>
+  <text x="645" y="102" text-anchor="middle" font-size="11" font-weight="bold" font-family="Consolas,monospace" fill="#0d47a1">git push -u origin feature</text>
+
+  <line x1="300" y1="88" x2="328" y2="88" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
+  <line x1="520" y1="88" x2="548" y2="88" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
+
+  <!-- elbow from ③ to ④ -->
+  <path d="M645,121 L645,143 L205,143 L205,163" fill="none" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
+
+  <!-- row 2 (blue) -->
+  <rect x="110" y="165" width="190" height="66" rx="10" fill="#e3f2fd" stroke="#1e88e5" stroke-width="3"/>
+  <text x="205" y="190" text-anchor="middle" font-size="14" font-weight="bold" fill="#0d47a1">④ PR を作成</text>
+  <text x="205" y="212" text-anchor="middle" font-size="12" fill="#37474f">New pull request</text>
+
+  <rect x="330" y="165" width="190" height="66" rx="10" fill="#ffffff" stroke="#f9a825" stroke-width="4"/>
+  <text x="425" y="190" text-anchor="middle" font-size="14" font-weight="bold" fill="#0d47a1">⑤ 差分をレビュー</text>
+  <text x="425" y="212" text-anchor="middle" font-size="12" fill="#37474f">不要ファイル・秘密情報の確認</text>
+
+  <rect x="550" y="165" width="190" height="66" rx="10" fill="#1e88e5" stroke="#0d47a1" stroke-width="3"/>
+  <text x="645" y="190" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">⑥ main にマージ</text>
+  <text x="645" y="212" text-anchor="middle" font-size="12" fill="#ffffff">Merge pull request</text>
+
+  <line x1="300" y1="198" x2="328" y2="198" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
+  <line x1="520" y1="198" x2="548" y2="198" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
+
+  <!-- highlight pill -->
+  <rect x="360" y="240" width="130" height="24" rx="12" fill="#f9a825"/>
+  <text x="425" y="257" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">ここで汚染を防ぐ</text>
+
+  <text x="390" y="282" text-anchor="middle" font-size="12" fill="#37474f">黄 = 手元の作業、青 = GitHub 上の確認と統合</text>
+</svg>
