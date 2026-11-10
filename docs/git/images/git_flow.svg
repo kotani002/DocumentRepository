@@ -1,46 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 230" width="780" height="230" font-family="'Meiryo','Hiragino Sans','Noto Sans JP',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450" width="900" height="450" font-family="'Meiryo','Hiragino Sans','Noto Sans JP',sans-serif">
   <defs>
-    <marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-      <path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/>
-    </marker>
-    <marker id="y" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-      <path d="M0,0 L10,5 L0,10 z" fill="#f9a825"/>
-    </marker>
+    <marker id="m" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" refX="13" refY="7" orient="auto"><path d="M0,1 L14,7 L0,13 z" fill="#37474f"/></marker>
+    <marker id="g" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" refX="13" refY="7" orient="auto"><path d="M0,1 L14,7 L0,13 z" fill="#90a4ae"/></marker>
   </defs>
-  <rect width="780" height="230" fill="#ffffff"/>
-  <text x="390" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#0d47a1">Gitで変更が通る4つの場所</text>
-
-  <!-- 作業ディレクトリ:黄 -->
-  <rect x="20" y="75" width="130" height="70" rx="10" fill="#fff3b0" stroke="#f9a825" stroke-width="3"/>
-  <text x="85" y="106" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">作業ディレクトリ</text>
-  <text x="85" y="128" text-anchor="middle" font-size="12" fill="#555">編集中のファイル</text>
-
-  <!-- ステージ:薄い青 -->
-  <rect x="210" y="75" width="130" height="70" rx="10" fill="#e3f2fd" stroke="#1e88e5" stroke-width="3"/>
-  <text x="275" y="106" text-anchor="middle" font-size="14" font-weight="bold" fill="#0d47a1">ステージ</text>
-  <text x="275" y="128" text-anchor="middle" font-size="12" fill="#37474f">コミット予定の変更</text>
-
-  <!-- ローカル履歴:濃い青 -->
-  <rect x="400" y="75" width="130" height="70" rx="10" fill="#1e88e5" stroke="#0d47a1" stroke-width="3"/>
-  <text x="465" y="106" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">ローカル履歴</text>
-  <text x="465" y="128" text-anchor="middle" font-size="12" fill="#ffffff">手元のコミット</text>
-
-  <!-- リモート:白 -->
-  <rect x="590" y="75" width="130" height="70" rx="10" fill="#ffffff" stroke="#0d47a1" stroke-width="3"/>
-  <text x="655" y="106" text-anchor="middle" font-size="14" font-weight="bold" fill="#0d47a1">リモート</text>
-  <text x="655" y="128" text-anchor="middle" font-size="12" fill="#37474f">GitHubなど</text>
-
-  <line x1="150" y1="110" x2="208" y2="110" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
-  <line x1="340" y1="110" x2="398" y2="110" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
-  <line x1="530" y1="110" x2="588" y2="110" stroke="#1565c0" stroke-width="3" marker-end="url(#a)"/>
-
-  <rect x="140" y="44" width="80" height="24" rx="12" fill="#fff3b0" stroke="#f9a825" stroke-width="1.5"/>
-  <text x="180" y="61" text-anchor="middle" font-size="13" font-weight="bold" font-family="Consolas,monospace" fill="#0d47a1">git add</text>
-  <rect x="320" y="44" width="100" height="24" rx="12" fill="#fff3b0" stroke="#f9a825" stroke-width="1.5"/>
-  <text x="370" y="61" text-anchor="middle" font-size="13" font-weight="bold" font-family="Consolas,monospace" fill="#0d47a1">git commit</text>
-  <rect x="510" y="44" width="100" height="24" rx="12" fill="#fff3b0" stroke="#f9a825" stroke-width="1.5"/>
-  <text x="560" y="61" text-anchor="middle" font-size="13" font-weight="bold" font-family="Consolas,monospace" fill="#0d47a1">git push</text>
-
-  <path d="M655,150 Q655,195 465,195 Q275,195 85,150" fill="none" stroke="#f9a825" stroke-width="3" stroke-dasharray="7,5" marker-end="url(#y)"/>
-  <text x="390" y="220" text-anchor="middle" font-size="13" font-weight="bold" font-family="Consolas,monospace" fill="#0d47a1">git pull(リモートの変更を取り込む)</text>
+  <rect width="900" height="450" fill="#ffffff"/>
+  <text x="450" y="34" font-size="22" font-weight="bold" fill="#0d47a1" text-anchor="middle">Gitで変更が通る4つの場所</text>
+  <rect x="20" y="56" width="610" height="214" rx="14" fill="#ffffff" stroke="#2e7d32" stroke-width="4"/>
+  <text x="38" y="84" font-size="17" font-weight="bold" fill="#1b5e20" text-anchor="start">Local(手元のPC)</text>
+  <rect x="670" y="56" width="210" height="214" rx="14" fill="#ffffff" stroke="#6a1b9a" stroke-width="4"/>
+  <text x="688" y="84" font-size="17" font-weight="bold" fill="#4a148c" text-anchor="start">Remote</text>
+  <rect x="40" y="146" width="150" height="100" rx="12" fill="#ffffff" stroke="#607d8b" stroke-width="3"/>
+  <text x="115" y="177" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">Working</text>
+  <text x="115" y="198" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">Directory</text>
+  <text x="115" y="228" font-size="14" font-weight="normal" fill="#455a64" text-anchor="middle">編集中のファイル</text>
+  <rect x="250" y="146" width="150" height="100" rx="12" fill="#ffffff" stroke="#607d8b" stroke-width="3"/>
+  <text x="325" y="190" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">Staging Area</text>
+  <text x="325" y="218" font-size="14" font-weight="normal" fill="#455a64" text-anchor="middle">commit 予定の変更</text>
+  <rect x="460" y="146" width="150" height="100" rx="12" fill="#ffffff" stroke="#607d8b" stroke-width="3"/>
+  <text x="535" y="177" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">Local</text>
+  <text x="535" y="198" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">Repository</text>
+  <text x="535" y="228" font-size="14" font-weight="normal" fill="#455a64" text-anchor="middle">手元の commit</text>
+  <rect x="700" y="146" width="150" height="100" rx="12" fill="#ffffff" stroke="#607d8b" stroke-width="3"/>
+  <text x="775" y="177" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">Remote</text>
+  <text x="775" y="198" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">Repository</text>
+  <text x="775" y="228" font-size="14" font-weight="normal" fill="#455a64" text-anchor="middle">GitHubなど</text>
+  <line x1="192" y1="196" x2="248" y2="196" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
+  <line x1="402" y1="196" x2="458" y2="196" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
+  <line x1="612" y1="196" x2="698" y2="196" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
+  <rect x="174" y="104" width="92" height="28" rx="14" fill="#ffffff" stroke="#607d8b" stroke-width="2"/>
+  <text x="220" y="123" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git add</text>
+  <rect x="372" y="104" width="116" height="28" rx="14" fill="#ffffff" stroke="#607d8b" stroke-width="2"/>
+  <text x="430" y="123" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git commit</text>
+  <rect x="606" y="104" width="98" height="28" rx="14" fill="#ffffff" stroke="#607d8b" stroke-width="2"/>
+  <text x="655" y="123" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git push</text>
+  <path d="M775,252 C775,332 115,332 115,252" fill="none" stroke="#37474f" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#m)"/>
+  <text x="445" y="344" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">git pull(remote の変更を取り込む)</text>
+  <rect x="10" y="360" width="880" height="78" rx="10" fill="#fafafa" stroke="#b0bec5" stroke-width="1.5"/>
+  <text x="24" y="389" font-size="16" font-weight="bold" fill="#37474f" text-anchor="start">図の色の見方</text>
+  <rect x="170" y="372" width="22" height="22" rx="4" fill="#ffd54f" stroke="#f9a825" stroke-width="2.5"/>
+  <text x="200" y="389" font-size="15" font-weight="normal" fill="#212121" text-anchor="start">黄 = 作業中の branch</text>
+  <rect x="400" y="372" width="22" height="22" rx="4" fill="#64b5f6" stroke="#1565c0" stroke-width="2.5"/>
+  <text x="430" y="389" font-size="15" font-weight="normal" fill="#212121" text-anchor="start">青 = merge 先などの未来の branch</text>
+  <rect x="700" y="372" width="22" height="22" rx="4" fill="#ffffff" stroke="#607d8b" stroke-width="2.5"/>
+  <text x="730" y="389" font-size="15" font-weight="normal" fill="#212121" text-anchor="start">白 = それ以外</text>
+  <rect x="170" y="404" width="22" height="22" rx="4" fill="#ffffff" stroke="#2e7d32" stroke-width="2.5"/>
+  <text x="200" y="421" font-size="15" font-weight="normal" fill="#212121" text-anchor="start">緑の枠 = Local(手元のPC)</text>
+  <rect x="400" y="404" width="22" height="22" rx="4" fill="#ffffff" stroke="#6a1b9a" stroke-width="2.5"/>
+  <text x="430" y="421" font-size="15" font-weight="normal" fill="#212121" text-anchor="start">紫の枠 = Remote(GitHub)</text>
 </svg>

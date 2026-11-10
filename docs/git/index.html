@@ -3,98 +3,127 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Git入門:ブランチ・コミットと巻き戻し</title>
+<title>Git入門:branch・commit と巻き戻し</title>
 <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 <body>
-<header><div class="inner"><h1>Git入門:ブランチ・コミットと巻き戻し</h1></div></header>
-<nav class="breadcrumb"><a href="../../">資料トップ</a> / Git入門</nav>
+<header><div class="inner"><h1>Git入門:branch・commit と巻き戻し</h1></div></header>
+<nav class="breadcrumb"><a href="../../">資料トップ</a> / Git入門:branch・commit と巻き戻し</nav>
 <main>
-
-<blockquote>
-<p><strong>図の色の見方</strong><br>
-<strong>青</strong> = 基本の流れ・安定した状態(<code>main</code>、コマンド、ポイント)<br>
-<strong>黄</strong> = 作業中・新しく作られるもの・注意が必要なところ<br>
-<strong>白</strong> = 補足・リモートなど外側の状態</p>
-</blockquote>
 <h2 id="toc">目次</h2>
 <ol>
-<li><a href="#sec1">コミットとは</a></li>
-<li><a href="#sec2">ブランチとは</a></li>
-<li><a href="#sec3">ブランチ汚染とは</a></li>
-<li><a href="#sec4">過去のコミットに巻き戻す方法</a></li>
-<li><a href="#sec5">安全に試すコツ</a></li>
-<li><a href="#sec6">GUIツール(GitHub Desktop・SourceTree・TortoiseGit)の用語集</a></li>
-<li><a href="#sec7">練習問題(わざと汚染して巻き戻す)</a></li>
+<li><a href="#sec1">commit とは</a></li>
+<li><a href="#sec2">branch とは</a></li>
+<li><a href="#sec3">push とは</a></li>
+<li><a href="#sec4">branch 汚染とは</a></li>
+<li><a href="#sec5">過去の commit に巻き戻す方法</a></li>
+<li><a href="#sec6">安全に試すコツ</a></li>
+<li><a href="#sec7">GUIツール(GitHub Desktop・SourceTree・TortoiseGit)の用語集</a></li>
+<li><a href="#sec8">練習問題(わざと汚染して巻き戻す)</a></li>
 </ol>
 <hr />
-<h2 id="sec1">1. コミットとは</h2>
-<p>コミットは、ある時点のプロジェクト全体のスナップショットです。それぞれにハッシュ(例: <code>a1b2c3d</code>)が付き、1つ前のコミットを指しています。この連なりが「履歴」です。</p>
+<h2 id="sec1">1. commit とは</h2>
+<p>commit は、ある時点のプロジェクト全体の snapshot です。それぞれに hash(例: <code>a1b2c3d</code>)が付き、1つ前の commit を指しています。この連なりが「履歴」です。</p>
 <p>変更は次の4つの場所を通ります。</p>
 <p><img alt="Gitの流れ" src="images/git_flow.svg" /></p>
 <pre><code class="language-bash">git status                  # 今の状態を確認
-git add ファイル名           # コミット対象にする(ステージに載せる)
-git commit -m &quot;メッセージ&quot;    # 手元の履歴に記録する
-git push                    # リモートへ送る
+git add ファイル名           # commit 対象にする(stage に載せる)
+git commit -m &quot;message&quot;     # 手元の履歴に記録する
+git push                    # remote へ送る
 git log --oneline           # 履歴を一覧で見る
 </code></pre>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p><code>git pull</code> は、<code>git fetch</code>(remote の更新を取得するだけ)と <code>git merge</code>(手元に取り込む)をまとめた操作です。取り込む前に内容を確認したいときは、先に <code>git fetch</code> だけを実行します。</p>
+</div>
 <hr />
-<h2 id="sec2">2. ブランチとは</h2>
-<p>ブランチは、特定のコミットを指す名前付きのポインタです。コピーを作るわけではないので、作成は一瞬で軽く済みます。<code>HEAD</code> は「今自分がいるブランチ」を示します。</p>
-<p>使い方の基本は、<code>main</code> を安定版として保ち、作業は別ブランチで行い、完成したら <code>main</code> に統合することです。</p>
-<p><img alt="ブランチとマージ" src="images/git_branch.svg" /></p>
-<pre><code class="language-bash">git branch                    # ブランチ一覧
+<h2 id="sec2">2. branch とは</h2>
+<p>branch は、特定の commit を指す名前付きの pointer です。コピーを作るわけではないので、作成は一瞬で軽く済みます。<code>HEAD</code> は「今自分がいる branch」を示します。</p>
+<p>使い方の基本は、<code>main</code> を安定版として保ち、作業は別の branch で行い、完成したら <code>main</code> に merge することです。</p>
+<p><img alt="branchとmerge" src="images/git_branch.svg" /></p>
+<pre><code class="language-bash">git branch                    # branch 一覧
 git switch -c feature/timer   # 新規作成して移動
 git switch main               # 移動
-git merge feature/timer       # 今のブランチに統合
-git branch -d feature/timer   # 統合済みブランチを削除
+git merge feature/timer       # 今の branch に merge
+git branch -d feature/timer   # merge 済みの branch を削除
 </code></pre>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>古い解説では、branch の移動に <code>git checkout</code> が使われています。現在は <code>git switch</code>(branch の移動)と <code>git restore</code>(ファイルの復元)に役割が分かれていて、こちらのほうが分かりやすいため、この資料ではこの2つを使っています。</p>
+</div>
 <hr />
-<h2 id="sec3">3. ブランチ汚染とは</h2>
-<p>ブランチ汚染は、本来入れたくないものがブランチに混ざった状態です。よくある例は次のとおりです。</p>
+<h2 id="sec3">3. push とは</h2>
+<p>push は、手元(local)の commit を remote(GitHub など)に送ることです。送られるのは commit 済みの内容だけで、commit していない変更は送られません。送る単位は branch です。</p>
+<p><img alt="pushの流れ" src="images/git_push.svg" /></p>
+<pre><code class="language-bash">git remote -v                       # 送り先(origin)の URL を確認
+git push -u origin feature/timer    # 初めて送る branch。送り先を origin に設定する
+git push                            # 2回目以降。今の branch を、設定済みの送り先へ送る
+git push origin main                # branch を指定して送る
+</code></pre>
+<p><code>origin</code> は、remote につけられる標準の名前です。<code>-u</code> を付けて1回 push すると、以降は <code>git push</code> だけで送れます。</p>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>push のあとに <code>git status</code> を実行して、<code>up to date with 'origin/...'</code> と表示されれば、手元と remote が同じ状態です。</p>
+</div>
+<div class="note note-warn">
+<p class="note-title">注意</p>
+<p>remote のほうが先に進んでいる(他の人が先に push した)と、push は rejected(拒否)されます。その場合は、先に <code>git pull</code> で remote の変更を取り込んでから、もう一度 push します。<code>--force</code> で無理に上書きしないでください。</p>
+</div>
+<hr />
+<h2 id="sec4">4. branch 汚染とは</h2>
+<p>branch 汚染は、本来入れたくないものが branch に混ざった状態です。よくある例は次のとおりです。</p>
 <ul>
-<li><code>main</code> に直接、作りかけの変更をコミットしてしまった</li>
-<li><code>.vs/</code> や <code>Library/</code> などの不要ファイルをコミットした</li>
-<li>パスワードやAPIキーなどの秘密情報をコミットした</li>
-<li>別の作業のコミットが混ざったままマージした</li>
+<li><code>main</code> に直接、作りかけの変更を commit してしまった</li>
+<li><code>.vs/</code> や <code>Library/</code> などの不要ファイルを commit した</li>
+<li>パスワードやAPIキーなどの秘密情報を commit した</li>
+<li>別の作業の commit が混ざったまま merge した</li>
 </ul>
 <p><strong>予防策</strong></p>
 <ul>
-<li>作業は必ずブランチを切って行う</li>
+<li>作業は必ず branch を切って行う</li>
 <li><code>.gitignore</code> を最初に用意する</li>
-<li>コミット前に <code>git status</code> と <code>git diff --staged</code> で中身を確認する</li>
-<li><strong>プルリクエスト(推奨)</strong>: <code>main</code> へ直接 push せず、作業ブランチを push してプルリクエスト(PR)を作り、差分を確認してからマージする。不要ファイルや秘密情報、別作業のコミットの混入をマージ前に見つけられる。GitHubの設定(ブランチ保護)で <code>main</code> への直接 push を禁止すると、より確実に防げる</li>
+<li>commit 前に <code>git status</code> と <code>git diff --staged</code> で中身を確認する</li>
+<li><strong>Pull Request(推奨)</strong>: <code>main</code> へ直接 push せず、作業 branch を push して Pull Request(PR)を作り、差分を確認してから merge する。不要ファイルや秘密情報、別作業の commit の混入を merge 前に見つけられる</li>
 </ul>
-<pre><code class="language-bash">git switch -c feature/timer          # 作業ブランチを作る
-git push -u origin feature/timer     # ブランチを push
-# GitHub上でプルリクエストを作成 → 差分を確認 → マージ
+<pre><code class="language-bash">git switch -c feature/timer          # 作業 branch を作る
+git push -u origin feature/timer     # branch を push
+# GitHub 上で Pull Request を作成 → 差分を確認 → merge
 </code></pre>
-<p>プルリクエストの流れは次の図のとおりです。</p>
-<p><img alt="プルリクエストの流れ" src="images/git_pr.svg" /></p>
+<p>Pull Request の流れは次の図のとおりです。</p>
+<p><img alt="Pull Requestの流れ" src="images/git_pr.svg" /></p>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>GitHub の設定(branch 保護)で <code>main</code> への直接 push を禁止すると、Pull Request を必ず通すようにできます。うっかり <code>main</code> に push してしまう事故を、仕組みで防げます。</p>
+</div>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p><code>.gitignore</code> に書いたファイルは、まだ追跡されていない場合に限って無視されます。すでに commit してしまったファイルは、<code>git rm --cached ファイル名</code> で追跡から外してから、commit し直します。</p>
+</div>
 <hr />
-<h2 id="sec4">4. 過去のコミットに巻き戻す方法</h2>
+<h2 id="sec5">5. 過去の commit に巻き戻す方法</h2>
 <p>状況によって使うコマンドが変わります。</p>
-<h3>A. まだコミットしていない変更を捨てる</h3>
+<h3>A. まだ commit していない変更を捨てる</h3>
 <pre><code class="language-bash">git restore ファイル名           # ファイルの変更を破棄
 git restore --staged ファイル名   # git add を取り消す(変更は残る)
 git clean -fd                    # 追跡されていないファイルを削除
 </code></pre>
-<blockquote>
-<p><strong>注意</strong>: <code>git clean</code> で消えたファイルは戻せません。事前に <code>git clean -nd</code> で削除対象を確認してください。</p>
-</blockquote>
-<h3>B. コミット済みだが、まだ push していない</h3>
-<p><code>git reset</code> で、ブランチの指す位置を過去のコミットまで戻します。</p>
-<pre><code class="language-bash">git log --oneline               # 戻りたいコミットのハッシュを調べる
-git reset --soft HEAD~1         # 1つ前に戻る。変更はステージに残る
-git reset --mixed HEAD~1        # 1つ前に戻る。変更は作業ディレクトリに残る(既定)
-git reset --hard a1b2c3d        # 指定コミットに戻る。以降の変更は消える
+<div class="note note-warn">
+<p class="note-title">注意</p>
+<p><code>git clean</code> で消えたファイルは戻せません。事前に <code>git clean -nd</code> で、削除される対象を確認してください。</p>
+</div>
+<h3>B. commit 済みだが、まだ push していない</h3>
+<p><code>git reset</code> で、branch の指す位置を過去の commit まで戻します。</p>
+<pre><code class="language-bash">git log --oneline               # 戻りたい commit の hash を調べる
+git reset --soft HEAD~1         # 1つ前に戻る。変更は stage に残る
+git reset --mixed HEAD~1        # 1つ前に戻る。変更は working directory に残る(既定)
+git reset --hard a1b2c3d        # 指定した commit に戻る。以降の変更は消える
 </code></pre>
 <table>
 <thead>
 <tr>
 <th>オプション</th>
-<th>コミット</th>
-<th>ステージ</th>
+<th>commit</th>
+<th>stage</th>
 <th>ファイルの中身</th>
 </tr>
 </thead>
@@ -119,26 +148,39 @@ git reset --hard a1b2c3d        # 指定コミットに戻る。以降の変更�
 </tr>
 </tbody>
 </table>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p><code>HEAD~1</code> は「今の commit の1つ前」という意味です。<code>HEAD~2</code> なら2つ前を指します。</p>
+</div>
+<div class="note note-warn">
+<p class="note-title">注意</p>
+<p><code>--hard</code> は、working directory の変更も消します。迷ったときは、先に <code>--soft</code> か <code>--mixed</code> を使うか、バックアップ用の branch を作ってから実行してください。</p>
+</div>
 <h3>C. すでに push 済み(共同作業中)</h3>
-<p>履歴を書き換えずに、「打ち消すコミット」を新しく作る <code>git revert</code> を使います。</p>
-<pre><code class="language-bash">git revert a1b2c3d              # そのコミットの変更を打ち消すコミットを作る
+<p>履歴を書き換えずに、「打ち消す commit」を新しく作る <code>git revert</code> を使います。</p>
+<pre><code class="language-bash">git revert a1b2c3d              # その commit の変更を打ち消す commit を作る
 git push
 </code></pre>
 <p><code>reset</code> と <code>revert</code> の違いは次の図のとおりです。</p>
 <p><img alt="resetとrevertの違い" src="images/git_reset_revert.svg" /></p>
-<p><code>git reset --hard</code> の後に <code>git push --force</code> で履歴を書き換える方法もあります。ただし、他の人の履歴と食い違って混乱を招くので、共有ブランチでは避けるのが基本です。自分専用のブランチでやむを得ない場合は、<code>--force</code> より安全な <code>git push --force-with-lease</code> を使います。</p>
+<div class="note note-warn">
+<p class="note-title">注意</p>
+<p><code>git reset --hard</code> の後に <code>git push --force</code> で履歴を書き換える方法もあります。ただし、他の人の履歴と食い違って混乱を招くので、共有 branch では避けるのが基本です。自分専用の branch でやむを得ない場合は、<code>--force</code> より安全な <code>git push --force-with-lease</code> を使います。</p>
+</div>
 <h3>D. 間違えて <code>reset --hard</code> してしまった</h3>
-<p><code>git reflog</code> は、HEADが動いた記録をすべて残しています。消えたように見えるコミットも、多くの場合ここから戻せます。</p>
+<p><code>git reflog</code> は、HEAD が動いた記録をすべて残しています。消えたように見える commit も、多くの場合ここから戻せます。</p>
 <pre><code class="language-bash">git reflog                      # 操作履歴を見る
 git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 </code></pre>
-<blockquote>
-<p><strong>注意</strong>: reflog の記録は一定期間(既定では約90日)で消えます。</p>
-</blockquote>
-<h3>E. 秘密情報をコミットしてしまった</h3>
-<blockquote>
-<p><strong>注意</strong>: 履歴から消しても、一度 push したものは漏れた前提で考えます。先にパスワードやキーを無効化(再発行)してください。そのうえで、<code>git filter-repo</code> などで履歴から削除します。</p>
-</blockquote>
+<div class="note note-warn">
+<p class="note-title">注意</p>
+<p>reflog の記録は一定期間(既定では約90日)で消えます。復元は早めに行ってください。</p>
+</div>
+<h3>E. 秘密情報を commit してしまった</h3>
+<div class="note note-alert">
+<p class="note-title">警告</p>
+<p>履歴から消しても、一度 push したものは漏れた前提で考えます。先にパスワードやキーを無効化(再発行)してください。そのうえで、<code>git filter-repo</code> などで履歴から削除します。</p>
+</div>
 <h3>迷ったときの選び方</h3>
 <table>
 <thead>
@@ -149,11 +191,11 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 </thead>
 <tbody>
 <tr>
-<td>コミット前の変更を捨てたい</td>
+<td>commit 前の変更を捨てたい</td>
 <td><code>git restore</code></td>
 </tr>
 <tr>
-<td>自分だけのローカルコミットをやり直したい</td>
+<td>自分だけの local の commit をやり直したい</td>
 <td><code>git reset</code></td>
 </tr>
 <tr>
@@ -167,13 +209,17 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 </tbody>
 </table>
 <hr />
-<h2 id="sec5">5. 安全に試すコツ</h2>
-<p>巻き戻しの前に、今の状態にバックアップ用のブランチを作っておくと安心です。失敗してもすぐ元に戻せます。</p>
+<h2 id="sec6">6. 安全に試すコツ</h2>
+<p>巻き戻しの前に、今の状態にバックアップ用の branch を作っておくと安心です。失敗してもすぐ元に戻せます。</p>
 <pre><code class="language-bash">git branch backup-before-reset
 </code></pre>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>バックアップ用の branch は、巻き戻しがうまくいったことを確認してから <code>git branch -d backup-before-reset</code> で削除します。</p>
+</div>
 <hr />
-<h2 id="sec6">6. GUIツールの用語集</h2>
-<p>GUIツールのボタンやメニューは、どれもGitのコマンド(CUI)と同じことをしています。</p>
+<h2 id="sec7">7. GUIツールの用語集</h2>
+<p>GUIツールのボタンやメニューは、どれも Git のコマンド(CUI)と同じことをしています。</p>
 <table>
 <thead>
 <tr>
@@ -186,7 +232,7 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 </thead>
 <tbody>
 <tr>
-<td>コミット対象に選ぶ</td>
+<td>commit 対象に選ぶ</td>
 <td><code>git add</code></td>
 <td>変更ファイルのチェック</td>
 <td>Stage</td>
@@ -200,7 +246,7 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 <td>Git Commit</td>
 </tr>
 <tr>
-<td>リモートへ送る</td>
+<td>remote へ送る</td>
 <td><code>git push</code></td>
 <td>Push origin</td>
 <td>Push</td>
@@ -221,28 +267,28 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 <td>Git Pull</td>
 </tr>
 <tr>
-<td>ブランチを作る</td>
+<td>branch を作る</td>
 <td><code>git switch -c</code></td>
 <td>New Branch</td>
 <td>Branch</td>
 <td>Create Branch</td>
 </tr>
 <tr>
-<td>ブランチを切り替える</td>
+<td>branch を切り替える</td>
 <td><code>git switch</code></td>
 <td>Current Branch で選ぶ</td>
 <td>Checkout</td>
 <td>Switch/Checkout</td>
 </tr>
 <tr>
-<td>ブランチを統合する</td>
+<td>branch を統合する</td>
 <td><code>git merge</code></td>
 <td>Merge into Current Branch</td>
 <td>Merge</td>
 <td>Merge</td>
 </tr>
 <tr>
-<td>未コミットの変更を破棄する</td>
+<td>commit 前の変更を破棄する</td>
 <td><code>git restore</code></td>
 <td>Discard Changes</td>
 <td>Discard</td>
@@ -256,7 +302,7 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 <td>Reset to this</td>
 </tr>
 <tr>
-<td>打ち消しコミットを作る</td>
+<td>打ち消しの commit を作る</td>
 <td><code>git revert</code></td>
 <td>Revert Changes in Commit</td>
 <td>Reverse commit</td>
@@ -264,12 +310,20 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p><strong>注意</strong>: メニュー名はバージョンや表示言語で変わることがあります。</p>
-</blockquote>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>GitHub Desktop には、<code>git reset</code> に当たる標準機能がありません。履歴を巻き戻したいときは、コマンド(CUI)で行います。</p>
+</div>
+<div class="note note-warn">
+<p class="note-title">注意</p>
+<p>メニュー名は、バージョンや表示言語で変わることがあります。</p>
+</div>
 <hr />
-<h2 id="sec7">7. 練習問題(わざと汚染して巻き戻す)</h2>
-<p>練習用の新しいフォルダで試します。本物のプロジェクトでは行わないでください。</p>
+<h2 id="sec8">8. 練習問題(わざと汚染して巻き戻す)</h2>
+<div class="note note-warn">
+<p class="note-title">注意</p>
+<p>練習用の新しいフォルダで試してください。本物のプロジェクトでは行わないでください。</p>
+</div>
 <pre><code class="language-bash">mkdir git-practice &amp;&amp; cd git-practice
 git init
 echo &quot;A&quot; &gt; a.txt &amp;&amp; git add a.txt &amp;&amp; git commit -m &quot;A&quot;
@@ -278,13 +332,13 @@ echo &quot;C&quot; &gt; c.txt &amp;&amp; git add c.txt &amp;&amp; git commit -m 
 git log --oneline
 </code></pre>
 <ol>
-<li><code>git reset --soft HEAD~1</code> を実行し、<code>git status</code> で c.txt がステージに残っていることを確認する</li>
-<li><code>git commit -m "C"</code> でコミットし直す</li>
+<li><code>git reset --soft HEAD~1</code> を実行し、<code>git status</code> で c.txt が stage に残っていることを確認する</li>
+<li><code>git commit -m "C"</code> で commit し直す</li>
 <li><code>git reset --hard HEAD~1</code> を実行し、c.txt が消えることを確認する</li>
-<li><code>git reflog</code> で消えたコミットを探し、<code>git reset --hard</code> で復元する</li>
-<li><code>git revert HEAD</code> で「打ち消しコミット」が増えることを <code>git log --oneline</code> で確認する</li>
+<li><code>git reflog</code> で消えた commit を探し、<code>git reset --hard</code> で復元する</li>
+<li><code>git revert HEAD</code> で「打ち消す commit」が増えることを <code>git log --oneline</code> で確認する</li>
 </ol>
 </main>
-<footer>Git入門メモ</footer>
+<footer>資料置き場</footer>
 </body>
 </html>

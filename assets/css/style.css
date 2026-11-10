@@ -106,3 +106,14 @@
   .card a:hover { text-decoration: underline; }
   .card p { margin: 0.4em 0 0; color: #546e7a; font-size: 0.9rem; line-height: 1.6; }
   .tag { display: inline-block; margin: 6px 4px 0 0; padding: 0 8px; font-size: 0.75rem; color: var(--blue-dark); background: var(--blue-light); border-radius: 10px; }
+
+  /* :::note ブロック(補足・注意・警告) */
+  .note { margin: 1.2em 0; padding: 10px 16px; border-left: 6px solid; border-radius: 6px; }
+  .note p { margin: 0.3em 0; }
+  .note .note-title { margin: 0 0 0.2em; font-weight: bold; }
+  .note-info { background: #e3f2fd; border-color: #1e88e5; }
+  .note-info .note-title { color: #0d47a1; }
+  .note-warn { background: #fff8e1; border-color: #f9a825; }
+  .note-warn .note-title { color: #8a5a00; }
+  .note-alert { background: #ffebee; border-color: #c62828; }
+  .note-alert .note-title { color: #b71c1c; }
