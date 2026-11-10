@@ -23,9 +23,11 @@
 </ol>
 <hr />
 <h2 id="sec1">1. commit とは</h2>
-<p>commit は、ある時点のプロジェクト全体の snapshot です。それぞれに hash(例: <code>a1b2c3d</code>)が付き、1つ前の commit を指しています。この連なりが「履歴」です。</p>
+<p>commit は、作業の途中経過を「セーブ」して、履歴に残すことです。ゲームのセーブのように、あとからその時点の状態に戻せます。commit を重ねると、変更の記録が順番に並んだ「履歴」になります。</p>
+<p>各 commit には、見分けるための ID(hash)※ が自動で付きます。</p>
+<p class="footnote">※ hash とは、commit ごとに自動で付く、英数字の文字列です(例: <code>a1b2c3d</code>)。「背番号」のようなもので、巻き戻したいときに「この commit に戻す」と指定するのに使います。<code>git log --oneline</code> で確認できます。</p>
 <p>変更は次の4つの場所を通ります。</p>
-<p><img alt="Gitの流れ" src="images/git_flow.svg" /></p>
+<div class="figure"><img alt="Gitの流れ" src="images/git_flow.svg" /></div>
 <pre><code class="language-bash">git status                  # 今の状態を確認
 git add ファイル名           # commit 対象にする(stage に載せる)
 git commit -m &quot;message&quot;     # 手元の履歴に記録する
@@ -38,9 +40,9 @@ git log --oneline           # 履歴を一覧で見る
 </div>
 <hr />
 <h2 id="sec2">2. branch とは</h2>
-<p>branch は、特定の commit を指す名前付きの pointer です。コピーを作るわけではないので、作成は一瞬で軽く済みます。<code>HEAD</code> は「今自分がいる branch」を示します。</p>
+<p>branch は、履歴の流れを枝分かれさせて、別々に作業を進めるための仕組みです。元の流れ(<code>main</code>)に影響を与えずに、新機能の試作や修正を進められます。<code>HEAD</code> は「今自分がいる branch」を示す目印です。</p>
 <p>使い方の基本は、<code>main</code> を安定版として保ち、作業は別の branch で行い、完成したら <code>main</code> に merge することです。</p>
-<p><img alt="branchとmerge" src="images/git_branch.svg" /></p>
+<div class="figure"><img alt="branchとmerge" src="images/git_branch.svg" /></div>
 <pre><code class="language-bash">git branch                    # branch 一覧
 git switch -c feature/timer   # 新規作成して移動
 git switch main               # 移動
@@ -49,12 +51,16 @@ git branch -d feature/timer   # merge 済みの branch を削除
 </code></pre>
 <div class="note note-info">
 <p class="note-title">補足</p>
+<p>仕組みとしては、branch は commit に付けた名前(しおりのようなもの)です。ファイルを丸ごとコピーするわけではないので、作成は一瞬で軽く済みます。</p>
+</div>
+<div class="note note-info">
+<p class="note-title">補足</p>
 <p>古い解説では、branch の移動に <code>git checkout</code> が使われています。現在は <code>git switch</code>(branch の移動)と <code>git restore</code>(ファイルの復元)に役割が分かれていて、こちらのほうが分かりやすいため、この資料ではこの2つを使っています。</p>
 </div>
 <hr />
 <h2 id="sec3">3. push とは</h2>
 <p>push は、手元(local)の commit を remote(GitHub など)に送ることです。送られるのは commit 済みの内容だけで、commit していない変更は送られません。送る単位は branch です。</p>
-<p><img alt="pushの流れ" src="images/git_push.svg" /></p>
+<div class="figure"><img alt="pushの流れ" src="images/git_push.svg" /></div>
 <pre><code class="language-bash">git remote -v                       # 送り先(origin)の URL を確認
 git push -u origin feature/timer    # 初めて送る branch。送り先を origin に設定する
 git push                            # 2回目以降。今の branch を、設定済みの送り先へ送る
@@ -90,7 +96,7 @@ git push -u origin feature/timer     # branch を push
 # GitHub 上で Pull Request を作成 → 差分を確認 → merge
 </code></pre>
 <p>Pull Request の流れは次の図のとおりです。</p>
-<p><img alt="Pull Requestの流れ" src="images/git_pr.svg" /></p>
+<div class="figure"><img alt="Pull Requestの流れ" src="images/git_pr.svg" /></div>
 <div class="note note-info">
 <p class="note-title">補足</p>
 <p>GitHub の設定(branch 保護)で <code>main</code> への直接 push を禁止すると、Pull Request を必ず通すようにできます。うっかり <code>main</code> に push してしまう事故を、仕組みで防げます。</p>
@@ -162,7 +168,7 @@ git reset --hard a1b2c3d        # 指定した commit に戻る。以降の変�
 git push
 </code></pre>
 <p><code>reset</code> と <code>revert</code> の違いは次の図のとおりです。</p>
-<p><img alt="resetとrevertの違い" src="images/git_reset_revert.svg" /></p>
+<div class="figure"><img alt="resetとrevertの違い" src="images/git_reset_revert.svg" /></div>
 <div class="note note-warn">
 <p class="note-title">注意</p>
 <p><code>git reset --hard</code> の後に <code>git push --force</code> で履歴を書き換える方法もあります。ただし、他の人の履歴と食い違って混乱を招くので、共有 branch では避けるのが基本です。自分専用の branch でやむを得ない場合は、<code>--force</code> より安全な <code>git push --force-with-lease</code> を使います。</p>
@@ -175,11 +181,6 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 <div class="note note-warn">
 <p class="note-title">注意</p>
 <p>reflog の記録は一定期間(既定では約90日)で消えます。復元は早めに行ってください。</p>
-</div>
-<h3>E. 秘密情報を commit してしまった</h3>
-<div class="note note-alert">
-<p class="note-title">警告</p>
-<p>履歴から消しても、一度 push したものは漏れた前提で考えます。先にパスワードやキーを無効化(再発行)してください。そのうえで、<code>git filter-repo</code> などで履歴から削除します。</p>
 </div>
 <h3>迷ったときの選び方</h3>
 <table>

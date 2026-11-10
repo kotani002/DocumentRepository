@@ -40,6 +40,9 @@ def main(md_path: str, out_path: str) -> None:
         extensions=["tables", "fenced_code", "sane_lists", "md_in_html"],
     )
 
+    body = re.sub(r"<p>(<img [^>]*>)</p>", r'<div class="figure">\1</div>', body)
+    body = body.replace("<p>※", '<p class="footnote">※')
+
     # h2 に id を付け、目次(最初の h2 直後の番号付きリスト)をリンクにする
     n = {"i": -1}
 
