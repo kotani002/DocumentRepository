@@ -9,7 +9,7 @@
 5. 過去の commit に巻き戻す方法
 6. 安全に試すコツ
 7. GUIツール(GitHub Desktop・SourceTree・TortoiseGit)の用語集
-8. 練習問題(わざと汚染して巻き戻す)
+8. 練習問題(reset と revert を GUI で試す)
 
 ---
 
@@ -128,6 +128,9 @@ GitHub の設定(branch 保護)で `main` への直接 push を禁止すると�
 
 ## 5. 過去の commit に巻き戻す方法
 
+**基本は、作業内容を過去の commit まで戻す(Hard Reset)か、打ち消す commit を作る(revert)のどちらかです。**
+まだ push していなければ Hard Reset、push 済みなら revert が目安です。
+
 状況によって使うコマンドが変わります。
 
 ### A. まだ commit していない変更を捨てる
@@ -237,11 +240,18 @@ GUIツールのボタンやメニューは、どれも Git のコマンド(CUI)�
 | branch を切り替える | `git switch` | Current Branch で選ぶ | Checkout | Switch/Checkout |
 | branch を統合する | `git merge` | Merge into Current Branch | Merge | Merge |
 | commit 前の変更を破棄する | `git restore` | Discard Changes | Discard | Revert |
-| 過去に戻す | `git reset` | なし | Reset current branch to this commit | Reset to this |
+| 過去に戻す | `git reset` | Reset to commit | Reset current branch to this commit | Reset to this |
 | 打ち消しの commit を作る | `git revert` | Revert Changes in Commit | Reverse commit | Revert change by this commit |
 
 :::note info
-GitHub Desktop には、`git reset` に当たる標準機能がありません。履歴を巻き戻したいときは、コマンド(CUI)で行います。
+GitHub Desktop でも reset できます。**History** タブで戻したい commit を右クリックし、**Reset to commit** を選びます。
+
+- 戻した後の変更は、working directory に未 commit の状態で残ります(`git reset --mixed` に近い動き)
+- 変更もいらない場合は、そのあと **Discard Changes** で破棄します(`--hard` と同じ結果)
+- 戻せるのは、remote に push 済みの最新の commit より後の commit までです
+- push 済みの commit を取り消したいときは、reset ではなく **Revert Changes in Commit** を使います
+
+参考: [Resetting to a commit in GitHub Desktop](https://docs.github.com/en/desktop/managing-commits/resetting-to-a-commit-in-github-desktop)
 :::
 
 :::note warn
@@ -250,23 +260,77 @@ GitHub Desktop には、`git reset` に当たる標準機能がありません�
 
 ---
 
-## 8. 練習問題(わざと汚染して巻き戻す)
+## 8. 練習問題(reset と revert を GUI で試す)
+
+GitHub Desktop・SourceTree・TortoiseGit のどれでも、同じ流れで試せます。手順は、図と同じ言葉(History、commit、reset、revert)で書いています。
 
 :::note warn
-練習用の新しいフォルダで試してください。本物のプロジェクトでは行わないでください。
+練習用の新しい repository で試してください。本物のプロジェクトでは行わないでください。
 :::
 
-```bash
-mkdir git-practice && cd git-practice
-git init
-echo "A" > a.txt && git add a.txt && git commit -m "A"
-echo "B" > b.txt && git add b.txt && git commit -m "B"
-echo "C" > c.txt && git add c.txt && git commit -m "C(間違い)"
-git log --oneline
-```
+### 準備:練習用の履歴を作る
 
-1. `git reset --soft HEAD~1` を実行し、`git status` で c.txt が stage に残っていることを確認する
-2. `git commit -m "C"` で commit し直す
-3. `git reset --hard HEAD~1` を実行し、c.txt が消えることを確認する
-4. `git reflog` で消えた commit を探し、`git reset --hard` で復元する
-5. `git revert HEAD` で「打ち消す commit」が増えることを `git log --oneline` で確認する
+![準備:3回 commit して履歴を作る](images/git_practice_setup.svg)
+
+1. 練習用の新しい repository を作る
+2. その中に `a.txt` を作って commit する(message は `A`)
+3. `b.txt` を作って commit する(message は `B`)
+4. `c.txt` を作って commit する(message は `C(間違い)`)
+5. History(ログ)に、A・B・C の3つが並んでいれば準備完了です
+
+| 操作 | GitHub Desktop | SourceTree | TortoiseGit |
+|---|---|---|---|
+| repository を作る | File → New repository | File → New → Create Local Repository | 空のフォルダを右クリック → Git Create repository here |
+| commit する | 変更ファイルにチェック → message を入力 → Commit to main | ファイルを Stage → message を入力 → Commit | フォルダを右クリック → Git Commit → message を入力 → Commit |
+| History を見る | History タブ | メイン画面の履歴(ログ) | フォルダを右クリック → Show Log |
+
+### 問題1:reset で B まで戻す
+
+C(間違い)の commit を、なかったことにします。目標は、a.txt と b.txt だけが残る状態(Hard Reset)です。
+
+![問題1:reset で B まで戻す](images/git_practice_reset.svg)
+
+| 手順 | GitHub Desktop | SourceTree | TortoiseGit |
+|---|---|---|---|
+| ① 履歴を開く | History タブ | メイン画面の履歴 | Show Log |
+| ② B を右クリック | History の commit B を右クリック | 履歴の commit B を右クリック | ログの commit B を右クリック |
+| ③ reset を選ぶ | Reset to commit | Reset current branch to this commit → Hard を選ぶ | Reset to this → Hard を選ぶ |
+| ④ 変更を捨てる | Changes タブで Discard All Changes | 不要(Hard で消える) | 不要(Hard で消える) |
+
+**確認すること**:History から C が消え、フォルダから c.txt もなくなっています。
+
+:::note info
+GitHub Desktop の Reset to commit は、戻した後の変更を working directory に残す動きです。そのため、c.txt を消すには④で変更を捨てます。
+:::
+
+### 問題2:revert で C を打ち消す
+
+履歴を消さずに、C の内容を打ち消す commit(C')を作ります。目標は、History に A・B・C・C' が残り、c.txt だけがフォルダから消える状態です。
+
+問題1のあとは C が消えているので、新しい repository で準備をやり直してから始めます。
+
+![問題2:revert で C を打ち消す](images/git_practice_revert.svg)
+
+| 手順 | GitHub Desktop | SourceTree | TortoiseGit |
+|---|---|---|---|
+| ① 履歴を開く | History タブ | メイン画面の履歴 | Show Log |
+| ② C を右クリック | History の commit C を右クリック | 履歴の commit C を右クリック | ログの commit C を右クリック |
+| ③ revert を選ぶ | Revert Changes in Commit | Reverse commit | Revert change by this commit |
+| ④ 結果を確認 | History に C' が増えている | History に C' が増えている | History に C' が増えている |
+
+**確認すること**:History に C' が増え、C は残ったままです。フォルダから c.txt はなくなっています。
+
+:::note info
+ツールによっては、revert の途中で commit の確認画面が開きます。その場合は、そのまま commit まで進めてください。
+:::
+
+:::note warn
+メニュー名は、バージョンや表示言語で変わることがあります。見つからないときは、commit を右クリックしたメニューを確認してください。
+:::
+
+### 2つの違い
+
+| | reset | revert |
+|---|---|---|
+| 履歴 | C が消える | C は残り、C' が増える |
+| 向いている場面 | まだ push していないとき | push 済みのとき |
