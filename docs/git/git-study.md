@@ -26,6 +26,13 @@ commit は、作業の途中経過を「セーブ」して、履歴に残すこ�
 
 ![Gitの流れ](images/git_flow.svg)
 
+- **working directory**: 実際にファイルを編集している場所(フォルダ)
+- **stage**(図では Staging Area): 次の commit に含める変更を、いったん置いておく場所
+- **local repository**: 手元の PC にある、commit の履歴
+- **remote repository**: GitHub など、ネット上にある履歴
+
+手元の PC 側を local、GitHub など外側を remote と呼びます。
+
 ```bash
 git status                  # 今の状態を確認
 git add ファイル名           # commit 対象にする(stage に載せる)
@@ -42,15 +49,15 @@ git log --oneline           # 履歴を一覧で見る
 
 ## 2. branch とは
 
-branch は、履歴の流れを枝分かれさせて、別々に作業を進めるための仕組みです。元の流れ(`main`)に影響を与えずに、新機能の試作や修正を進められます。`HEAD` は「今自分がいる branch」を示す目印です。
+branch は、履歴の流れを枝分かれさせて、別々に作業を進めるための仕組みです。元の流れ(基本となる branch の `main`)に影響を与えずに、新機能の試作や修正を進められます。`HEAD` は「今自分がいる branch」を示す目印です。
 
-使い方の基本は、`main` を安定版として保ち、作業は別の branch で行い、完成したら `main` に merge することです。
+使い方の基本は、`main` を安定版として保ち、作業は別の branch で行い、完成したら `main` に merge(変更を取り込んで合流)することです。
 
 ![branchとmerge](images/git_branch.svg)
 
 ```bash
 git branch                    # branch 一覧
-git switch -c feature/timer   # 新規作成して移動
+git switch -c feature/timer   # branch を新しく作って、そこに移動
 git switch main               # 移動
 git merge feature/timer       # 今の branch に merge
 git branch -d feature/timer   # merge 済みの branch を削除
@@ -79,7 +86,7 @@ git push                            # 2回目以降。今の branch を、設定
 git push origin main                # branch を指定して送る
 ```
 
-`origin` は、remote につけられる標準の名前です。`-u` を付けて1回 push すると、以降は `git push` だけで送れます。
+`origin` は、remote につけられる標準の名前です。`-u` は「この branch の送り先を覚えておく」という指定で、1回付けて push すると、以降は `git push` だけで送れます。
 
 :::note info
 push のあとに `git status` を実行して、`up to date with 'origin/...'` と表示されれば、手元と remote が同じ状態です。
@@ -117,7 +124,7 @@ title: 学習メモ
 | conflict の発生を示す行 | 意味 |
 |---|---|
 | `<<<<<<< HEAD` 〜 `=======` | 今いる branch(`main`)の内容 |
-| `=======` 〜 `>>>>>>> feature` | merge してきた branch(`feature`)の内容 |
+| `=======` 〜 `>>>>>>> feature` | merge で取り込む branch(`feature`)の内容 |
 
 解消は、conflict の発生を示す行を消して、残す内容を決めることです。
 
@@ -140,9 +147,9 @@ GUIツールでは、次のように操作します。
 
 | 手順 | GitHub Desktop | SourceTree | TortoiseGit |
 |---|---|---|---|
-| ① conflict のファイルを探す | Changes タブの conflicted files | ファイルを右クリック → Resolve Conflicts | ファイルを右クリック → TortoiseGit |
+| ① conflict のファイルを探す | Changes タブの conflicted files | ファイルを右クリック → Resolve Conflicts | conflict のファイルを右クリック → TortoiseGit のメニュー |
 | ② 開いて直す | Open in エディタ名 | Launch External Merge Tool | Edit Conflicts |
-| ③ 解消したと伝える | 自動で stage される | Mark Resolved | Resolved |
+| ③ 解消したと伝える | 自動で stage される | Mark Resolved | TortoiseGit → Resolved |
 | ④ commit する | Commit merge | Commit | Git Commit |
 
 :::note info
@@ -164,16 +171,16 @@ conflict を減らすには、作業を始める前に `git pull` で最新の�
 branch 汚染は、本来入れたくないものが branch に混ざった状態です。よくある例は次のとおりです。
 
 - `main` に直接、作りかけの変更を commit してしまった
-- `.vs/` や `Library/` などの不要ファイルを commit した
+- `.vs/` や `Library/` など、ツールが自動で作る不要なファイルを commit した
 - パスワードやAPIキーなどの秘密情報を commit した
 - 別の作業の commit が混ざったまま merge した
 
 **予防策**
 
 - 作業は必ず branch を切って行う
-- `.gitignore` を最初に用意する
+- `.gitignore`(commit しないファイルを指定する設定ファイル)を最初に用意する
 - commit 前に `git status` と `git diff --staged` で中身を確認する
-- **Pull Request(推奨)**: `main` へ直接 push せず、作業 branch を push して Pull Request(PR)を作り、差分を確認してから merge する。不要ファイルや秘密情報、別作業の commit の混入を merge 前に見つけられる
+- **Pull Request(推奨)**: GitHub 上で「この branch を `main` に merge してください」と依頼する仕組みです。`main` へ直接 push せず、作業 branch を push して Pull Request(PR)を作り、差分を確認してから merge します。不要ファイルや秘密情報、別作業の commit の混入を、merge の前に見つけられます
 
 ```bash
 git switch -c feature/timer          # 作業 branch を作る
@@ -190,14 +197,14 @@ GitHub の設定(branch 保護)で `main` への直接 push を禁止すると�
 :::
 
 :::note info
-`.gitignore` に書いたファイルは、まだ追跡されていない場合に限って無視されます。すでに commit してしまったファイルは、`git rm --cached ファイル名` で追跡から外してから、commit し直します。
+`.gitignore` に書いたファイルは、まだ Git の管理に入っていない場合だけ無視されます。すでに commit してしまったファイルは、`git rm --cached ファイル名` で Git の管理から外してから(ファイル自体は消えません)、commit し直します。
 :::
 
 ---
 
 ## 6. 安全に試すコツ
 
-巻き戻しの前に、今の状態にバックアップ用の branch を作っておくと安心です。失敗してもすぐ元に戻せます。
+巻き戻しの前に、今の状態にバックアップ用の branch を作っておくと安心です。失敗しても、`git reset --hard backup-before-reset` で元の状態に戻せます。
 
 ```bash
 git branch backup-before-reset
@@ -221,7 +228,7 @@ git branch backup-before-reset
 ```bash
 git restore ファイル名           # ファイルの変更を破棄
 git restore --staged ファイル名   # git add を取り消す(変更は残る)
-git clean -fd                    # 追跡されていないファイルを削除
+git clean -fd                    # Git の管理に入っていない新しいファイルを削除
 ```
 
 :::note warn
@@ -230,7 +237,7 @@ git clean -fd                    # 追跡されていないファイルを削除
 
 ### B. commit 済みだが、まだ push していない
 
-`git reset` で、branch の指す位置を過去の commit まで戻します。
+`git reset` で、今の branch を過去の commit の状態まで戻します。
 
 ```bash
 git log --oneline               # 戻りたい commit の hash を調べる
@@ -238,6 +245,8 @@ git reset --soft HEAD~1         # 1つ前に戻る。変更は stage に残る
 git reset --mixed HEAD~1        # 1つ前に戻る。変更は working directory に残る(既定)
 git reset --hard a1b2c3d        # 指定した commit に戻る。以降の変更は消える
 ```
+
+オプションによって、戻したあとに変更が残るかどうかが変わります。
 
 | オプション | commit | stage | ファイルの中身 |
 |---|---|---|---|
@@ -267,7 +276,7 @@ git push
 ![resetとrevertの違い](images/git_reset_revert.svg)
 
 :::note warn
-`git reset --hard` の後に `git push --force` で履歴を書き換える方法もあります。ただし、他の人の履歴と食い違って混乱を招くので、共有 branch では避けるのが基本です。自分専用の branch でやむを得ない場合は、`--force` より安全な `git push --force-with-lease` を使います。
+push 済みの commit を reset で消し、`git push --force` で remote にも反映する方法もあります。ただし、他の人の履歴と食い違って混乱を招くので、共有 branch では避けるのが基本です。自分専用の branch でやむを得ない場合は、`--force` より安全な `git push --force-with-lease` を使います。
 :::
 
 ### D. 間違えて `reset --hard` してしまった
@@ -276,7 +285,7 @@ git push
 
 ```bash
 git reflog                      # 操作履歴を見る
-git reset --hard HEAD@{2}       # 戻りたい時点に復帰
+git reset --hard HEAD@{2}       # 戻りたい時点に復帰(`HEAD@{2}` は2回前の状態)
 ```
 
 :::note warn
@@ -288,7 +297,7 @@ reflog の記録は一定期間(既定では約90日)で消えます。復元は
 | やりたいこと | 使うコマンド |
 |---|---|
 | commit 前の変更を捨てたい | `git restore` |
-| 自分だけの local の commit をやり直したい | `git reset` |
+| まだ push していない commit をやり直したい | `git reset` |
 | push 済みの変更を取り消したい | `git revert` |
 | 消してしまった履歴を探したい | `git reflog` |
 
@@ -317,7 +326,7 @@ GitHub Desktop でも reset できます。**History** タブで戻したい com
 
 - 戻した後の変更は、working directory に未 commit の状態で残ります(`git reset --mixed` に近い動き)
 - 変更もいらない場合は、そのあと **Discard Changes** で破棄します(`--hard` と同じ結果)
-- 戻せるのは、remote に push 済みの最新の commit より後の commit までです
+- 戻せるのは、最後に push した commit か、それより新しい commit までです(それより前には戻せません)
 - push 済みの commit を取り消したいときは、reset ではなく **Revert Changes in Commit** を使います
 
 参考: [Resetting to a commit in GitHub Desktop](https://docs.github.com/en/desktop/managing-commits/resetting-to-a-commit-in-github-desktop)
@@ -341,11 +350,15 @@ GitHub Desktop・SourceTree・TortoiseGit のどれでも、同じ流れで試�
 
 ![準備:3回 commit して履歴を作る](images/git_practice_setup.svg)
 
-1. 練習用の新しい repository を作る
+1. 練習用の新しい repository(履歴を保存する専用のフォルダ)を作る
 2. その中に `a.txt` を作って commit する(message は `A`)
 3. `b.txt` を作って commit する(message は `B`)
 4. `c.txt` を作って commit する(message は `C(間違い)`)
 5. History(ログ)に、A・B・C の3つが並んでいれば準備完了です
+
+:::note info
+message は、commit の説明文です。何でもかまいませんが、ここでは図と同じ A・B・C にします。
+:::
 
 | 操作 | GitHub Desktop | SourceTree | TortoiseGit |
 |---|---|---|---|

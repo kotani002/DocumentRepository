@@ -29,6 +29,13 @@
 <p class="footnote">※ hash とは、commit ごとに自動で付く、英数字の文字列です(例: <code>a1b2c3d</code>)。「背番号」のようなもので、巻き戻したいときに「この commit に戻す」と指定するのに使います。<code>git log --oneline</code> で確認できます。</p>
 <p>変更は次の4つの場所を通ります。</p>
 <div class="figure"><img alt="Gitの流れ" src="images/git_flow.svg" /></div>
+<ul>
+<li><strong>working directory</strong>: 実際にファイルを編集している場所(フォルダ)</li>
+<li><strong>stage</strong>(図では Staging Area): 次の commit に含める変更を、いったん置いておく場所</li>
+<li><strong>local repository</strong>: 手元の PC にある、commit の履歴</li>
+<li><strong>remote repository</strong>: GitHub など、ネット上にある履歴</li>
+</ul>
+<p>手元の PC 側を local、GitHub など外側を remote と呼びます。</p>
 <pre><code class="language-bash">git status                  # 今の状態を確認
 git add ファイル名           # commit 対象にする(stage に載せる)
 git commit -m &quot;message&quot;     # 手元の履歴に記録する
@@ -41,11 +48,11 @@ git log --oneline           # 履歴を一覧で見る
 </div>
 <hr />
 <h2 id="sec2">2. branch とは</h2>
-<p>branch は、履歴の流れを枝分かれさせて、別々に作業を進めるための仕組みです。元の流れ(<code>main</code>)に影響を与えずに、新機能の試作や修正を進められます。<code>HEAD</code> は「今自分がいる branch」を示す目印です。</p>
-<p>使い方の基本は、<code>main</code> を安定版として保ち、作業は別の branch で行い、完成したら <code>main</code> に merge することです。</p>
+<p>branch は、履歴の流れを枝分かれさせて、別々に作業を進めるための仕組みです。元の流れ(基本となる branch の <code>main</code>)に影響を与えずに、新機能の試作や修正を進められます。<code>HEAD</code> は「今自分がいる branch」を示す目印です。</p>
+<p>使い方の基本は、<code>main</code> を安定版として保ち、作業は別の branch で行い、完成したら <code>main</code> に merge(変更を取り込んで合流)することです。</p>
 <div class="figure"><img alt="branchとmerge" src="images/git_branch.svg" /></div>
 <pre><code class="language-bash">git branch                    # branch 一覧
-git switch -c feature/timer   # 新規作成して移動
+git switch -c feature/timer   # branch を新しく作って、そこに移動
 git switch main               # 移動
 git merge feature/timer       # 今の branch に merge
 git branch -d feature/timer   # merge 済みの branch を削除
@@ -67,7 +74,7 @@ git push -u origin feature/timer    # 初めて送る branch。送り先を orig
 git push                            # 2回目以降。今の branch を、設定済みの送り先へ送る
 git push origin main                # branch を指定して送る
 </code></pre>
-<p><code>origin</code> は、remote につけられる標準の名前です。<code>-u</code> を付けて1回 push すると、以降は <code>git push</code> だけで送れます。</p>
+<p><code>origin</code> は、remote につけられる標準の名前です。<code>-u</code> は「この branch の送り先を覚えておく」という指定で、1回付けて push すると、以降は <code>git push</code> だけで送れます。</p>
 <div class="note note-info">
 <p class="note-title">補足</p>
 <p>push のあとに <code>git status</code> を実行して、<code>up to date with 'origin/...'</code> と表示されれば、手元と remote が同じ状態です。</p>
@@ -107,7 +114,7 @@ title: 学習メモ
 </tr>
 <tr>
 <td><code>=======</code> 〜 <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature</code></td>
-<td>merge してきた branch(<code>feature</code>)の内容</td>
+<td>merge で取り込む branch(<code>feature</code>)の内容</td>
 </tr>
 </tbody>
 </table>
@@ -140,7 +147,7 @@ git commit                 # merge を完了
 <td>① conflict のファイルを探す</td>
 <td>Changes タブの conflicted files</td>
 <td>ファイルを右クリック → Resolve Conflicts</td>
-<td>ファイルを右クリック → TortoiseGit</td>
+<td>conflict のファイルを右クリック → TortoiseGit のメニュー</td>
 </tr>
 <tr>
 <td>② 開いて直す</td>
@@ -152,7 +159,7 @@ git commit                 # merge を完了
 <td>③ 解消したと伝える</td>
 <td>自動で stage される</td>
 <td>Mark Resolved</td>
-<td>Resolved</td>
+<td>TortoiseGit → Resolved</td>
 </tr>
 <tr>
 <td>④ commit する</td>
@@ -179,16 +186,16 @@ git commit                 # merge を完了
 <p>branch 汚染は、本来入れたくないものが branch に混ざった状態です。よくある例は次のとおりです。</p>
 <ul>
 <li><code>main</code> に直接、作りかけの変更を commit してしまった</li>
-<li><code>.vs/</code> や <code>Library/</code> などの不要ファイルを commit した</li>
+<li><code>.vs/</code> や <code>Library/</code> など、ツールが自動で作る不要なファイルを commit した</li>
 <li>パスワードやAPIキーなどの秘密情報を commit した</li>
 <li>別の作業の commit が混ざったまま merge した</li>
 </ul>
 <p><strong>予防策</strong></p>
 <ul>
 <li>作業は必ず branch を切って行う</li>
-<li><code>.gitignore</code> を最初に用意する</li>
+<li><code>.gitignore</code>(commit しないファイルを指定する設定ファイル)を最初に用意する</li>
 <li>commit 前に <code>git status</code> と <code>git diff --staged</code> で中身を確認する</li>
-<li><strong>Pull Request(推奨)</strong>: <code>main</code> へ直接 push せず、作業 branch を push して Pull Request(PR)を作り、差分を確認してから merge する。不要ファイルや秘密情報、別作業の commit の混入を merge 前に見つけられる</li>
+<li><strong>Pull Request(推奨)</strong>: GitHub 上で「この branch を <code>main</code> に merge してください」と依頼する仕組みです。<code>main</code> へ直接 push せず、作業 branch を push して Pull Request(PR)を作り、差分を確認してから merge します。不要ファイルや秘密情報、別作業の commit の混入を、merge の前に見つけられます</li>
 </ul>
 <pre><code class="language-bash">git switch -c feature/timer          # 作業 branch を作る
 git push -u origin feature/timer     # branch を push
@@ -202,11 +209,11 @@ git push -u origin feature/timer     # branch を push
 </div>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p><code>.gitignore</code> に書いたファイルは、まだ追跡されていない場合に限って無視されます。すでに commit してしまったファイルは、<code>git rm --cached ファイル名</code> で追跡から外してから、commit し直します。</p>
+<p><code>.gitignore</code> に書いたファイルは、まだ Git の管理に入っていない場合だけ無視されます。すでに commit してしまったファイルは、<code>git rm --cached ファイル名</code> で Git の管理から外してから(ファイル自体は消えません)、commit し直します。</p>
 </div>
 <hr />
 <h2 id="sec6">6. 安全に試すコツ</h2>
-<p>巻き戻しの前に、今の状態にバックアップ用の branch を作っておくと安心です。失敗してもすぐ元に戻せます。</p>
+<p>巻き戻しの前に、今の状態にバックアップ用の branch を作っておくと安心です。失敗しても、<code>git reset --hard backup-before-reset</code> で元の状態に戻せます。</p>
 <pre><code class="language-bash">git branch backup-before-reset
 </code></pre>
 <div class="note note-info">
@@ -221,19 +228,20 @@ git push -u origin feature/timer     # branch を push
 <h3>A. まだ commit していない変更を捨てる</h3>
 <pre><code class="language-bash">git restore ファイル名           # ファイルの変更を破棄
 git restore --staged ファイル名   # git add を取り消す(変更は残る)
-git clean -fd                    # 追跡されていないファイルを削除
+git clean -fd                    # Git の管理に入っていない新しいファイルを削除
 </code></pre>
 <div class="note note-warn">
 <p class="note-title">注意</p>
 <p><code>git clean</code> で消えたファイルは戻せません。事前に <code>git clean -nd</code> で、削除される対象を確認してください。</p>
 </div>
 <h3>B. commit 済みだが、まだ push していない</h3>
-<p><code>git reset</code> で、branch の指す位置を過去の commit まで戻します。</p>
+<p><code>git reset</code> で、今の branch を過去の commit の状態まで戻します。</p>
 <pre><code class="language-bash">git log --oneline               # 戻りたい commit の hash を調べる
 git reset --soft HEAD~1         # 1つ前に戻る。変更は stage に残る
 git reset --mixed HEAD~1        # 1つ前に戻る。変更は working directory に残る(既定)
 git reset --hard a1b2c3d        # 指定した commit に戻る。以降の変更は消える
 </code></pre>
+<p>オプションによって、戻したあとに変更が残るかどうかが変わります。</p>
 <table>
 <thead>
 <tr>
@@ -281,12 +289,12 @@ git push
 <div class="figure"><img alt="resetとrevertの違い" src="images/git_reset_revert.svg" /></div>
 <div class="note note-warn">
 <p class="note-title">注意</p>
-<p><code>git reset --hard</code> の後に <code>git push --force</code> で履歴を書き換える方法もあります。ただし、他の人の履歴と食い違って混乱を招くので、共有 branch では避けるのが基本です。自分専用の branch でやむを得ない場合は、<code>--force</code> より安全な <code>git push --force-with-lease</code> を使います。</p>
+<p>push 済みの commit を reset で消し、<code>git push --force</code> で remote にも反映する方法もあります。ただし、他の人の履歴と食い違って混乱を招くので、共有 branch では避けるのが基本です。自分専用の branch でやむを得ない場合は、<code>--force</code> より安全な <code>git push --force-with-lease</code> を使います。</p>
 </div>
 <h3>D. 間違えて <code>reset --hard</code> してしまった</h3>
 <p><code>git reflog</code> は、HEAD が動いた記録をすべて残しています。消えたように見える commit も、多くの場合ここから戻せます。</p>
 <pre><code class="language-bash">git reflog                      # 操作履歴を見る
-git reset --hard HEAD@{2}       # 戻りたい時点に復帰
+git reset --hard HEAD@{2}       # 戻りたい時点に復帰(`HEAD@{2}` は2回前の状態)
 </code></pre>
 <div class="note note-warn">
 <p class="note-title">注意</p>
@@ -306,7 +314,7 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 <td><code>git restore</code></td>
 </tr>
 <tr>
-<td>自分だけの local の commit をやり直したい</td>
+<td>まだ push していない commit をやり直したい</td>
 <td><code>git reset</code></td>
 </tr>
 <tr>
@@ -418,7 +426,7 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 <ul>
 <li>戻した後の変更は、working directory に未 commit の状態で残ります(<code>git reset --mixed</code> に近い動き)</li>
 <li>変更もいらない場合は、そのあと <strong>Discard Changes</strong> で破棄します(<code>--hard</code> と同じ結果)</li>
-<li>戻せるのは、remote に push 済みの最新の commit より後の commit までです</li>
+<li>戻せるのは、最後に push した commit か、それより新しい commit までです(それより前には戻せません)</li>
 <li>push 済みの commit を取り消したいときは、reset ではなく <strong>Revert Changes in Commit</strong> を使います</li>
 </ul>
 <p>参考: <a href="https://docs.github.com/en/desktop/managing-commits/resetting-to-a-commit-in-github-desktop">Resetting to a commit in GitHub Desktop</a></p>
@@ -437,12 +445,16 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 <h3>準備:練習用の履歴を作る</h3>
 <div class="figure"><img alt="準備:3回 commit して履歴を作る" src="images/git_practice_setup.svg" /></div>
 <ol>
-<li>練習用の新しい repository を作る</li>
+<li>練習用の新しい repository(履歴を保存する専用のフォルダ)を作る</li>
 <li>その中に <code>a.txt</code> を作って commit する(message は <code>A</code>)</li>
 <li><code>b.txt</code> を作って commit する(message は <code>B</code>)</li>
 <li><code>c.txt</code> を作って commit する(message は <code>C(間違い)</code>)</li>
 <li>History(ログ)に、A・B・C の3つが並んでいれば準備完了です</li>
 </ol>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>message は、commit の説明文です。何でもかまいませんが、ここでは図と同じ A・B・C にします。</p>
+</div>
 <table>
 <thead>
 <tr>
