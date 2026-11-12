@@ -6,8 +6,8 @@
 2. branch とは
 3. push とは
 4. branch 汚染とは
-5. 過去の commit に巻き戻す方法
-6. 安全に試すコツ
+5. 安全に試すコツ
+6. 過去の commit に巻き戻す方法
 7. GUIツール(GitHub Desktop・SourceTree・TortoiseGit)の用語集
 8. 練習問題(reset と revert を GUI で試す)
 
@@ -126,7 +126,21 @@ GitHub の設定(branch 保護)で `main` への直接 push を禁止すると�
 
 ---
 
-## 5. 過去の commit に巻き戻す方法
+## 5. 安全に試すコツ
+
+巻き戻しの前に、今の状態にバックアップ用の branch を作っておくと安心です。失敗してもすぐ元に戻せます。
+
+```bash
+git branch backup-before-reset
+```
+
+:::note info
+バックアップ用の branch は、巻き戻しがうまくいったことを確認してから `git branch -d backup-before-reset` で削除します。
+:::
+
+---
+
+## 6. 過去の commit に巻き戻す方法
 
 **基本は、作業内容を過去の commit まで戻す(Hard Reset)か、打ち消す commit を作る(revert)のどちらかです。**
 まだ push していなければ Hard Reset、push 済みなら revert が目安です。
@@ -208,20 +222,6 @@ reflog の記録は一定期間(既定では約90日)で消えます。復元は
 | 自分だけの local の commit をやり直したい | `git reset` |
 | push 済みの変更を取り消したい | `git revert` |
 | 消してしまった履歴を探したい | `git reflog` |
-
----
-
-## 6. 安全に試すコツ
-
-巻き戻しの前に、今の状態にバックアップ用の branch を作っておくと安心です。失敗してもすぐ元に戻せます。
-
-```bash
-git branch backup-before-reset
-```
-
-:::note info
-バックアップ用の branch は、巻き戻しがうまくいったことを確認してから `git branch -d backup-before-reset` で削除します。
-:::
 
 ---
 

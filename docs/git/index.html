@@ -16,8 +16,8 @@
 <li><a href="#sec2">branch とは</a></li>
 <li><a href="#sec3">push とは</a></li>
 <li><a href="#sec4">branch 汚染とは</a></li>
-<li><a href="#sec5">過去の commit に巻き戻す方法</a></li>
-<li><a href="#sec6">安全に試すコツ</a></li>
+<li><a href="#sec5">安全に試すコツ</a></li>
+<li><a href="#sec6">過去の commit に巻き戻す方法</a></li>
 <li><a href="#sec7">GUIツール(GitHub Desktop・SourceTree・TortoiseGit)の用語集</a></li>
 <li><a href="#sec8">練習問題(reset と revert を GUI で試す)</a></li>
 </ol>
@@ -106,7 +106,16 @@ git push -u origin feature/timer     # branch を push
 <p><code>.gitignore</code> に書いたファイルは、まだ追跡されていない場合に限って無視されます。すでに commit してしまったファイルは、<code>git rm --cached ファイル名</code> で追跡から外してから、commit し直します。</p>
 </div>
 <hr />
-<h2 id="sec5">5. 過去の commit に巻き戻す方法</h2>
+<h2 id="sec5">5. 安全に試すコツ</h2>
+<p>巻き戻しの前に、今の状態にバックアップ用の branch を作っておくと安心です。失敗してもすぐ元に戻せます。</p>
+<pre><code class="language-bash">git branch backup-before-reset
+</code></pre>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>バックアップ用の branch は、巻き戻しがうまくいったことを確認してから <code>git branch -d backup-before-reset</code> で削除します。</p>
+</div>
+<hr />
+<h2 id="sec6">6. 過去の commit に巻き戻す方法</h2>
 <p><strong>基本は、作業内容を過去の commit まで戻す(Hard Reset)か、打ち消す commit を作る(revert)のどちらかです。</strong>
 まだ push していなければ Hard Reset、push 済みなら revert が目安です。</p>
 <p>状況によって使うコマンドが変わります。</p>
@@ -211,15 +220,6 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="sec6">6. 安全に試すコツ</h2>
-<p>巻き戻しの前に、今の状態にバックアップ用の branch を作っておくと安心です。失敗してもすぐ元に戻せます。</p>
-<pre><code class="language-bash">git branch backup-before-reset
-</code></pre>
-<div class="note note-info">
-<p class="note-title">補足</p>
-<p>バックアップ用の branch は、巻き戻しがうまくいったことを確認してから <code>git branch -d backup-before-reset</code> で削除します。</p>
-</div>
 <hr />
 <h2 id="sec7">7. GUIツールの用語集</h2>
 <p>GUIツールのボタンやメニューは、どれも Git のコマンド(CUI)と同じことをしています。</p>
