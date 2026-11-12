@@ -15,11 +15,12 @@
 <li><a href="#sec1">commit とは</a></li>
 <li><a href="#sec2">branch とは</a></li>
 <li><a href="#sec3">push とは</a></li>
-<li><a href="#sec4">branch 汚染とは</a></li>
-<li><a href="#sec5">安全に試すコツ</a></li>
-<li><a href="#sec6">過去の commit に巻き戻す方法</a></li>
-<li><a href="#sec7">GUIツール(GitHub Desktop・SourceTree・TortoiseGit)の用語集</a></li>
-<li><a href="#sec8">練習問題(reset と revert を GUI で試す)</a></li>
+<li><a href="#sec4">conflict とは</a></li>
+<li><a href="#sec5">branch 汚染とは</a></li>
+<li><a href="#sec6">安全に試すコツ</a></li>
+<li><a href="#sec7">過去の commit に巻き戻す方法</a></li>
+<li><a href="#sec8">GUIツール(GitHub Desktop・SourceTree・TortoiseGit)の用語集</a></li>
+<li><a href="#sec9">練習問題(reset と revert を GUI で試す)</a></li>
 </ol>
 <hr />
 <h2 id="sec1">1. commit とは</h2>
@@ -76,7 +77,105 @@ git push origin main                # branch を指定して送る
 <p>remote のほうが先に進んでいる(他の人が先に push した)と、push は rejected(拒否)されます。その場合は、先に <code>git pull</code> で remote の変更を取り込んでから、もう一度 push します。<code>--force</code> で無理に上書きしないでください。</p>
 </div>
 <hr />
-<h2 id="sec4">4. branch 汚染とは</h2>
+<h2 id="sec4">4. conflict とは</h2>
+<p>conflict(コンフリクト)は、同じファイルの同じ場所を別々に変更したため、Git が「どちらを採用するか」を自動では決められない状態です。2人が同じ文章の同じ行を、別々に書き換えたときのようなものです。</p>
+<div class="figure"><img alt="conflictが起きる場面" src="images/git_conflict.svg" /></div>
+<ul>
+<li><strong>起きるとき</strong>: <code>git merge</code> で別の branch を取り込むときや、<code>git pull</code> で remote の変更を取り込むときに起きます</li>
+<li><strong>起きないとき</strong>: 別のファイルや、同じファイルの別の場所を変更していた場合は、Git が自動で merge します</li>
+</ul>
+<p>conflict はエラーではなく、「ここは人が決めてください」という Git からの確認です。</p>
+<h3>conflict の解消方法</h3>
+<p>conflict が発生すると、Git は該当のファイルに、conflict の発生を示す行を書き込みます。この行を手がかりに、残す内容を決めます。</p>
+<pre><code class="language-text">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+title: Git入門
+=======
+title: 学習メモ
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>conflict の発生を示す行</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> 〜 <code>=======</code></td>
+<td>今いる branch(<code>main</code>)の内容</td>
+</tr>
+<tr>
+<td><code>=======</code> 〜 <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature</code></td>
+<td>merge してきた branch(<code>feature</code>)の内容</td>
+</tr>
+</tbody>
+</table>
+<p>解消は、conflict の発生を示す行を消して、残す内容を決めることです。</p>
+<div class="figure"><img alt="conflictの解消の流れ" src="images/git_conflict_fix.svg" /></div>
+<ol>
+<li>conflict が出たファイルを開く</li>
+<li>残す内容を決める(<code>main</code> の内容、<code>feature</code> の内容、または両方を合わせた内容)</li>
+<li>conflict の発生を示す行(<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>、<code>=======</code>、<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> の3種類)を消す</li>
+<li>保存して、stage → commit で merge を完了する</li>
+</ol>
+<pre><code class="language-bash">git merge feature          # CONFLICT と表示される
+git status                 # conflict のファイルを確認
+# ファイルを開いて、conflict の発生を示す行を消して保存
+git add index.html         # 解消したファイルを stage
+git commit                 # merge を完了
+</code></pre>
+<p>GUIツールでは、次のように操作します。</p>
+<table>
+<thead>
+<tr>
+<th>手順</th>
+<th>GitHub Desktop</th>
+<th>SourceTree</th>
+<th>TortoiseGit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① conflict のファイルを探す</td>
+<td>Changes タブの conflicted files</td>
+<td>ファイルを右クリック → Resolve Conflicts</td>
+<td>ファイルを右クリック → TortoiseGit</td>
+</tr>
+<tr>
+<td>② 開いて直す</td>
+<td>Open in エディタ名</td>
+<td>Launch External Merge Tool</td>
+<td>Edit Conflicts</td>
+</tr>
+<tr>
+<td>③ 解消したと伝える</td>
+<td>自動で stage される</td>
+<td>Mark Resolved</td>
+<td>Resolved</td>
+</tr>
+<tr>
+<td>④ commit する</td>
+<td>Commit merge</td>
+<td>Commit</td>
+<td>Git Commit</td>
+</tr>
+</tbody>
+</table>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>途中でやめたいときは、merge を取り消して元の状態に戻せます。GitHub Desktop は <strong>Abort merge</strong>、コマンドは <code>git merge --abort</code> です。</p>
+</div>
+<div class="note note-warn">
+<p class="note-title">注意</p>
+<p>SourceTree の <code>Resolve Using 'Mine'</code> / <code>Resolve Using 'Theirs'</code> は、ファイル全体をどちらか片方に置き換えます。conflict していない部分の変更も消えるので、画像などのバイナリファイルや、片方を丸ごと捨てるときだけ使ってください。</p>
+</div>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>conflict を減らすには、作業を始める前に <code>git pull</code> で最新の状態にして、同じファイルを同時に別々の人が編集しないようにします。</p>
+</div>
+<hr />
+<h2 id="sec5">5. branch 汚染とは</h2>
 <p>branch 汚染は、本来入れたくないものが branch に混ざった状態です。よくある例は次のとおりです。</p>
 <ul>
 <li><code>main</code> に直接、作りかけの変更を commit してしまった</li>
@@ -106,7 +205,7 @@ git push -u origin feature/timer     # branch を push
 <p><code>.gitignore</code> に書いたファイルは、まだ追跡されていない場合に限って無視されます。すでに commit してしまったファイルは、<code>git rm --cached ファイル名</code> で追跡から外してから、commit し直します。</p>
 </div>
 <hr />
-<h2 id="sec5">5. 安全に試すコツ</h2>
+<h2 id="sec6">6. 安全に試すコツ</h2>
 <p>巻き戻しの前に、今の状態にバックアップ用の branch を作っておくと安心です。失敗してもすぐ元に戻せます。</p>
 <pre><code class="language-bash">git branch backup-before-reset
 </code></pre>
@@ -115,7 +214,7 @@ git push -u origin feature/timer     # branch を push
 <p>バックアップ用の branch は、巻き戻しがうまくいったことを確認してから <code>git branch -d backup-before-reset</code> で削除します。</p>
 </div>
 <hr />
-<h2 id="sec6">6. 過去の commit に巻き戻す方法</h2>
+<h2 id="sec7">7. 過去の commit に巻き戻す方法</h2>
 <p><strong>基本は、作業内容を過去の commit まで戻す(Hard Reset)か、打ち消す commit を作る(revert)のどちらかです。</strong>
 まだ push していなければ Hard Reset、push 済みなら revert が目安です。</p>
 <p>状況によって使うコマンドが変わります。</p>
@@ -221,7 +320,7 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 </tbody>
 </table>
 <hr />
-<h2 id="sec7">7. GUIツールの用語集</h2>
+<h2 id="sec8">8. GUIツールの用語集</h2>
 <p>GUIツールのボタンやメニューは、どれも Git のコマンド(CUI)と同じことをしています。</p>
 <table>
 <thead>
@@ -329,7 +428,7 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰
 <p>メニュー名は、バージョンや表示言語で変わることがあります。</p>
 </div>
 <hr />
-<h2 id="sec8">8. 練習問題(reset と revert を GUI で試す)</h2>
+<h2 id="sec9">9. 練習問題(reset と revert を GUI で試す)</h2>
 <p>GitHub Desktop・SourceTree・TortoiseGit のどれでも、同じ流れで試せます。手順は、図と同じ言葉(History、commit、reset、revert)で書いています。</p>
 <div class="note note-warn">
 <p class="note-title">注意</p>

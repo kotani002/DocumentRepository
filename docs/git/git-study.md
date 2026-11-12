@@ -5,11 +5,12 @@
 1. commit とは
 2. branch とは
 3. push とは
-4. branch 汚染とは
-5. 安全に試すコツ
-6. 過去の commit に巻き戻す方法
-7. GUIツール(GitHub Desktop・SourceTree・TortoiseGit)の用語集
-8. 練習問題(reset と revert を GUI で試す)
+4. conflict とは
+5. branch 汚染とは
+6. 安全に試すコツ
+7. 過去の commit に巻き戻す方法
+8. GUIツール(GitHub Desktop・SourceTree・TortoiseGit)の用語集
+9. 練習問題(reset と revert を GUI で試す)
 
 ---
 
@@ -90,7 +91,75 @@ remote のほうが先に進んでいる(他の人が先に push した)と、pu
 
 ---
 
-## 4. branch 汚染とは
+## 4. conflict とは
+
+conflict(コンフリクト)は、同じファイルの同じ場所を別々に変更したため、Git が「どちらを採用するか」を自動では決められない状態です。2人が同じ文章の同じ行を、別々に書き換えたときのようなものです。
+
+![conflictが起きる場面](images/git_conflict.svg)
+
+- **起きるとき**: `git merge` で別の branch を取り込むときや、`git pull` で remote の変更を取り込むときに起きます
+- **起きないとき**: 別のファイルや、同じファイルの別の場所を変更していた場合は、Git が自動で merge します
+
+conflict はエラーではなく、「ここは人が決めてください」という Git からの確認です。
+
+### conflict の解消方法
+
+conflict が発生すると、Git は該当のファイルに、conflict の発生を示す行を書き込みます。この行を手がかりに、残す内容を決めます。
+
+```text
+<<<<<<< HEAD
+title: Git入門
+=======
+title: 学習メモ
+>>>>>>> feature
+```
+
+| conflict の発生を示す行 | 意味 |
+|---|---|
+| `<<<<<<< HEAD` 〜 `=======` | 今いる branch(`main`)の内容 |
+| `=======` 〜 `>>>>>>> feature` | merge してきた branch(`feature`)の内容 |
+
+解消は、conflict の発生を示す行を消して、残す内容を決めることです。
+
+![conflictの解消の流れ](images/git_conflict_fix.svg)
+
+1. conflict が出たファイルを開く
+2. 残す内容を決める(`main` の内容、`feature` の内容、または両方を合わせた内容)
+3. conflict の発生を示す行(`<<<<<<<`、`=======`、`>>>>>>>` の3種類)を消す
+4. 保存して、stage → commit で merge を完了する
+
+```bash
+git merge feature          # CONFLICT と表示される
+git status                 # conflict のファイルを確認
+# ファイルを開いて、conflict の発生を示す行を消して保存
+git add index.html         # 解消したファイルを stage
+git commit                 # merge を完了
+```
+
+GUIツールでは、次のように操作します。
+
+| 手順 | GitHub Desktop | SourceTree | TortoiseGit |
+|---|---|---|---|
+| ① conflict のファイルを探す | Changes タブの conflicted files | ファイルを右クリック → Resolve Conflicts | ファイルを右クリック → TortoiseGit |
+| ② 開いて直す | Open in エディタ名 | Launch External Merge Tool | Edit Conflicts |
+| ③ 解消したと伝える | 自動で stage される | Mark Resolved | Resolved |
+| ④ commit する | Commit merge | Commit | Git Commit |
+
+:::note info
+途中でやめたいときは、merge を取り消して元の状態に戻せます。GitHub Desktop は **Abort merge**、コマンドは `git merge --abort` です。
+:::
+
+:::note warn
+SourceTree の `Resolve Using 'Mine'` / `Resolve Using 'Theirs'` は、ファイル全体をどちらか片方に置き換えます。conflict していない部分の変更も消えるので、画像などのバイナリファイルや、片方を丸ごと捨てるときだけ使ってください。
+:::
+
+:::note info
+conflict を減らすには、作業を始める前に `git pull` で最新の状態にして、同じファイルを同時に別々の人が編集しないようにします。
+:::
+
+---
+
+## 5. branch 汚染とは
 
 branch 汚染は、本来入れたくないものが branch に混ざった状態です。よくある例は次のとおりです。
 
@@ -126,7 +195,7 @@ GitHub の設定(branch 保護)で `main` への直接 push を禁止すると�
 
 ---
 
-## 5. 安全に試すコツ
+## 6. 安全に試すコツ
 
 巻き戻しの前に、今の状態にバックアップ用の branch を作っておくと安心です。失敗してもすぐ元に戻せます。
 
@@ -140,7 +209,7 @@ git branch backup-before-reset
 
 ---
 
-## 6. 過去の commit に巻き戻す方法
+## 7. 過去の commit に巻き戻す方法
 
 **基本は、作業内容を過去の commit まで戻す(Hard Reset)か、打ち消す commit を作る(revert)のどちらかです。**
 まだ push していなければ Hard Reset、push 済みなら revert が目安です。
@@ -225,7 +294,7 @@ reflog の記録は一定期間(既定では約90日)で消えます。復元は
 
 ---
 
-## 7. GUIツールの用語集
+## 8. GUIツールの用語集
 
 GUIツールのボタンやメニューは、どれも Git のコマンド(CUI)と同じことをしています。
 
@@ -260,7 +329,7 @@ GitHub Desktop でも reset できます。**History** タブで戻したい com
 
 ---
 
-## 8. 練習問題(reset と revert を GUI で試す)
+## 9. 練習問題(reset と revert を GUI で試す)
 
 GitHub Desktop・SourceTree・TortoiseGit のどれでも、同じ流れで試せます。手順は、図と同じ言葉(History、commit、reset、revert)で書いています。
 
