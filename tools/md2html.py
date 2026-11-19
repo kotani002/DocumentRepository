@@ -62,6 +62,7 @@ def main(md_path: str, out_path: str) -> None:
 
     out_dir = os.path.dirname(os.path.abspath(out_path))
     css = os.path.relpath(os.path.join(ROOT, "assets", "css", "style.css"), out_dir).replace(os.sep, "/")
+    js = os.path.relpath(os.path.join(ROOT, "assets", "js", "doc.js"), out_dir).replace(os.sep, "/")
     top = os.path.relpath(ROOT, out_dir).replace(os.sep, "/") + "/"
 
     html = f"""<!DOCTYPE html>
@@ -79,6 +80,7 @@ def main(md_path: str, out_path: str) -> None:
 {body}
 </main>
 <footer>資料置き場</footer>
+<script src="{js}"></script>
 </body>
 </html>
 """
