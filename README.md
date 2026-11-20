@@ -16,10 +16,11 @@
 ├─ tools/
 │  └─ md2html.py           Markdown を HTML に変換するスクリプト
 └─ docs/
-   └─ git/                 資料1つにつきフォルダ1つ
-      ├─ index.html        資料の本体
-      ├─ git-study.md      元の Markdown(編集用)
-      └─ images/           その資料で使う画像
+   ├─ git/                 資料1つにつきフォルダ1つ
+   │  ├─ index.html        資料の本体
+   │  ├─ git-study.md      元の Markdown(編集用)
+   │  └─ images/           その資料で使う画像
+   └─ naze-nani-git/       「なぜなにGit」(同じ構成)
 ```
 
 ## 新しい資料を追加する手順
