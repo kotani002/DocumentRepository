@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>なぜなにGit</title>
+<title>1.Gitの概念</title>
 <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 <body>
-<header><div class="inner"><h1>なぜなにGit</h1></div></header>
-<nav class="breadcrumb"><a href="../../">資料トップ</a> / なぜなにGit</nav>
+<header><div class="inner"><h1>1.Gitの概念</h1></div></header>
+<nav class="breadcrumb"><a href="../../">資料トップ</a> / 1.Gitの概念</nav>
 <main>
 <h2 id="toc">目次</h2>
 <ol>
@@ -18,7 +18,7 @@
 <li><a href="#sec4">branch の仕組み(具体例つき)</a></li>
 <li><a href="#sec5">開発開始から終了までの流れ</a></li>
 </ol>
-<p>「なぜ必要なの?」「何が違うの?」という疑問に答える、Git の基本のページです。コマンドの一覧や用語集は、<a href="../git/index.html">Git入門</a> にまとめています。</p>
+<p>「なぜ必要なの?」「何が違うの?」という疑問に答える、Git の基本の考え方を説明するページです。コマンドの一覧や用語集は、<a href="../git/index.html">2.Git入門</a> にまとめています。</p>
 <hr />
 <h2 id="sec1">1. Git と GitHub の違い</h2>
 <p>名前は似ていますが、別のものです。</p>
@@ -200,7 +200,7 @@ git switch feature/login   # login.html が、また現れる
 <ul>
 <li>ログイン画面が未完成でも、<code>main</code> は動く状態のままです</li>
 <li>作業中に「別の不具合を、今すぐ直して」と頼まれたら、<code>main</code> から別の branch を作って、そちらで直せます</li>
-<li>完成したら <code>main</code> に merge して、ログイン画面を取り込みます(「<a href="../git/index.html">Git入門</a> の merge とは」)</li>
+<li>完成したら <code>main</code> に merge して、ログイン画面を取り込みます(「<a href="../git/index.html">2.Git入門</a> の merge とは」)</li>
 <li>失敗したら、その branch を捨てるだけで、<code>main</code> には影響しません</li>
 </ul>
 <div class="note note-info">
@@ -293,15 +293,15 @@ git branch -d feature          #    使い終わった branch を消す
 <p>次の作業は、また ② からくり返します。</p>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p>作業の途中で、ほかの人が main を更新することがあります。その場合は、push や Pull Request の前に、最新の main を自分の branch に取り込んでおくと安全です(<a href="../git/index.html">Git入門</a> の「逆 merge とは」)。</p>
+<p>作業の途中で、ほかの人が main を更新することがあります。その場合は、push や Pull Request の前に、最新の main を自分の branch に取り込んでおくと安全です(<a href="../git/index.html">2.Git入門</a> の「逆 merge とは」)。</p>
 </div>
 <div class="note note-warn">
 <p class="note-title">注意</p>
-<p>同じ場所を別々に変更していると、conflict が起きます。慌てずに、解消の手順を確認してください(<a href="../git/index.html">Git入門</a> の「conflict とは」)。</p>
+<p>同じ場所を別々に変更していると、conflict が起きます。慌てずに、解消の手順を確認してください(<a href="../git/index.html">2.Git入門</a> の「conflict とは」)。</p>
 </div>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p>GUI ツール(GitHub Desktop、SourceTree、TortoiseGit)でも、流れは同じです。ボタンやメニューの名前は、<a href="../git/index.html">Git入門</a> の「GUIツールの用語集」を参照してください。</p>
+<p>GUI ツール(GitHub Desktop、SourceTree、TortoiseGit)でも、流れは同じです。ボタンやメニューの名前は、<a href="../git/index.html">2.Git入門</a> の「GUIツールの用語集」を参照してください。</p>
 </div>
 </main>
 <footer>資料置き場</footer>
