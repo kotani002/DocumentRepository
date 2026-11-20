@@ -1,4 +1,4 @@
-# なぜなにGit
+# 1.Gitの概念
 
 ## 目次
 
@@ -8,7 +8,7 @@
 4. branch の仕組み(具体例つき)
 5. 開発開始から終了までの流れ
 
-「なぜ必要なの?」「何が違うの?」という疑問に答える、Git の基本のページです。コマンドの一覧や用語集は、[Git入門](../git/index.html) にまとめています。
+「なぜ必要なの?」「何が違うの?」という疑問に答える、Git の基本の考え方を説明するページです。コマンドの一覧や用語集は、[2.Git入門](../git/index.html) にまとめています。
 
 ---
 
@@ -142,7 +142,7 @@ git switch feature/login   # login.html が、また現れる
 
 - ログイン画面が未完成でも、`main` は動く状態のままです
 - 作業中に「別の不具合を、今すぐ直して」と頼まれたら、`main` から別の branch を作って、そちらで直せます
-- 完成したら `main` に merge して、ログイン画面を取り込みます(「[Git入門](../git/index.html) の merge とは」)
+- 完成したら `main` に merge して、ログイン画面を取り込みます(「[2.Git入門](../git/index.html) の merge とは」)
 - 失敗したら、その branch を捨てるだけで、`main` には影響しません
 
 :::note info
@@ -192,13 +192,13 @@ git branch -d feature          #    使い終わった branch を消す
 次の作業は、また ② からくり返します。
 
 :::note info
-作業の途中で、ほかの人が main を更新することがあります。その場合は、push や Pull Request の前に、最新の main を自分の branch に取り込んでおくと安全です([Git入門](../git/index.html) の「逆 merge とは」)。
+作業の途中で、ほかの人が main を更新することがあります。その場合は、push や Pull Request の前に、最新の main を自分の branch に取り込んでおくと安全です([2.Git入門](../git/index.html) の「逆 merge とは」)。
 :::
 
 :::note warn
-同じ場所を別々に変更していると、conflict が起きます。慌てずに、解消の手順を確認してください([Git入門](../git/index.html) の「conflict とは」)。
+同じ場所を別々に変更していると、conflict が起きます。慌てずに、解消の手順を確認してください([2.Git入門](../git/index.html) の「conflict とは」)。
 :::
 
 :::note info
-GUI ツール(GitHub Desktop、SourceTree、TortoiseGit)でも、流れは同じです。ボタンやメニューの名前は、[Git入門](../git/index.html) の「GUIツールの用語集」を参照してください。
+GUI ツール(GitHub Desktop、SourceTree、TortoiseGit)でも、流れは同じです。ボタンやメニューの名前は、[2.Git入門](../git/index.html) の「GUIツールの用語集」を参照してください。
 :::

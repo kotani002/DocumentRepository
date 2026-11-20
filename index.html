@@ -11,20 +11,27 @@
 <main>
 <p class="lead">学習メモや資料をまとめています。</p>
 <h2>資料一覧</h2>
+<!-- 新しい分類は、タブのボタンと、パネルを1つずつ追加する(README 参照) -->
+<div class="tabs" role="tablist" aria-label="資料の分類">
+  <button type="button" class="tab" role="tab" id="tab-git" aria-controls="panel-git" aria-selected="true" data-tab="git">Git</button>
+</div>
+<section class="tab-panel" role="tabpanel" id="panel-git" aria-labelledby="tab-git">
 <ul class="cards">
-  <!-- 新しい資料はここに li を1つ追加する -->
+  <!-- Git の資料はここに li を追加する(番号順) -->
   <li class="card">
-    <a href="docs/git/">Git入門</a>
-    <p>用語集、branch と commit、push、merge、fetch と pull、逆 merge、conflict の解消、branch 汚染の予防、過去の commit への巻き戻し、GUIツールの用語集。</p>
-    <span class="tag">Git</span><span class="tag">GitHub</span>
-  </li>
-  <li class="card">
-    <a href="docs/naze-nani-git/">なぜなにGit</a>
+    <a href="docs/naze-nani-git/">1.Gitの概念</a>
     <p>Git と GitHub の違い、commit と push の違い、stage の役割、branch の仕組み(具体例つき)、開発開始から終了までの流れ。</p>
     <span class="tag">Git</span><span class="tag">GitHub</span>
   </li>
+  <li class="card">
+    <a href="docs/git/">2.Git入門</a>
+    <p>用語集、branch と commit、push、merge、fetch と pull、逆 merge、conflict の解消、branch 汚染の予防、過去の commit への巻き戻し、GUIツールの用語集。</p>
+    <span class="tag">Git</span><span class="tag">GitHub</span>
+  </li>
 </ul>
+</section>
 </main>
 <footer>資料置き場</footer>
+<script src="assets/js/tabs.js"></script>
 </body>
 </html>

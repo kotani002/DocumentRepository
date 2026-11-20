@@ -1,4 +1,4 @@
-# Git入門:branch・commit と巻き戻し
+# 2.Git入門
 
 ## 目次
 

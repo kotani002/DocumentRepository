@@ -16,11 +16,11 @@
 ├─ tools/
 │  └─ md2html.py           Markdown を HTML に変換するスクリプト
 └─ docs/
-   ├─ git/                 資料1つにつきフォルダ1つ
+   ├─ git/                 「2.Git入門」(資料1つにつきフォルダ1つ)
    │  ├─ index.html        資料の本体
    │  ├─ git-study.md      元の Markdown(編集用)
    │  └─ images/           その資料で使う画像
-   └─ naze-nani-git/       「なぜなにGit」(同じ構成)
+   └─ naze-nani-git/       「1.Gitの概念」(同じ構成)
 ```
 
 ## 新しい資料を追加する手順
@@ -28,7 +28,7 @@
 1. `docs/` の下に、資料名のフォルダを作る(例: `docs/unity-webgl/`)
 2. `templates/doc-template.html` を、そのフォルダに `index.html` としてコピーする
 3. 中身を書き換え、画像は同じフォルダの `images/` に置く
-4. 資料トップ `index.html` の資料一覧に、`<li class="card">` を1つ追加する
+4. 資料トップ `index.html` の、該当する分類のタブ(例: Git)に `<li class="card">` を1つ追加する。新しい分類は、タブのボタンと `<section class="tab-panel">` を1組追加する
 5. `git add .` → `git commit` → `git push` で公開される
 
 ## Markdown から HTML を作る

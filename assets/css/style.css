@@ -177,3 +177,10 @@
     td[data-label]:not(:first-child)::before { content: attr(data-label); display: block; font-size: 0.75rem; font-weight: bold; color: #607d8b; }
     td code { white-space: normal; word-break: break-all; }
   }
+
+  /* ---- 資料トップのタブ ---- */
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; border-bottom: 3px solid var(--blue); margin: 0 0 16px; }
+  .tab { appearance: none; border: 2px solid #bbdefb; border-bottom: 0; border-radius: 10px 10px 0 0; padding: 10px 22px; min-height: 44px; font: inherit; font-weight: bold; color: var(--blue-dark); background: var(--blue-light); cursor: pointer; }
+  .tab[aria-selected="true"] { color: #ffffff; background: var(--blue); border-color: var(--blue); box-shadow: inset 0 -4px 0 var(--yellow); }
+  .tab:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+  .tab-panel[hidden] { display: none; }
