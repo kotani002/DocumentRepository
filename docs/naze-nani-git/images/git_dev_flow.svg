@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" width="900" height="640" font-family="'Meiryo','Hiragino Sans','Noto Sans JP',sans-serif">
+  <defs>
+    <marker id="m" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" refX="13" refY="7" orient="auto"><path d="M0,1 L14,7 L0,13 z" fill="#37474f"/></marker>
+    <marker id="g" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" refX="13" refY="7" orient="auto"><path d="M0,1 L14,7 L0,13 z" fill="#90a4ae"/></marker>
+  </defs>
+  <rect width="900" height="640" fill="#ffffff"/>
+  <text x="450" y="34" font-size="22" font-weight="bold" fill="#0d47a1" text-anchor="middle">開発開始から終了までの流れ</text>
+  <rect x="20" y="56" width="860" height="130" rx="14" fill="#ffffff" stroke="#2e7d32" stroke-width="4"/>
+  <text x="38" y="84" font-size="17" font-weight="bold" fill="#1b5e20" text-anchor="start">Local(手元のPC)</text>
+  <rect x="20" y="214" width="860" height="130" rx="14" fill="#ffffff" stroke="#6a1b9a" stroke-width="4"/>
+  <text x="38" y="242" font-size="17" font-weight="bold" fill="#4a148c" text-anchor="start">Remote(GitHub)</text>
+  <rect x="20" y="372" width="860" height="110" rx="14" fill="#ffffff" stroke="#2e7d32" stroke-width="4"/>
+  <text x="38" y="400" font-size="17" font-weight="bold" fill="#1b5e20" text-anchor="start">Local(手元のPC)</text>
+  <rect x="36" y="96" width="180" height="74" rx="12" fill="#ffd54f" stroke="#f9a825" stroke-width="3"/>
+  <text x="126" y="128" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">① clone</text>
+  <text x="126" y="154" font-size="11" font-weight="bold" fill="#0d47a1" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git clone URL</text>
+  <rect x="252" y="96" width="180" height="74" rx="12" fill="#ffd54f" stroke="#f9a825" stroke-width="3"/>
+  <text x="342" y="128" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">② branch を作る</text>
+  <text x="342" y="154" font-size="11" font-weight="bold" fill="#0d47a1" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git switch -c feature</text>
+  <rect x="468" y="96" width="180" height="74" rx="12" fill="#ffd54f" stroke="#f9a825" stroke-width="3"/>
+  <text x="558" y="128" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">③ 編集して commit</text>
+  <text x="558" y="154" font-size="11" font-weight="bold" fill="#0d47a1" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git add / git commit</text>
+  <rect x="684" y="96" width="180" height="74" rx="12" fill="#ffd54f" stroke="#f9a825" stroke-width="3"/>
+  <text x="774" y="128" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">④ push</text>
+  <text x="774" y="154" font-size="11" font-weight="bold" fill="#0d47a1" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git push -u origin feature</text>
+  <line x1="218" y1="133" x2="250" y2="133" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
+  <line x1="434" y1="133" x2="466" y2="133" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
+  <line x1="650" y1="133" x2="682" y2="133" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
+  <rect x="36" y="254" width="180" height="74" rx="12" fill="#ffffff" stroke="#607d8b" stroke-width="3"/>
+  <text x="126" y="286" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">⑤ PR を作成</text>
+  <text x="126" y="312" font-size="13" font-weight="normal" fill="#37474f" text-anchor="middle">New pull request</text>
+  <rect x="252" y="254" width="180" height="74" rx="12" fill="#ffffff" stroke="#607d8b" stroke-width="3"/>
+  <text x="342" y="286" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">⑥ review</text>
+  <text x="342" y="312" font-size="13" font-weight="normal" fill="#37474f" text-anchor="middle">差分を確認してもらう</text>
+  <rect x="468" y="254" width="180" height="74" rx="12" fill="#64b5f6" stroke="#1565c0" stroke-width="3"/>
+  <text x="558" y="286" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">⑦ main に merge</text>
+  <text x="558" y="312" font-size="13" font-weight="normal" fill="#37474f" text-anchor="middle">Merge pull request</text>
+  <line x1="218" y1="291" x2="250" y2="291" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
+  <line x1="434" y1="291" x2="466" y2="291" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
+  <path d="M774,172 L774,196 L196,196 L196,252" fill="none" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
+  <rect x="250" y="412" width="400" height="56" rx="12" fill="#ffffff" stroke="#607d8b" stroke-width="3"/>
+  <text x="450" y="436" font-size="17" font-weight="bold" fill="#212121" text-anchor="middle">⑧ 最新を取り込んで、片付ける</text>
+  <text x="450" y="458" font-size="12" font-weight="bold" fill="#0d47a1" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git switch main / git pull / git branch -d feature</text>
+  <path d="M558,330 L558,352 L450,352 L450,410" fill="none" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
+  <rect x="10" y="496" width="880" height="78" rx="10" fill="#fafafa" stroke="#b0bec5" stroke-width="1.5"/>
+  <text x="24" y="525" font-size="16" font-weight="bold" fill="#37474f" text-anchor="start">図の色の見方</text>
+  <rect x="170" y="508" width="22" height="22" rx="4" fill="#ffd54f" stroke="#f9a825" stroke-width="2.5"/>
+  <text x="200" y="525" font-size="15" font-weight="normal" fill="#212121" text-anchor="start">黄 = 作業中の branch</text>
+  <rect x="400" y="508" width="22" height="22" rx="4" fill="#64b5f6" stroke="#1565c0" stroke-width="2.5"/>
+  <text x="430" y="525" font-size="15" font-weight="normal" fill="#212121" text-anchor="start">青 = merge 先などの未来の branch</text>
+  <rect x="700" y="508" width="22" height="22" rx="4" fill="#ffffff" stroke="#607d8b" stroke-width="2.5"/>
+  <text x="730" y="525" font-size="15" font-weight="normal" fill="#212121" text-anchor="start">白 = それ以外</text>
+  <rect x="170" y="540" width="22" height="22" rx="4" fill="#ffffff" stroke="#2e7d32" stroke-width="2.5"/>
+  <text x="200" y="557" font-size="15" font-weight="normal" fill="#212121" text-anchor="start">緑の枠 = Local(手元のPC)</text>
+  <rect x="400" y="540" width="22" height="22" rx="4" fill="#ffffff" stroke="#6a1b9a" stroke-width="2.5"/>
+  <text x="430" y="557" font-size="15" font-weight="normal" fill="#212121" text-anchor="start">紫の枠 = Remote(GitHub)</text>
+</svg>
