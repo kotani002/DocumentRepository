@@ -32,10 +32,10 @@
   <text x="550" y="283" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">feature</text>
   <rect x="30" y="304" width="330" height="70" rx="12" fill="#ffffff" stroke="#607d8b" stroke-width="3"/>
   <text x="46" y="330" font-size="17" font-weight="bold" fill="#212121" text-anchor="start">① B から feature を作成</text>
-  <text x="46" y="358" font-size="16" font-weight="bold" fill="#0d47a1" text-anchor="start" font-family="Consolas,'Courier New',monospace">git switch -c feature</text>
+  <text x="46" y="358" font-size="16" font-weight="bold" fill="#0d47a1" text-anchor="start" font-family="Consolas,'Courier New',monospace">branch を作る(switch)</text>
   <rect x="500" y="304" width="370" height="70" rx="12" fill="#ffffff" stroke="#607d8b" stroke-width="3"/>
   <text x="516" y="330" font-size="17" font-weight="bold" fill="#212121" text-anchor="start">② feature を main に merge</text>
-  <text x="516" y="358" font-size="16" font-weight="bold" fill="#0d47a1" text-anchor="start" font-family="Consolas,'Courier New',monospace">git switch main → git merge feature</text>
+  <text x="516" y="358" font-size="16" font-weight="bold" fill="#0d47a1" text-anchor="start" font-family="Consolas,'Courier New',monospace">main に switch → merge</text>
   <rect x="10" y="392" width="880" height="46" rx="10" fill="#fafafa" stroke="#b0bec5" stroke-width="1.5"/>
   <text x="24" y="421" font-size="16" font-weight="bold" fill="#37474f" text-anchor="start">図の色の見方</text>
   <rect x="170" y="404" width="22" height="22" rx="4" fill="#ffd54f" stroke="#f9a825" stroke-width="2.5"/>

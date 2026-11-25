@@ -11,13 +11,13 @@
   <text x="38" y="278" font-size="17" font-weight="bold" fill="#4a148c" text-anchor="start">Remote(GitHub)</text>
   <rect x="50" y="96" width="240" height="80" rx="12" fill="#ffd54f" stroke="#f9a825" stroke-width="3"/>
   <text x="170" y="129" font-size="19" font-weight="bold" fill="#212121" text-anchor="middle">① branch を作る</text>
-  <text x="170" y="155" font-size="13" font-weight="bold" fill="#0d47a1" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git switch -c feature</text>
+  <text x="170" y="155" font-size="13" font-weight="bold" fill="#0d47a1" text-anchor="middle" font-family="Consolas,'Courier New',monospace">branch を作る</text>
   <rect x="340" y="96" width="240" height="80" rx="12" fill="#ffd54f" stroke="#f9a825" stroke-width="3"/>
   <text x="460" y="129" font-size="19" font-weight="bold" fill="#212121" text-anchor="middle">② 変更を commit</text>
-  <text x="460" y="155" font-size="13" font-weight="bold" fill="#0d47a1" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git add / git commit</text>
+  <text x="460" y="155" font-size="13" font-weight="bold" fill="#0d47a1" text-anchor="middle" font-family="Consolas,'Courier New',monospace">add → commit</text>
   <rect x="630" y="96" width="240" height="80" rx="12" fill="#ffd54f" stroke="#f9a825" stroke-width="3"/>
   <text x="750" y="129" font-size="19" font-weight="bold" fill="#212121" text-anchor="middle">③ branch を push</text>
-  <text x="750" y="155" font-size="13" font-weight="bold" fill="#0d47a1" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git push -u origin feature</text>
+  <text x="750" y="155" font-size="13" font-weight="bold" fill="#0d47a1" text-anchor="middle" font-family="Consolas,'Courier New',monospace">push(origin へ送る)</text>
   <line x1="292" y1="136" x2="338" y2="136" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
   <line x1="582" y1="136" x2="628" y2="136" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
   <path d="M750,178 L750,228 L250,228 L250,286" fill="none" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>

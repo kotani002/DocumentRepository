@@ -26,6 +26,7 @@
 <li><a href="#sec12">GUIツール(GitHub Desktop・SourceTree・TortoiseGit)の用語集</a></li>
 <li><a href="#sec13">練習問題(reset と revert を GUI で試す)</a></li>
 </ol>
+<p>このページでは、コマンドの打ち方ではなく、<strong>用語の意味を覚えること</strong>を目的にしています。GUI ツールのボタンや、画面に出てくるメッセージに「その名前が出てきたら、何を意味するのか」が分かるようになりましょう。</p>
 <hr />
 <h2 id="sec1">1. 用語集</h2>
 <p>この資料に出てくる Git の用語を、先にまとめて紹介します。くわしい説明は、2章以降で順番に行います。</p>
@@ -103,7 +104,7 @@
 <h2 id="sec2">2. commit とは</h2>
 <p>commit は、作業の途中経過を「セーブ」して、履歴に残すことです。ゲームのセーブのように、あとからその時点の状態に戻せます。commit を重ねると、変更の記録が順番に並んだ「履歴」になります。</p>
 <p>各 commit には、見分けるための ID(hash)※ が自動で付きます。</p>
-<p class="footnote">※ hash とは、commit ごとに自動で付く、英数字の文字列です(例: <code>a1b2c3d</code>)。「背番号」のようなもので、巻き戻したいときに「この commit に戻す」と指定するのに使います。<code>git log --oneline</code> で確認できます。</p>
+<p class="footnote">※ hash とは、commit ごとに自動で付く、英数字の文字列です(例: <code>a1b2c3d</code>)。「背番号」のようなもので、巻き戻したいときに「この commit に戻す」と指定するのに使います。History(履歴の一覧)の画面で確認できます。</p>
 <p>変更は次の4つの場所を通ります。</p>
 <div class="figure"><img alt="Gitの流れ" src="images/git_flow.svg" /></div>
 <ul>
@@ -113,69 +114,77 @@
 <li><strong>remote repository</strong>: GitHub など、ネット上にある履歴</li>
 </ul>
 <p>手元の PC 側を local、GitHub など外側を remote と呼びます。</p>
-<pre><code class="language-bash">git status                  # 今の状態を確認
-git add ファイル名           # commit 対象にする(stage に載せる)
-git commit -m &quot;message&quot;     # 手元の履歴に記録する
-git push                    # remote へ送る
-git log --oneline           # 履歴を一覧で見る
-</code></pre>
+<p>この流れで出てくる名前は、次の意味です。</p>
+<ul>
+<li><strong>status</strong> という名前が出てきたら、今の状態(どのファイルが変更されているか、stage に載っているか)を確認するということです。</li>
+<li><strong>add</strong>(Stage)という名前が出てきたら、変更を stage に載せる(commit の対象に選ぶ)ということです。</li>
+<li><strong>commit</strong> という名前が出てきたら、stage にある変更を、手元の履歴に記録するということです。</li>
+<li><strong>message</strong> という名前が出てきたら、その commit で何をしたかを書く説明文ということです。</li>
+<li><strong>push</strong> という名前が出てきたら、手元の commit を remote へ送るということです。</li>
+<li><strong>log</strong> や <strong>History</strong> という名前が出てきたら、commit の履歴の一覧ということです。</li>
+</ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p><code>git fetch</code>：remote の更新を取得する<br>
-<code>git merge</code>：手元に取り込む<br>
-<code>git pull(プル)</code>：fetchとmergeをまとめた操作<br>
-取り込む前に内容を確認したいときは、先に <code>git fetch</code> だけを実行します。</p>
+<ul>
+<li><strong>fetch</strong> という名前が出てきたら、remote の更新を取得する(まだ手元には取り込まない)ということです。</li>
+<li><strong>merge</strong> という名前が出てきたら、取得した変更を手元に取り込むということです。</li>
+<li><strong>pull</strong>(プル)という名前が出てきたら、fetch と merge をまとめて行うということです。</li>
+</ul>
+<p>取り込む前に内容を確認したいときは、先に fetch だけを行います。</p>
 </div>
 <hr />
 <h2 id="sec3">3. branch とは</h2>
 <p>branch は、履歴の流れを枝分かれさせて、別々に作業を進めるための仕組みです。元の流れ(基本となる branch の <code>main</code>)に影響を与えずに、新機能の試作や修正を進められます。<code>HEAD</code> は「今自分がいる branch」を示す目印です。</p>
 <p>使い方の基本は、<code>main</code> を安定版として保ち、作業は別の branch で行い、完成したら <code>main</code> に merge(変更を取り込んで合流)することです。</p>
 <div class="figure"><img alt="branchとmerge" src="images/git_branch.svg" /></div>
-<pre><code class="language-bash">git branch                    # branch 一覧
-git switch -c feature/timer   # branch を新しく作って、そこに移動
-git switch main               # 移動
-git merge feature/timer       # 今の branch に merge
-git branch -d feature/timer   # merge 済みの branch を削除
-</code></pre>
+<ul>
+<li><strong>branch</strong> という名前が出てきたら、枝分かれした作業の流れのことです。「branch を切る」は、新しい branch を作るということです。</li>
+<li><strong>main</strong> という名前が出てきたら、基本となる、安定版の branch のことです。古い repository では <strong>master</strong> という名前のこともありますが、同じ役割です。</li>
+<li><strong>feature</strong> という名前が出てきたら、新しい機能を作るための、作業用の branch ということです(例: <code>feature/timer</code>)。</li>
+<li><strong>switch</strong> や <strong>checkout</strong> という名前が出てきたら、branch を切り替える(移動する)ということです。</li>
+<li><strong>merge</strong> という名前が出てきたら、別の branch の変更を、今いる branch に取り込むということです。</li>
+<li><strong>delete branch</strong> という名前が出てきたら、使い終わった branch を削除するということです。merge 済みなら、消しても変更は main に残っています。</li>
+</ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
 <p>仕組みとしては、branch は commit に付けた名前(しおりのようなもの)です。ファイルを丸ごとコピーするわけではないので、作成は一瞬で軽く済みます。</p>
 </div>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p>古い解説では、branch の移動に <code>git checkout</code> が使われています。現在は <code>git switch</code>(branch の移動)と <code>git restore</code>(ファイルの復元)に役割が分かれていて、こちらのほうが分かりやすいため、この資料ではこの2つを使っています。</p>
+<p><strong>checkout</strong> は、branch の移動に使われていた古い呼び方です。現在の Git では、branch の移動は <strong>switch</strong>、ファイルの復元は <strong>restore</strong> と、役割が分かれた名前になっています。SourceTree や TortoiseGit では、今も Checkout という名前が使われています。どちらが出てきても「branch を切り替える」と読みかえてください。</p>
 </div>
 <hr />
 <h2 id="sec4">4. push とは</h2>
 <p>push は、手元(local)の commit を remote(GitHub など)に送ることです。送られるのは commit 済みの内容だけで、commit していない変更は送られません。送る単位は branch です。</p>
 <div class="figure"><img alt="pushの流れ" src="images/git_push.svg" /></div>
-<pre><code class="language-bash">git remote -v                       # 送り先(origin)の URL を確認
-git push -u origin feature/timer    # 初めて送る branch。送り先を origin に設定する
-git push                            # 2回目以降。今の branch を、設定済みの送り先へ送る
-git push origin main                # branch を指定して送る
-</code></pre>
-<p><code>origin</code> は、remote につけられる標準の名前です。<code>-u</code> は「この branch の送り先を覚えておく」という指定で、1回付けて push すると、以降は <code>git push</code> だけで送れます。</p>
+<ul>
+<li><strong>origin</strong> という名前が出てきたら、remote(送り先)につけられた標準の名前のことです。ふつうは GitHub 上の repository を指します。</li>
+<li><strong>Publish branch</strong> という名前が出てきたら、作った branch を、初めて remote に送るということです(GitHub Desktop の表示)。</li>
+<li><strong>upstream</strong>(追跡先)という名前が出てきたら、「この branch はいつも、remote のこの branch に送る」という、覚えておいた送り先のことです。一度設定すると、2回目からは送り先を指定しなくても push できます。</li>
+<li><strong>Push origin</strong> という名前が出てきたら、origin に push するということです。</li>
+</ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p>push のあとに <code>git status</code> を実行して、<code>up to date with 'origin/...'</code> と表示されれば、手元と remote が同じ状態です。</p>
+<p>「<strong>up to date with 'origin/...'</strong>」という表示が出てきたら、手元と remote が同じ状態ということです。</p>
 </div>
 <div class="note note-warn">
 <p class="note-title">注意</p>
-<p>remote のほうが先に進んでいる(他の人が先に push した)と、push は rejected(拒否)されます。その場合は、先に <code>git pull</code> で remote の変更を取り込んでから、もう一度 push します。<code>--force</code> で無理に上書きしないでください。</p>
+<p>「<strong>rejected</strong>(拒否)」という表示が出てきたら、remote のほうが先に進んでいる(他の人が先に push した)ため、push できなかったということです。その場合は、先に pull で remote の変更を取り込んでから、もう一度 push します。<strong>force push</strong>(強制的に上書きする push)はしないでください。</p>
 </div>
 <hr />
 <h2 id="sec5">5. merge とは</h2>
 <p>merge は、別の branch で進めた作業を、今いる branch に取り込んで合流させることです。ふつうは、feature で作業が終わったら、<code>main</code> に取り込むために使います。</p>
 <div class="figure"><img alt="mergeの流れ" src="images/git_merge.svg" /></div>
-<p>取り込む側ではなく、<strong>取り込まれる側(merge 先)に移動してから</strong>実行するのがポイントです。</p>
-<pre><code class="language-bash">git switch main           # merge 先の branch に移動する
-git merge feature         # feature の変更を、今の branch(main)に取り込む
-</code></pre>
+<p>取り込む側ではなく、<strong>取り込まれる側(merge 先)に移動してから</strong>行うのがポイントです。</p>
+<ol>
+<li>merge 先の branch(<code>main</code>)に切り替える</li>
+<li><code>feature</code> を、今の branch(<code>main</code>)に merge する</li>
+</ol>
 <table>
 <thead>
 <tr>
 <th>意味</th>
-<th>Git(CUI)</th>
+<th>Git の用語</th>
 <th>GitHub Desktop</th>
 <th>SourceTree</th>
 <th>TortoiseGit</th>
@@ -184,20 +193,25 @@ git merge feature         # feature の変更を、今の branch(main)に取り�
 <tbody>
 <tr>
 <td>merge 先に切り替える</td>
-<td><code>git switch main</code></td>
+<td>switch(checkout)</td>
 <td>Current Branch で main を選ぶ</td>
 <td>Checkout</td>
 <td>Switch/Checkout</td>
 </tr>
 <tr>
 <td>branch を取り込む</td>
-<td><code>git merge feature</code></td>
+<td>merge</td>
 <td>Branch → Merge into Current Branch → feature を選ぶ</td>
 <td>feature を右クリック → Merge</td>
 <td>Merge → feature を選ぶ</td>
 </tr>
 </tbody>
 </table>
+<ul>
+<li><strong>Merge into Current Branch</strong> という名前が出てきたら、選んだ branch を、今いる branch に取り込むということです。</li>
+<li><strong>merge commit</strong> という名前が出てきたら、2つの branch の変更をまとめた、合流のための commit ということです。</li>
+<li><strong>fast-forward</strong> という名前が出てきたら、merge commit を作らずに、main を feature の位置まで進めるだけで済んだということです。</li>
+</ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
 <p>merge すると、両方の変更をまとめた commit(merge commit)が1つ増えることがあります。main 側に新しい commit がなく、一直線につなげられるときは、merge commit は作られず、main が feature の位置まで進むだけです(fast-forward)。</p>
@@ -208,21 +222,20 @@ git merge feature         # feature の変更を、今の branch(main)に取り�
 </div>
 <hr />
 <h2 id="sec6">6. fetch と pull とは</h2>
-<p>他の人が remote に push すると、remote のほうが手元より先に進みます。その更新を手元に持ってくる方法が <code>fetch</code> と <code>pull</code> です。</p>
+<p>他の人が remote に push すると、remote のほうが手元より先に進みます。その更新を手元に持ってくる方法が fetch と pull です。</p>
 <div class="figure"><img alt="fetchとpullの違い" src="images/git_fetch_pull.svg" /></div>
 <ul>
-<li><strong>fetch</strong>: remote の更新情報を取得するだけです。手元の <code>origin/main</code>(remote の main のコピー)は更新されますが、作業中の branch やファイルは変わりません</li>
-<li><strong>pull</strong>: fetch に加えて、取得した内容を作業中の branch に merge します。つまり <code>git pull</code> は「<code>git fetch</code> + <code>git merge</code>」です</li>
+<li><strong>fetch</strong> という名前が出てきたら、remote の更新情報を取得するだけということです。手元の <code>origin/main</code>(remote の main のコピー)は更新されますが、作業中の branch やファイルは変わりません。</li>
+<li><strong>pull</strong> という名前が出てきたら、fetch に加えて、取得した内容を作業中の branch に merge するということです。つまり pull は「fetch + merge」です。</li>
+<li><strong>origin/main</strong> という名前が出てきたら、「remote の main を、手元に控えておいたもの」ということです。自分の <code>main</code> とは別のものです。</li>
+<li>「<strong>behind 'origin/main' by 2 commits</strong>」という表示が出てきたら、remote のほうが2つ先に進んでいて、手元に取り込んでいない commit があるということです。pull すると追いつきます。</li>
+<li>「<strong>ahead of 'origin/main' by 1 commit</strong>」という表示が出てきたら、手元のほうが1つ先に進んでいて、まだ push していない commit があるということです。</li>
 </ul>
-<pre><code class="language-bash">git fetch                 # 更新情報だけ取得する(作業中の branch は変わらない)
-git log main..origin/main --oneline   # 取り込む前に、何が増えたか確認する
-git pull                  # 取得して、今の branch に取り込む
-</code></pre>
 <table>
 <thead>
 <tr>
 <th>意味</th>
-<th>Git(CUI)</th>
+<th>Git の用語</th>
 <th>GitHub Desktop</th>
 <th>SourceTree</th>
 <th>TortoiseGit</th>
@@ -231,14 +244,14 @@ git pull                  # 取得して、今の branch に取り込む
 <tbody>
 <tr>
 <td>更新情報だけ取得する</td>
-<td><code>git fetch</code></td>
+<td>fetch</td>
 <td>Fetch origin</td>
 <td>Fetch</td>
 <td>Git Fetch</td>
 </tr>
 <tr>
 <td>取得して取り込む</td>
-<td><code>git pull</code></td>
+<td>pull</td>
 <td>Pull origin</td>
 <td>Pull</td>
 <td>Git Pull</td>
@@ -247,11 +260,7 @@ git pull                  # 取得して、今の branch に取り込む
 </table>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p>迷ったら、まず <code>fetch</code> で確認してから取り込むのが安全です。<code>pull</code> は、取り込み中に conflict が起きることがあります(「8. conflict とは」)。</p>
-</div>
-<div class="note note-info">
-<p class="note-title">補足</p>
-<p><code>origin</code> は、remote repository につけられた名前です(ふつうは GitHub 上の repository を指します)。<code>origin/main</code> は「remote の main を、手元に控えておいたもの」と考えてください。</p>
+<p>迷ったら、まず fetch で確認してから取り込むのが安全です。pull は、取り込み中に conflict が起きることがあります(「8. conflict とは」)。</p>
 </div>
 <hr />
 <h2 id="sec7">7. 逆 merge とは(相手の branch を取り込む)</h2>
@@ -262,20 +271,16 @@ git pull                  # 取得して、今の branch に取り込む
 <li><strong>逆 merge</strong>: main → 自分の branch(main の最新を自分の branch に受け取る)</li>
 </ul>
 <p>自分が作業している間に、ほかの人が main を更新していることがあります。そのまま作業を続けて Pull Request を出すと、最後に conflict が見つかって困ります。逆 merge で先に最新を取り込んでおけば、conflict を自分の branch の上で、早めに直せます。</p>
-<pre><code class="language-bash">git switch main
-git pull                  # main を最新にする
-git switch feature        # 自分の branch に戻る
-git merge main            # main を feature に取り込む(逆 merge)
-</code></pre>
-<p>remote の main をそのまま取り込む場合は、次の2行でも同じことができます。</p>
-<pre><code class="language-bash">git fetch                 # remote の更新を取得する
-git merge origin/main     # remote の main を取り込む
-</code></pre>
+<ol>
+<li><code>main</code> に切り替えて、pull で最新にする</li>
+<li>自分の branch(<code>feature</code>)に戻る</li>
+<li><code>main</code> を、今の branch(<code>feature</code>)に merge する(逆 merge)</li>
+</ol>
 <table>
 <thead>
 <tr>
 <th>意味</th>
-<th>Git(CUI)</th>
+<th>Git の用語</th>
 <th>GitHub Desktop</th>
 <th>SourceTree</th>
 <th>TortoiseGit</th>
@@ -284,20 +289,24 @@ git merge origin/main     # remote の main を取り込む
 <tbody>
 <tr>
 <td>自分の branch に切り替える</td>
-<td><code>git switch feature</code></td>
+<td>switch(checkout)</td>
 <td>Current Branch で選ぶ</td>
 <td>Checkout</td>
 <td>Switch/Checkout</td>
 </tr>
 <tr>
 <td>main を取り込む</td>
-<td><code>git merge main</code></td>
+<td>merge</td>
 <td>Branch → Merge into Current Branch → main を選ぶ</td>
 <td>main を右クリック → Merge</td>
 <td>Merge → main を選ぶ</td>
 </tr>
 </tbody>
 </table>
+<ul>
+<li><strong>update from main</strong> や <strong>Merge main into ...</strong> という名前が出てきたら、main の最新を、自分の branch に取り込む(この資料でいう逆 merge)ということです。</li>
+<li><strong>rebase</strong> という名前が出てきたら、逆 merge と同じく main の最新を取り込む別の方法ということです。merge commit を作らずに、自分の commit を main の先に付け替えます。初めのうちは、逆 merge(merge)を使えば十分です。</li>
+</ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
 <p>取り込み先は、いま選んでいる(作業中の)branch です。merge する前に、必ず自分の branch に切り替わっていることを確認します。main に切り替えたまま実行すると、向きが逆になります。</p>
@@ -311,10 +320,14 @@ git merge origin/main     # remote の main を取り込む
 <p>conflict(コンフリクト)は、同じファイルの同じ場所を別々に変更したため、Git が「どちらを採用するか」を自動では決められない状態です。2人が同じ文章の同じ行を、別々に書き換えたときのようなものです。</p>
 <div class="figure"><img alt="conflictが起きる場面" src="images/git_conflict.svg" /></div>
 <ul>
-<li><strong>起きるとき</strong>: <code>git merge</code> で別の branch を取り込むときや、<code>git pull</code> で remote の変更を取り込むときに起きます</li>
+<li><strong>起きるとき</strong>: merge で別の branch を取り込むときや、pull で remote の変更を取り込むときに起きます</li>
 <li><strong>起きないとき</strong>: 別のファイルや、同じファイルの別の場所を変更していた場合は、Git が自動で merge します</li>
 </ul>
 <p>conflict はエラーではなく、「ここは人が決めてください」という Git からの確認です。</p>
+<ul>
+<li>「<strong>CONFLICT</strong>」という表示が出てきたら、自動で merge できない場所があったということです。</li>
+<li>「<strong>both modified</strong>」や「<strong>conflicted files</strong>」という名前が出てきたら、そのファイルが両方の branch で変更されていて、conflict しているということです。</li>
+</ul>
 <h3>conflict の解消方法</h3>
 <p>conflict が発生すると、Git は該当のファイルに、conflict の発生を示す行を書き込みます。この行を手がかりに、残す内容を決めます。</p>
 <pre><code class="language-text">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
@@ -333,7 +346,7 @@ title: 学習メモ
 <tbody>
 <tr>
 <td><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> 〜 <code>=======</code></td>
-<td>今いる branch(<code>main</code>)の内容</td>
+<td>今いる branch(この例では <code>main</code>)の内容</td>
 </tr>
 <tr>
 <td><code>=======</code> 〜 <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature</code></td>
@@ -347,14 +360,9 @@ title: 学習メモ
 <li>conflict が出たファイルを開く</li>
 <li>残す内容を決める(<code>main</code> の内容、<code>feature</code> の内容、または両方を合わせた内容)</li>
 <li>conflict の発生を示す行(<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>、<code>=======</code>、<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> の3種類)を消す</li>
-<li>保存して、stage → commit で merge を完了する</li>
+<li>保存して、stage に載せる(解消したと伝える)</li>
+<li>commit して、merge を完了する</li>
 </ol>
-<pre><code class="language-bash">git merge feature          # CONFLICT と表示される
-git status                 # conflict のファイルを確認
-# ファイルを開いて、conflict の発生を示す行を消して保存
-git add index.html         # 解消したファイルを stage
-git commit                 # merge を完了
-</code></pre>
 <p>GUIツールでは、次のように操作します。</p>
 <table>
 <thead>
@@ -392,9 +400,14 @@ git commit                 # merge を完了
 </tr>
 </tbody>
 </table>
+<ul>
+<li><strong>Resolve</strong> / <strong>Resolved</strong> / <strong>Mark Resolved</strong> という名前が出てきたら、conflict を解消した(解消したと Git に伝える)ということです。</li>
+<li><strong>Mine</strong>(ours)という名前が出てきたら、今いる branch 側の内容ということです。</li>
+<li><strong>Theirs</strong> という名前が出てきたら、merge で取り込もうとしている相手の branch 側の内容ということです。</li>
+</ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p>途中でやめたいときは、merge を取り消して元の状態に戻せます。GitHub Desktop は <strong>Abort merge</strong>、コマンドは <code>git merge --abort</code> です。</p>
+<p><strong>Abort merge</strong>(merge の中止)という名前が出てきたら、merge を取り消して、merge する前の状態に戻すということです。途中でやめたいときに使います。</p>
 </div>
 <div class="note note-warn">
 <p class="note-title">注意</p>
@@ -402,7 +415,7 @@ git commit                 # merge を完了
 </div>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p>conflict を減らすには、作業を始める前に <code>git pull</code> で最新の状態にして、同じファイルを同時に別々の人が編集しないようにします。</p>
+<p>conflict を減らすには、作業を始める前に pull で最新の状態にして、同じファイルを同時に別々の人が編集しないようにします。</p>
 </div>
 <hr />
 <h2 id="sec9">9. branch 汚染とは</h2>
@@ -416,59 +429,57 @@ git commit                 # merge を完了
 <p><strong>予防策</strong></p>
 <ul>
 <li>作業は必ず branch を切って行う</li>
-<li><code>.gitignore</code>(commit しないファイルを指定する設定ファイル)を最初に用意する</li>
-<li>commit 前に <code>git status</code> と <code>git diff --staged</code> で中身を確認する</li>
-<li><strong>Pull Request(推奨)</strong>: GitHub 上で「この branch を <code>main</code> に merge してください」と依頼する仕組みです。<code>main</code> へ直接 push せず、作業 branch を push して Pull Request(PR)を作り、差分を確認してから merge します。不要ファイルや秘密情報、別作業の commit の混入を、merge の前に見つけられます</li>
+<li><code>.gitignore</code> を最初に用意する</li>
+<li>commit 前に、status と diff で中身を確認する</li>
+<li><strong>Pull Request(推奨)</strong>: <code>main</code> へ直接 push せず、作業 branch を push して Pull Request(PR)を作り、差分を確認してから merge します。不要ファイルや秘密情報、別作業の commit の混入を、merge の前に見つけられます</li>
 </ul>
-<pre><code class="language-bash">git switch -c feature/timer          # 作業 branch を作る
-git push -u origin feature/timer     # branch を push
-# GitHub 上で Pull Request を作成 → 差分を確認 → merge
-</code></pre>
 <p>Pull Request の流れは次の図のとおりです。</p>
 <div class="figure"><img alt="Pull Requestの流れ" src="images/git_pr.svg" /></div>
+<ul>
+<li><strong>.gitignore</strong> という名前が出てきたら、「このファイルは commit しない」と指定する設定ファイルのことです。</li>
+<li><strong>diff</strong>(差分)という名前が出てきたら、変更前と変更後で、どこが変わったかを表示したものということです。</li>
+<li><strong>Pull Request</strong> という名前が出てきたら、GitHub 上で「この branch を <code>main</code> に merge してください」と依頼する仕組みのことです。</li>
+<li><strong>branch protection</strong>(branch 保護)という名前が出てきたら、<code>main</code> などへの直接 push を禁止して、Pull Request を必ず通すようにする GitHub の設定のことです。</li>
+</ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p>GitHub の設定(branch 保護)で <code>main</code> への直接 push を禁止すると、Pull Request を必ず通すようにできます。うっかり <code>main</code> に push してしまう事故を、仕組みで防げます。</p>
+<p>branch 保護を設定すると、うっかり <code>main</code> に push してしまう事故を、仕組みで防げます。</p>
 </div>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p><code>.gitignore</code> に書いたファイルは、まだ Git の管理に入っていない場合だけ無視されます。すでに commit してしまったファイルは、<code>git rm --cached ファイル名</code> で Git の管理から外してから(ファイル自体は消えません)、commit し直します。</p>
+<p><code>.gitignore</code> に書いたファイルは、まだ Git の管理に入っていない場合だけ無視されます。すでに commit してしまったファイルは、Git の管理から外して(<strong>untrack</strong>。ファイル自体は消えません)、commit し直します。<strong>untrack</strong> という名前が出てきたら、ファイルは残したまま、Git の記録の対象から外すということです。</p>
 </div>
 <hr />
 <h2 id="sec10">10. 安全に試すコツ</h2>
-<p>巻き戻しの前に、今の状態にバックアップ用の branch を作っておくと安心です。失敗しても、<code>git reset --hard backup-before-reset</code> で元の状態に戻せます。</p>
-<pre><code class="language-bash">git branch backup-before-reset
-</code></pre>
+<p>巻き戻しの前に、今の状態にバックアップ用の branch(例: <code>backup-before-reset</code>)を作っておくと安心です。巻き戻しに失敗しても、その branch の状態まで reset すれば、元に戻せます。</p>
+<ul>
+<li><strong>backup</strong>(バックアップ用の branch)という名前が出てきたら、作業前の状態を残しておくための、一時的な branch ということです。</li>
+</ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p>バックアップ用の branch は、巻き戻しがうまくいったことを確認してから <code>git branch -d backup-before-reset</code> で削除します。</p>
+<p>バックアップ用の branch は、巻き戻しがうまくいったことを確認してから削除します。</p>
 </div>
 <hr />
 <h2 id="sec11">11. 過去の commit に巻き戻す方法</h2>
 <p><strong>基本は、作業内容を過去の commit まで戻す(Hard Reset)か、打ち消す commit を作る(revert)のどちらかです。</strong>
 まだ push していなければ Hard Reset、push 済みなら revert が目安です。</p>
-<p>状況によって使うコマンドが変わります。</p>
+<p>状況によって、使う操作の名前が変わります。</p>
 <h3>A. まだ commit していない変更を捨てる</h3>
-<pre><code class="language-bash">git restore ファイル名           # ファイルの変更を破棄
-git restore --staged ファイル名   # git add を取り消す(変更は残る)
-git clean -fd                    # Git の管理に入っていない新しいファイルを削除
-</code></pre>
+<ul>
+<li><strong>Discard</strong>(Discard Changes)や <strong>restore</strong> という名前が出てきたら、commit していないファイルの変更を捨てて、最後の commit の状態に戻すということです。</li>
+<li><strong>unstage</strong> という名前が出てきたら、stage から外す(add を取り消す)ということです。ファイルの変更は残ります。</li>
+<li><strong>clean</strong> という名前が出てきたら、Git の管理に入っていない(untracked の)新しいファイルを削除するということです。</li>
+</ul>
 <div class="note note-warn">
 <p class="note-title">注意</p>
-<p><code>git clean</code> で消えたファイルは戻せません。事前に <code>git clean -nd</code> で、削除される対象を確認してください。</p>
+<p>Discard や clean で消えた変更は戻せません。実行する前に、消える対象を確認してください。</p>
 </div>
 <h3>B. commit 済みだが、まだ push していない</h3>
-<p><code>git reset</code> で、今の branch を過去の commit の状態まで戻します。</p>
-<pre><code class="language-bash">git log --oneline               # 戻りたい commit の hash を調べる
-git reset --soft HEAD~1         # 1つ前に戻る。変更は stage に残る
-git reset --mixed HEAD~1        # 1つ前に戻る。変更は working directory に残る(既定)
-git reset --hard a1b2c3d        # 指定した commit に戻る。以降の変更は消える
-</code></pre>
-<p>オプションによって、戻したあとに変更が残るかどうかが変わります。</p>
+<p>reset で、今の branch を過去の commit の状態まで戻します。reset には3つの種類があり、戻したあとに変更が残るかどうかが変わります。</p>
 <table>
 <thead>
 <tr>
-<th>オプション</th>
+<th>種類</th>
 <th>commit</th>
 <th>stage</th>
 <th>ファイルの中身</th>
@@ -476,49 +487,58 @@ git reset --hard a1b2c3d        # 指定した commit に戻る。以降の変�
 </thead>
 <tbody>
 <tr>
-<td><code>--soft</code></td>
+<td>Soft</td>
 <td>取り消す</td>
 <td>残る</td>
 <td>残る</td>
 </tr>
 <tr>
-<td><code>--mixed</code></td>
+<td>Mixed(既定)</td>
 <td>取り消す</td>
 <td>取り消す</td>
 <td>残る</td>
 </tr>
 <tr>
-<td><code>--hard</code></td>
+<td>Hard</td>
 <td>取り消す</td>
 <td>取り消す</td>
 <td>消える</td>
 </tr>
 </tbody>
 </table>
+<ul>
+<li><strong>reset</strong> という名前が出てきたら、今の branch を、指定した過去の commit の状態まで戻すということです。</li>
+<li><strong>Soft</strong> という名前が出てきたら、commit だけを取り消して、変更は stage に残すということです。</li>
+<li><strong>Mixed</strong> という名前が出てきたら、commit と stage を取り消して、変更は working directory に残すということです。</li>
+<li><strong>Hard</strong> という名前が出てきたら、commit も変更もすべて消して、指定した commit の状態にするということです。</li>
+</ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p><code>HEAD~1</code> は「今の commit の1つ前」という意味です。<code>HEAD~2</code> なら2つ前を指します。</p>
+<p><strong>HEAD~1</strong>(または <strong>HEAD^</strong>)という名前が出てきたら、「今の commit の1つ前」ということです。<strong>HEAD~2</strong> なら2つ前を指します。</p>
 </div>
 <div class="note note-warn">
 <p class="note-title">注意</p>
-<p><code>--hard</code> は、working directory の変更も消します。迷ったときは、先に <code>--soft</code> か <code>--mixed</code> を使うか、バックアップ用の branch を作ってから実行してください。</p>
+<p>Hard は、working directory の変更も消します。迷ったときは、先に Soft か Mixed を使うか、バックアップ用の branch を作ってから実行してください。</p>
 </div>
 <h3>C. すでに push 済み(共同作業中)</h3>
-<p>履歴を書き換えずに、「打ち消す commit」を新しく作る <code>git revert</code> を使います。</p>
-<pre><code class="language-bash">git revert a1b2c3d              # その commit の変更を打ち消す commit を作る
-git push
-</code></pre>
-<p><code>reset</code> と <code>revert</code> の違いは次の図のとおりです。</p>
+<p>履歴を書き換えずに、「打ち消す commit」を新しく作る revert を使います。打ち消す commit を作ったら、push します。</p>
+<ul>
+<li><strong>revert</strong> という名前が出てきたら、指定した commit の変更を打ち消す、新しい commit を作るということです。元の commit は履歴に残ります。</li>
+</ul>
+<p>reset と revert の違いは次の図のとおりです。</p>
 <div class="figure"><img alt="resetとrevertの違い" src="images/git_reset_revert.svg" /></div>
 <div class="note note-warn">
 <p class="note-title">注意</p>
-<p>push 済みの commit を reset で消し、<code>git push --force</code> で remote にも反映する方法もあります。ただし、他の人の履歴と食い違って混乱を招くので、共有 branch では避けるのが基本です。自分専用の branch でやむを得ない場合は、<code>--force</code> より安全な <code>git push --force-with-lease</code> を使います。</p>
+<ul>
+<li><strong>force push</strong> という名前が出てきたら、remote の履歴を、手元の履歴で強制的に上書きするということです。push 済みの commit を reset で消し、force push で remote にも反映する方法もありますが、他の人の履歴と食い違って混乱を招くので、共有 branch では避けるのが基本です。</li>
+<li><strong>force with lease</strong> という名前が出てきたら、「自分が知らない変更が remote に増えていたら、上書きしない」という安全装置つきの force push ということです。自分専用の branch でやむを得ない場合は、こちらを使います。</li>
+</ul>
 </div>
-<h3>D. 間違えて <code>reset --hard</code> してしまった</h3>
-<p><code>git reflog</code> は、HEAD が動いた記録をすべて残しています。消えたように見える commit も、多くの場合ここから戻せます。</p>
-<pre><code class="language-bash">git reflog                      # 操作履歴を見る
-git reset --hard HEAD@{2}       # 戻りたい時点に復帰(`HEAD@{2}` は2回前の状態)
-</code></pre>
+<h3>D. 間違えて Hard Reset してしまった</h3>
+<ul>
+<li><strong>reflog</strong> という名前が出てきたら、HEAD が動いた記録(操作の履歴)のことです。消えたように見える commit も、多くの場合ここから見つけて、その時点に戻せます。</li>
+<li><strong>HEAD@{2}</strong> という名前が出てきたら、reflog の中で「2回前に HEAD があった場所」ということです。</li>
+</ul>
 <div class="note note-warn">
 <p class="note-title">注意</p>
 <p>reflog の記録は一定期間(既定では約90日)で消えます。復元は早めに行ってください。</p>
@@ -528,36 +548,36 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰(`HEAD@{2}` は2回
 <thead>
 <tr>
 <th>やりたいこと</th>
-<th>使うコマンド</th>
+<th>覚える名前</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>commit 前の変更を捨てたい</td>
-<td><code>git restore</code></td>
+<td>Discard / restore</td>
 </tr>
 <tr>
 <td>まだ push していない commit をやり直したい</td>
-<td><code>git reset</code></td>
+<td>reset</td>
 </tr>
 <tr>
 <td>push 済みの変更を取り消したい</td>
-<td><code>git revert</code></td>
+<td>revert</td>
 </tr>
 <tr>
 <td>消してしまった履歴を探したい</td>
-<td><code>git reflog</code></td>
+<td>reflog</td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h2 id="sec12">12. GUIツールの用語集</h2>
-<p>GUIツールのボタンやメニューは、どれも Git のコマンド(CUI)と同じことをしています。</p>
+<p>GUIツールのボタンやメニューは、名前が違っても、Git の同じ操作をしています。左の「Git の用語」を覚えておけば、どのツールでも何をするボタンか分かります。</p>
 <table>
 <thead>
 <tr>
 <th>意味</th>
-<th>Git(CUI)</th>
+<th>Git の用語</th>
 <th>GitHub Desktop</th>
 <th>SourceTree</th>
 <th>TortoiseGit</th>
@@ -566,89 +586,93 @@ git reset --hard HEAD@{2}       # 戻りたい時点に復帰(`HEAD@{2}` は2回
 <tbody>
 <tr>
 <td>commit 対象に選ぶ</td>
-<td><code>git add</code></td>
+<td>add</td>
 <td>変更ファイルのチェック</td>
 <td>Stage</td>
 <td>Add</td>
 </tr>
 <tr>
 <td>変更を記録する</td>
-<td><code>git commit</code></td>
+<td>commit</td>
 <td>Commit</td>
 <td>Commit</td>
 <td>Git Commit</td>
 </tr>
 <tr>
 <td>remote へ送る</td>
-<td><code>git push</code></td>
+<td>push</td>
 <td>Push origin</td>
 <td>Push</td>
 <td>Git Push</td>
 </tr>
 <tr>
 <td>更新情報だけ取得する</td>
-<td><code>git fetch</code></td>
+<td>fetch</td>
 <td>Fetch origin</td>
 <td>Fetch</td>
 <td>Git Fetch</td>
 </tr>
 <tr>
 <td>取得して取り込む</td>
-<td><code>git pull</code></td>
+<td>pull</td>
 <td>Pull origin</td>
 <td>Pull</td>
 <td>Git Pull</td>
 </tr>
 <tr>
 <td>branch を作る</td>
-<td><code>git switch -c</code></td>
+<td>branch</td>
 <td>New Branch</td>
 <td>Branch</td>
 <td>Create Branch</td>
 </tr>
 <tr>
 <td>branch を切り替える</td>
-<td><code>git switch</code></td>
+<td>switch(checkout)</td>
 <td>Current Branch で選ぶ</td>
 <td>Checkout</td>
 <td>Switch/Checkout</td>
 </tr>
 <tr>
 <td>branch を統合する</td>
-<td><code>git merge</code></td>
+<td>merge</td>
 <td>Merge into Current Branch</td>
 <td>Merge</td>
 <td>Merge</td>
 </tr>
 <tr>
 <td>commit 前の変更を破棄する</td>
-<td><code>git restore</code></td>
+<td>restore(discard)</td>
 <td>Discard Changes</td>
 <td>Discard</td>
 <td>Revert</td>
 </tr>
 <tr>
 <td>過去に戻す</td>
-<td><code>git reset</code></td>
+<td>reset</td>
 <td>Reset to commit</td>
 <td>Reset current branch to this commit</td>
 <td>Reset to this</td>
 </tr>
 <tr>
 <td>打ち消しの commit を作る</td>
-<td><code>git revert</code></td>
+<td>revert</td>
 <td>Revert Changes in Commit</td>
 <td>Reverse commit</td>
 <td>Revert change by this commit</td>
 </tr>
 </tbody>
 </table>
+<div class="note note-warn">
+<p class="note-title">注意</p>
+<p>TortoiseGit の <strong>Revert</strong> は、「commit 前の変更を破棄する」(restore / discard)という意味で、Git の用語の revert(打ち消しの commit を作る)とは別の操作です。TortoiseGit で打ち消しの commit を作るのは <strong>Revert change by this commit</strong> です。</p>
+</div>
 <div class="note note-info">
 <p class="note-title">補足</p>
 <p>GitHub Desktop でも reset できます。<strong>History</strong> タブで戻したい commit を右クリックし、<strong>Reset to commit</strong> を選びます。</p>
 <ul>
-<li>戻した後の変更は、working directory に未 commit の状態で残ります(<code>git reset --mixed</code> に近い動き)</li>
-<li>変更もいらない場合は、そのあと <strong>Discard Changes</strong> で破棄します(<code>--hard</code> と同じ結果)</li>
+<li>戻した後の変更は、working directory に未 commit の状態で残ります(Mixed に近い動き)</li>
+<li>変更もいらない場合は、そのあと <strong>Discard Changes</strong> で破棄します(Hard と同じ結果)</li>
 <li>戻せるのは、最後に push した commit か、それより新しい commit までです(それより前には戻せません)</li>
 <li>push 済みの commit を取り消したいときは、reset ではなく <strong>Revert Changes in Commit</strong> を使います</li>
 </ul>

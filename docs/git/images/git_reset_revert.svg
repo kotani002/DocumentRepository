@@ -5,7 +5,7 @@
   </defs>
   <rect width="900" height="546" fill="#ffffff"/>
   <rect x="10" y="10" width="880" height="258" rx="12" fill="#ffffff" stroke="#b0bec5" stroke-width="2"/>
-  <text x="28" y="42" font-size="20" font-weight="bold" fill="#0d47a1" text-anchor="start">① git reset --hard B(履歴を巻き戻す)</text>
+  <text x="28" y="42" font-size="20" font-weight="bold" fill="#0d47a1" text-anchor="start">① reset(Hard)で B に戻す(履歴を巻き戻す)</text>
   <text x="28" y="124" font-size="16" font-weight="bold" fill="#455a64" text-anchor="start">実行前</text>
   <rect x="310" y="56" width="120" height="28" rx="14" fill="#ffd54f" stroke="#f9a825" stroke-width="2"/>
   <text x="370" y="75" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">作業 branch</text>
@@ -31,7 +31,7 @@
   <rect x="430" y="196" width="420" height="36" rx="8" fill="#ffffff" stroke="#607d8b" stroke-width="2"/>
   <text x="444" y="220" font-size="15" font-weight="normal" fill="#212121" text-anchor="start">C は履歴から外れる(共有 branch では避ける)</text>
   <rect x="10" y="282" width="880" height="188" rx="12" fill="#ffffff" stroke="#b0bec5" stroke-width="2"/>
-  <text x="28" y="314" font-size="20" font-weight="bold" fill="#0d47a1" text-anchor="start">② git revert C(打ち消しの commit を追加)</text>
+  <text x="28" y="314" font-size="20" font-weight="bold" fill="#0d47a1" text-anchor="start">② revert で C を打ち消す(打ち消しの commit を追加)</text>
   <rect x="430" y="328" width="120" height="28" rx="14" fill="#ffd54f" stroke="#f9a825" stroke-width="2"/>
   <text x="490" y="347" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">作業 branch</text>
   <line x1="158" y1="396" x2="222" y2="396" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
