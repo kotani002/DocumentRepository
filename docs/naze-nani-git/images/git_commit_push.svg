@@ -27,11 +27,11 @@
   <circle cx="290" cy="316" r="24" fill="#ffffff" stroke="#607d8b" stroke-width="3" stroke-dasharray="6,5"/>
   <text x="290" y="323" font-size="20" font-weight="bold" fill="#78909c" text-anchor="middle">C</text>
   <text x="340" y="136" font-size="15" font-weight="bold" fill="#8a5a00" text-anchor="start">← commit した C は、まだ手元にだけある</text>
-  <text x="340" y="162" font-size="13" font-weight="bold" fill="#37474f" text-anchor="start" font-family="Consolas,'Courier New',monospace">git commit で、手元の履歴に記録</text>
+  <text x="340" y="162" font-size="13" font-weight="bold" fill="#37474f" text-anchor="start" font-family="Consolas,'Courier New',monospace">commit で、手元の履歴に記録</text>
   <text x="340" y="322" font-size="15" font-weight="bold" fill="#78909c" text-anchor="start">← push するまで、ここには届かない</text>
   <line x1="290" y1="180" x2="290" y2="288" stroke="#37474f" stroke-width="3" stroke-dasharray="6,5" marker-end="url(#m)"/>
   <rect x="215" y="200" width="150" height="28" rx="14" fill="#ffffff" stroke="#607d8b" stroke-width="2"/>
-  <text x="290" y="219" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git push</text>
+  <text x="290" y="219" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle" font-family="Consolas,'Courier New',monospace">push</text>
   <text x="380" y="219" font-size="14" font-weight="bold" fill="#37474f" text-anchor="start">remote へ送る</text>
   <rect x="10" y="386" width="880" height="78" rx="10" fill="#fafafa" stroke="#b0bec5" stroke-width="1.5"/>
   <text x="24" y="415" font-size="16" font-weight="bold" fill="#37474f" text-anchor="start">図の色の見方</text>

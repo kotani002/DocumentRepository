@@ -41,7 +41,7 @@
   <text x="488" y="200" font-size="14" font-weight="normal" fill="#78909c" text-anchor="start">D はまだ届いていない</text>
   <line x1="450" y1="216" x2="450" y2="292" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
   <rect x="395" y="236" width="110" height="28" rx="14" fill="#ffffff" stroke="#607d8b" stroke-width="2"/>
-  <text x="450" y="255" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git push</text>
+  <text x="450" y="255" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle" font-family="Consolas,'Courier New',monospace">push</text>
   <text x="524" y="255" font-size="15" font-weight="bold" fill="#37474f" text-anchor="start">手元の commit D を remote へ送る</text>
   <text x="20" y="288" font-size="18" font-weight="bold" fill="#0d47a1" text-anchor="start">② push 後</text>
   <rect x="20" y="296" width="410" height="136" rx="14" fill="#ffffff" stroke="#2e7d32" stroke-width="4"/>

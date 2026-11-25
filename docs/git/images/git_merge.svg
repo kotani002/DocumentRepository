@@ -40,7 +40,7 @@
   <text x="832" y="156" font-size="15" font-weight="bold" fill="#0d47a1" text-anchor="start">main</text>
   <text x="750" y="262" font-size="15" font-weight="bold" fill="#8a5a00" text-anchor="middle">feature</text>
   <rect x="350" y="118" width="160" height="28" rx="14" fill="#ffffff" stroke="#607d8b" stroke-width="2"/>
-  <text x="430" y="137" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle" font-family="Consolas,'Courier New',monospace">git merge feature</text>
+  <text x="430" y="137" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle" font-family="Consolas,'Courier New',monospace">merge(feature を取り込む)</text>
   <line x1="380" y1="170" x2="496" y2="170" stroke="#37474f" stroke-width="3" marker-end="url(#m)"/>
   <text x="450" y="198" font-size="13" font-weight="bold" fill="#37474f" text-anchor="middle">main の上で実行</text>
   <text x="450" y="222" font-size="13" font-weight="bold" fill="#37474f" text-anchor="middle">feature は変わらない</text>
