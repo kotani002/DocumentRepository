@@ -62,7 +62,7 @@
 </div>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p>Git を使うだけなら、GitHub のアカウントは要りません。共同作業をするとき、または履歴をネット上に置きたいときに、GitHub を使います。</p>
+<p>Git を使うには、PC に Git(ソフトウェア)が入っている必要があります。GitHub Desktop などの GUI クライアントの多くは、Git を中に含んでいるので、クライアントを入れるだけで使い始められます。コマンドライン(CUI)でも使いたい場合は、<a href="https://git-scm.com/">Git 公式ページ</a> から Git を別に入れます。</p>
 </div>
 <h3>GitHub は無料? 作ったものは公開される?</h3>
 <p>GitHub は、個人で使う分には<strong>無料</strong>で使えます。有料プランもありますが、会社やチームで細かい管理機能が必要になったときのためのもので、学習や個人の開発なら無料プランで足ります。</p>
@@ -144,7 +144,7 @@
 </tbody>
 </table>
 <p class="footnote">※ スナップショットとは、その瞬間のフォルダ全体を写真に撮ったようなものです。</p>
-<p>「フォルダ全体を毎回記録するなら、すぐに容量がいっぱいになるのでは?」と思うかもしれません。実際には、<strong>変更していないファイルは、前の commit と同じものを指すだけで、もう一度コピーはしません</strong>。変更したファイルだけが新しく保存されるので、commit を何度くり返しても、それほど重くなりません。</p>
+<p>「フォルダ全体を毎回記録するなら、すぐに容量がいっぱいになるのでは?」と思うかもしれません。実際には、<strong>変更していないファイルは、もう一度コピーせず、「前の commit で保存したものと同じ」という印だけを記録します</strong>。新しく保存されるのは変更したファイルだけなので、commit を何度くり返しても、それほど重くなりません。</p>
 <p>たとえると、アルバムに毎回フォルダ全体の写真を貼っているように見えて、変わっていない部分は「前のページと同じ」と書いてあるだけ、というイメージです。</p>
 <ul>
 <li><strong>snapshot(スナップショット)</strong> という名前が出てきたら、その時点のフォルダ全体の状態ということです。</li>
@@ -211,6 +211,7 @@
 <h3>なぜ stage があるのか</h3>
 <p>a.txt と b.txt を両方変更したとき、「a.txt の変更だけを、1つの commit にしたい」ことがあります。stage があるおかげで、変更したファイルのうち、<strong>commit に入れるものだけを選べます</strong>。</p>
 <p>1つの commit に、関係ない変更が混ざらないので、あとから「何のための commit か」が分かりやすく、巻き戻すときも楽になります。</p>
+<p>たとえば、ゲームの不具合を直している途中で、確認用に <code>Debug.Log</code> を別のファイルに書き足したとします。commit したいのは「不具合の修正」だけで、確認用のコードは入れたくありません。このとき、修正したファイルだけを stage に載せれば、確認用のコードは commit に入りません。</p>
 <h3>具体例</h3>
 <ol>
 <li>a.txt と b.txt を両方変更する(どちらも「変更あり」の状態)</li>
@@ -250,6 +251,7 @@
 <li><strong>staged</strong> という名前が出てきたら、stage に載っていて、次の commit に入る状態ということです。</li>
 <li><strong>unstaged</strong>(not staged)という名前が出てきたら、変更はあるけれど、まだ stage に載っていない状態ということです。</li>
 <li><strong>untracked</strong> という名前が出てきたら、Git がまだ一度も記録していない、新しく作ったファイルということです。</li>
+<li><strong>tracked</strong> という名前が出てきたら、Git の記録の対象になっているファイルということです。untracked のファイルは、一度 add して commit すると tracked になり、それ以降は変更するたびに「変更あり」と表示されます。</li>
 </ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
@@ -297,12 +299,16 @@
 <li><code>main</code> に切り替えると、<code>login.html</code> がフォルダから消える</li>
 <li><code>feature/login</code> に戻ると、<code>login.html</code> がまた現れる</li>
 </ul>
-<p><code>login.html</code> は消えたのではなく、<code>feature/login</code> の履歴に記録されているので、戻れば元通りになります。<strong>branch ごとに、フォルダの中身が切り替わる</strong>のが、branch の仕組みです。</p>
+<p>エクスプローラーで見ても、<code>main</code> に切り替えると <code>login.html</code> は本当に見えなくなります。でも、ファイルがなくなったわけではありません。<code>login.html</code> は <code>feature/login</code> の commit として <code>.git</code> フォルダに保存されているので、<code>feature/login</code> に戻れば元通りになります。<strong>branch ごとに、フォルダの中身が切り替わる</strong>のが、branch の仕組みです。</p>
+<div class="note note-warn">
+<p class="note-title">注意</p>
+<p>元に戻せるのは、commit してあるファイルだけです。commit していないファイルについては、この章の最後の注意を確認してください。</p>
+</div>
 <ul>
 <li><strong>main</strong> という名前が出てきたら、基本となる(安定した状態を保つ)branch のことです。古い repository では <strong>master</strong> という名前のこともありますが、同じ役割です。</li>
 <li><strong>switch</strong> や <strong>checkout</strong> という名前が出てきたら、branch を切り替える(移動する)ということです。checkout は古い呼び方で、GUI ツールでは今も使われています。</li>
 <li><strong>feature</strong> という名前が出てきたら、新しい機能を作るための、作業用の branch ということです。<code>feature/login</code> の <code>/</code> は、フォルダのように名前を整理するための区切りです。</li>
-<li><strong>HEAD</strong> という名前が出てきたら、今自分がいる branch のことです。</li>
+<li><strong>HEAD</strong> という名前が出てきたら、今自分がいる場所を示す目印のことです。ふだんは、今いる branch を指しています。(過去の commit を直接選んで移動したときだけ、branch ではなく commit を指します。最初のうちは「今いる branch」と覚えておけば十分です。)</li>
 </ul>
 <h3>何がうれしいのか</h3>
 <ul>
@@ -317,11 +323,32 @@
 </div>
 <div class="note note-warn">
 <p class="note-title">注意</p>
-<p>branch を切り替える前に、commit していない変更があると、切り替えられなかったり、変更が一緒に付いてきたりします。切り替える前に、commit しておくのが安全です。</p>
+<p>commit していない変更があるまま branch を切り替えようとすると、次のどちらかになります。</p>
+<ul>
+<li>切り替え先の branch でも同じファイルが変わっている → 変更が消えないように、Git が切り替えを止めます</li>
+<li>それ以外 → 変更がそのまま切り替え先の branch に付いてきます(別の作業の変更が混ざる原因になります)</li>
+</ul>
+<p>切り替える前に commit しておくのが安全です。まだ commit したくないときは、<strong>stash</strong> を使います。</p>
+</div>
+<ul>
+<li><strong>stash</strong> という名前が出てきたら、commit していない変更を一時的によけて、フォルダを最後の commit の状態に戻すということです。よけた変更は、あとで元に戻せます。</li>
+</ul>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>GitHub Desktop では、変更があるまま branch を切り替えると、「今の branch に残す(stash する)」か「切り替え先に持っていく」かを選ぶ画面が出ます。残した変更は <strong>Stashed Changes</strong> に表示されます。</p>
 </div>
 <hr />
 <h2 id="sec5">5. 開発開始から終了までの流れ</h2>
 <p>実際の作業は、次の流れで進みます。ここでは「GitHub に repository があり、<code>feature</code> branch で作業して、main に取り込む」までを見ます。</p>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>① の前に、repository を用意する方法は2つあります。</p>
+<ul>
+<li>GitHub で新しい repository を作り(<strong>New repository</strong>)、それを clone する</li>
+<li>手元で作った repository を、GitHub Desktop の <strong>Publish repository</strong> で GitHub に送る</li>
+</ul>
+<p>どちらの方法でも、そのあとの ② からの流れは同じです。</p>
+</div>
 <div class="figure"><img alt="開発開始から終了までの流れ" src="images/git_dev_flow.svg" /></div>
 <table>
 <thead>
@@ -377,13 +404,21 @@
 </tr>
 <tr>
 <td>⑧ 最新にして片付ける</td>
-<td>手元の main を最新にして、使い終わった branch を消す</td>
-<td>switch → pull → branch の削除</td>
-<td>Local</td>
+<td>手元の main を最新にして、使い終わった branch を消す(GitHub 上の branch と、手元の branch の両方)</td>
+<td>switch → pull → branch の削除(Delete branch)</td>
+<td>Remote / Local</td>
 </tr>
 </tbody>
 </table>
 <p>次の作業は、また ② からくり返します。</p>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>一人で作っているときも、Pull Request は役に立ちます。merge の前に、GitHub の画面で差分をまとめて見直せるので、不要なファイルや消し忘れたテスト用のコードに気づけます。この場合の review は、自分で差分を確認することです。</p>
+</div>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>branch は、GitHub 上(remote)と手元(local)に別々にあります。GitHub 上の branch は、Pull Request を merge したあとに表示される <strong>Delete branch</strong> のボタンで消せます。手元の branch は、GUI クライアントで別に消します。</p>
+</div>
 <p>この流れで出てくる名前は、次の意味です。</p>
 <ul>
 <li><strong>repository</strong> という名前が出てきたら、ファイルと、その履歴をまとめて保存する置き場所のことです。</li>
@@ -405,7 +440,7 @@
 </div>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p>GUI ツール(GitHub Desktop、SourceTree、TortoiseGit)でも、流れは同じです。ボタンやメニューの名前は、<a href="../git/index.html">2.Git入門</a> の「GUIツールの用語集」を参照してください。</p>
+<p>GUI クライアント(GitHub Desktop、Sourcetree、Fork など)でも、流れは同じです。紹介しているクライアントは、この下の「<a href="#sec6">6. Git を扱うクライアント</a>」を見てください。ボタンやメニューの名前は、<a href="../git/index.html">2.Git入門</a> の「GUIツールの用語集」にまとめています(TortoiseGit もそちらに載せています)。</p>
 </div>
 <hr />
 <h2 id="sec6">6. Git を扱うクライアント(GitHub Desktop・Sourcetree・Fork)</h2>
@@ -513,7 +548,7 @@
 <li><strong>Branches</strong> / <strong>Remotes</strong> / <strong>Tags</strong> / <strong>Stashes</strong> という名前が出てきたら、branch の一覧、remote の一覧、tag の一覧、stash した変更の一覧ということです。</li>
 <li><strong>Unstaged</strong> / <strong>Staged</strong> という名前が出てきたら、stage にまだ載っていない変更と、stage に載っている変更ということです。<strong>Stage</strong> / <strong>Unstage</strong> のボタンで、ファイルを行き来させます。</li>
 <li><strong>Discard</strong> という名前が出てきたら、commit していない変更を捨てるということです。</li>
-<li><strong>Amend</strong> という名前が出てきたら、直前の commit をやり直す(上書きする)ということです。</li>
+<li><strong>Amend</strong> という名前が出てきたら、直前の commit をやり直す(上書きする)ということです。message の書き間違いや、ファイルの入れ忘れを直すときに使います。<strong>push したあとの commit には使わないでください</strong>(remote の履歴と食い違います)。</li>
 <li><strong>Commit ○ Files</strong> という名前が出てきたら、○ 個のファイルを commit するボタンということです。</li>
 </ul>
 <h3>参照した URL</h3>

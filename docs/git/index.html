@@ -23,13 +23,14 @@
 <li><a href="#sec9">branch 汚染とは</a></li>
 <li><a href="#sec10">安全に試すコツ</a></li>
 <li><a href="#sec11">過去の commit に巻き戻す方法</a></li>
-<li><a href="#sec12">GUIツール(GitHub Desktop・SourceTree・TortoiseGit)の用語集</a></li>
+<li><a href="#sec12">GUIツール(GitHub Desktop・Sourcetree・TortoiseGit)の用語集</a></li>
 <li><a href="#sec13">練習問題(reset と revert を GUI で試す)</a></li>
 </ol>
 <p>このページでは、コマンドの打ち方ではなく、<strong>用語の意味を覚えること</strong>を目的にしています。GUI ツールのボタンや、画面に出てくるメッセージに「その名前が出てきたら、何を意味するのか」が分かるようになりましょう。</p>
 <hr />
 <h2 id="sec1">1. 用語集</h2>
 <p>この資料に出てくる Git の用語を、先にまとめて紹介します。くわしい説明は、2章以降で順番に行います。</p>
+<p>★ が付いている用語は、まず覚えるものです。ほかの用語は、出てきたときにこの表で確認すれば大丈夫です。</p>
 <table>
 <thead>
 <tr>
@@ -39,7 +40,7 @@
 </thead>
 <tbody>
 <tr>
-<td>commit</td>
+<td>commit ★</td>
 <td>作業の途中経過を「セーブ」して、履歴に残すこと。また、その1回分の記録</td>
 </tr>
 <tr>
@@ -47,7 +48,7 @@
 <td>commit ごとに自動で付く英数字の ID(背番号のようなもの)</td>
 </tr>
 <tr>
-<td>branch</td>
+<td>branch ★</td>
 <td>履歴の流れを枝分かれさせて、別々に作業を進めるための仕組み</td>
 </tr>
 <tr>
@@ -55,7 +56,7 @@
 <td>今自分がいる branch(や commit)を示す目印</td>
 </tr>
 <tr>
-<td>stage</td>
+<td>stage ★</td>
 <td>次の commit に含める変更を、いったん置いておく場所</td>
 </tr>
 <tr>
@@ -63,7 +64,7 @@
 <td>local は手元の PC、remote は GitHub など、ネット上の置き場所</td>
 </tr>
 <tr>
-<td>push</td>
+<td>push ★</td>
 <td>手元の commit を remote に送ること</td>
 </tr>
 <tr>
@@ -71,11 +72,11 @@
 <td>remote の更新情報を取得するだけで、手元の作業には取り込まないこと</td>
 </tr>
 <tr>
-<td>pull</td>
+<td>pull ★</td>
 <td>remote の更新を取得して、今の branch に取り込むこと(fetch + merge)</td>
 </tr>
 <tr>
-<td>merge</td>
+<td>merge ★</td>
 <td>別の branch の変更を、今の branch に取り込んで合流させること</td>
 </tr>
 <tr>
@@ -83,11 +84,11 @@
 <td>最新の main を、自分が作業中の branch に取り込むこと(この資料での呼び方)</td>
 </tr>
 <tr>
-<td>conflict</td>
+<td>conflict ★</td>
 <td>同じ場所を別々に変更したため、Git が自動で merge できない状態</td>
 </tr>
 <tr>
-<td>Pull Request(PR)</td>
+<td>Pull Request(PR) ★</td>
 <td>「この変更を取り込んでください」と GitHub 上で依頼し、確認してもらう仕組み</td>
 </tr>
 <tr>
@@ -125,6 +126,32 @@
 </ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
+<p>message は、あとから History を見たときに「何をしたか」が分かるように書きます。</p>
+<table>
+<thead>
+<tr>
+<th>分かりにくい例</th>
+<th>分かりやすい例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>修正</td>
+<td>スコアが2回加算される不具合を修正</td>
+</tr>
+<tr>
+<td>更新</td>
+<td>タイトル画面にスタートボタンを追加</td>
+</tr>
+<tr>
+<td>あああ</td>
+<td>プレイヤーの移動速度を 5 から 3 に変更</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note note-info">
+<p class="note-title">補足</p>
 <ul>
 <li><strong>fetch</strong> という名前が出てきたら、remote の更新を取得する(まだ手元には取り込まない)ということです。</li>
 <li><strong>merge</strong> という名前が出てきたら、取得した変更を手元に取り込むということです。</li>
@@ -151,7 +178,7 @@
 </div>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p><strong>checkout</strong> は、branch の移動に使われていた古い呼び方です。現在の Git では、branch の移動は <strong>switch</strong>、ファイルの復元は <strong>restore</strong> と、役割が分かれた名前になっています。SourceTree や TortoiseGit では、今も Checkout という名前が使われています。どちらが出てきても「branch を切り替える」と読みかえてください。</p>
+<p><strong>checkout</strong> は、branch の移動に使われていた古い呼び方です。現在の Git では、branch の移動は <strong>switch</strong>、ファイルの復元は <strong>restore</strong> と、役割が分かれた名前になっています。Sourcetree や TortoiseGit では、今も Checkout という名前が使われています。どちらが出てきても「branch を切り替える」と読みかえてください。</p>
 </div>
 <hr />
 <h2 id="sec4">4. push とは</h2>
@@ -186,7 +213,7 @@
 <th>意味</th>
 <th>Git の用語</th>
 <th>GitHub Desktop</th>
-<th>SourceTree</th>
+<th>Sourcetree</th>
 <th>TortoiseGit</th>
 </tr>
 </thead>
@@ -216,6 +243,32 @@
 <p class="note-title">補足</p>
 <p>merge すると、両方の変更をまとめた commit(merge commit)が1つ増えることがあります。main 側に新しい commit がなく、一直線につなげられるときは、merge commit は作られず、main が feature の位置まで進むだけです(fast-forward)。</p>
 </div>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>main 側に新しい commit がない</th>
+<th>main 側にも新しい commit がある</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>merge のしかた</td>
+<td>fast-forward(main の目印を、feature の先頭まで進めるだけ)</td>
+<td>merge commit を作って、2本の流れを合流させる</td>
+</tr>
+<tr>
+<td>History の見た目</td>
+<td>一直線のまま</td>
+<td>線が分かれて、また1本に戻る</td>
+</tr>
+<tr>
+<td>commit の数</td>
+<td>増えない</td>
+<td>merge commit が1つ増える</td>
+</tr>
+</tbody>
+</table>
 <div class="note note-warn">
 <p class="note-title">注意</p>
 <p>merge で変わるのは、今いる branch(merge 先)だけです。取り込んだ側の feature は変わりません。同じ場所を別々に変更していると conflict が起きます(「8. conflict とは」)。</p>
@@ -224,6 +277,38 @@
 <h2 id="sec6">6. fetch と pull とは</h2>
 <p>他の人が remote に push すると、remote のほうが手元より先に進みます。その更新を手元に持ってくる方法が fetch と pull です。</p>
 <div class="figure"><img alt="fetchとpullの違い" src="images/git_fetch_pull.svg" /></div>
+<p>先に、よく似た3つの名前の違いを整理しておきます。</p>
+<table>
+<thead>
+<tr>
+<th>名前</th>
+<th>何か</th>
+<th>どこにあるか</th>
+<th>いつ変わるか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>origin</code></td>
+<td>remote(GitHub 上の repository)につけた名前</td>
+<td>-(名前だけ)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>main</code></td>
+<td>自分が作業する main</td>
+<td>手元の PC</td>
+<td>自分が commit・merge・pull したとき</td>
+</tr>
+<tr>
+<td><code>origin/main</code></td>
+<td>GitHub 上の main を、最後に確認したときの控え</td>
+<td>手元の PC</td>
+<td>fetch・pull・push したとき</td>
+</tr>
+</tbody>
+</table>
+<p>手元には <code>main</code> と <code>origin/main</code> の2つがありますが、<code>origin/main</code> は「GitHub 上の main がこうだった」というメモのようなものです。自分で編集するのは <code>main</code> だけです。</p>
 <ul>
 <li><strong>fetch</strong> という名前が出てきたら、remote の更新情報を取得するだけということです。手元の <code>origin/main</code>(remote の main のコピー)は更新されますが、作業中の branch やファイルは変わりません。</li>
 <li><strong>pull</strong> という名前が出てきたら、fetch に加えて、取得した内容を作業中の branch に merge するということです。つまり pull は「fetch + merge」です。</li>
@@ -237,7 +322,7 @@
 <th>意味</th>
 <th>Git の用語</th>
 <th>GitHub Desktop</th>
-<th>SourceTree</th>
+<th>Sourcetree</th>
 <th>TortoiseGit</th>
 </tr>
 </thead>
@@ -260,7 +345,16 @@
 </table>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p>迷ったら、まず fetch で確認してから取り込むのが安全です。pull は、取り込み中に conflict が起きることがあります(「8. conflict とは」)。</p>
+<p>迷ったら、まず fetch で確認してから取り込むのが安全です。fetch のあとは、次のところで確認できます。</p>
+<ul>
+<li>GitHub Desktop:ボタンが <strong>Pull origin</strong> に変わり、取り込んでいない commit の数が表示されます</li>
+<li>Sourcetree・Fork:History(グラフ)に <code>origin/main</code> が、自分の <code>main</code> より先に表示されます。その commit をクリックすると、変更内容が見られます</li>
+</ul>
+<p>pull は、取り込み中に conflict が起きることがあります(「8. conflict とは」)。</p>
+</div>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>pull しても、手元に push していない commit がなければ fast-forward になるので、merge commit は増えません。手元と remote の両方に新しい commit があるときだけ、merge commit が作られます。</p>
 </div>
 <hr />
 <h2 id="sec7">7. 逆 merge とは(相手の branch を取り込む)</h2>
@@ -276,13 +370,17 @@
 <li>自分の branch(<code>feature</code>)に戻る</li>
 <li><code>main</code> を、今の branch(<code>feature</code>)に merge する(逆 merge)</li>
 </ol>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>fetch したあとなら、<code>main</code> に切り替えずに、<code>origin/main</code> を自分の branch に直接 merge することもできます(GitHub Desktop の Merge into Current Branch では、一覧に <code>origin/main</code> も出てきます)。ただし、手元の <code>main</code> は古いまま残るので、慣れるまでは上の手順のほうが分かりやすいです。</p>
+</div>
 <table>
 <thead>
 <tr>
 <th>意味</th>
 <th>Git の用語</th>
 <th>GitHub Desktop</th>
-<th>SourceTree</th>
+<th>Sourcetree</th>
 <th>TortoiseGit</th>
 </tr>
 </thead>
@@ -305,7 +403,7 @@
 </table>
 <ul>
 <li><strong>update from main</strong> や <strong>Merge main into ...</strong> という名前が出てきたら、main の最新を、自分の branch に取り込む(この資料でいう逆 merge)ということです。</li>
-<li><strong>rebase</strong> という名前が出てきたら、逆 merge と同じく main の最新を取り込む別の方法ということです。merge commit を作らずに、自分の commit を main の先に付け替えます。初めのうちは、逆 merge(merge)を使えば十分です。</li>
+<li><strong>rebase</strong> という名前が出てきたら、main の最新を取り込む、merge とは別の方法ということです(<strong>今は覚えなくて大丈夫です</strong>)。merge commit を作らないので History が一直線になりますが、commit を作り直すため、push 済みの branch で行うと force push が必要になります。初めのうちは、逆 merge(merge)を使ってください。</li>
 </ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
@@ -354,6 +452,14 @@ title: 学習メモ
 </tr>
 </tbody>
 </table>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p><code>HEAD</code> 側は、いつも「今いる branch」です。</p>
+<ul>
+<li>ふつうの merge(main にいて feature を取り込む)→ HEAD は <code>main</code></li>
+<li>逆 merge(feature にいて main を取り込む)→ HEAD は <code>feature</code></li>
+</ul>
+</div>
 <p>解消は、conflict の発生を示す行を消して、残す内容を決めることです。</p>
 <div class="figure"><img alt="conflictの解消の流れ" src="images/git_conflict_fix.svg" /></div>
 <ol>
@@ -369,7 +475,7 @@ title: 学習メモ
 <tr>
 <th>手順</th>
 <th>GitHub Desktop</th>
-<th>SourceTree</th>
+<th>Sourcetree</th>
 <th>TortoiseGit</th>
 </tr>
 </thead>
@@ -411,7 +517,7 @@ title: 学習メモ
 </div>
 <div class="note note-warn">
 <p class="note-title">注意</p>
-<p>SourceTree の <code>Resolve Using 'Mine'</code> / <code>Resolve Using 'Theirs'</code> は、ファイル全体をどちらか片方に置き換えます。conflict していない部分の変更も消えるので、画像などのバイナリファイルや、片方を丸ごと捨てるときだけ使ってください。</p>
+<p>Sourcetree の <code>Resolve Using 'Mine'</code> / <code>Resolve Using 'Theirs'</code> は、ファイル全体をどちらか片方に置き換えます。conflict していない部分の変更も消えるので、画像などのバイナリファイルや、片方を丸ごと捨てるときだけ使ってください。</p>
 </div>
 <div class="note note-info">
 <p class="note-title">補足</p>
@@ -443,11 +549,52 @@ title: 学習メモ
 </ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p>branch 保護を設定すると、うっかり <code>main</code> に push してしまう事故を、仕組みで防げます。</p>
+<p>Pull Request は、「私の branch を pull(取り込み)してください」とお願いする、という意味の名前です。操作の pull とは別のもので、実際に行われるのは merge です。GitLab では、同じ仕組みを <strong>Merge Request</strong> と呼びます。</p>
+</div>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>branch 保護を設定すると、うっかり <code>main</code> に push してしまう事故を、仕組みで防げます。無料プランでは public の repository でだけ使えます(private の repository で使うには、有料プランが必要です)。</p>
+</div>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p><code>.gitignore</code> は、repository のいちばん上のフォルダ(<code>.git</code> と同じ場所)に置きます。1行に1つ、commit しないフォルダやファイルを書きます。</p>
+<pre><code class="language-text"># Unity が自動で作るフォルダ
+Library/
+Temp/
+Logs/
+# Visual Studio の設定
+.vs/
+# 秘密情報
+.env
+</code></pre>
+<p>GitHub で repository を作るときに、<strong>Add .gitignore</strong> で「Unity」などのテンプレートを選ぶと、最初から用意されます。</p>
 </div>
 <div class="note note-info">
 <p class="note-title">補足</p>
 <p><code>.gitignore</code> に書いたファイルは、まだ Git の管理に入っていない場合だけ無視されます。すでに commit してしまったファイルは、Git の管理から外して(<strong>untrack</strong>。ファイル自体は消えません)、commit し直します。<strong>untrack</strong> という名前が出てきたら、ファイルは残したまま、Git の記録の対象から外すということです。</p>
+<table>
+<thead>
+<tr>
+<th>ツール</th>
+<th>untrack のしかた</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sourcetree</td>
+<td>ファイルを右クリック → Stop Tracking</td>
+</tr>
+<tr>
+<td>TortoiseGit</td>
+<td>ファイルを右クリック → TortoiseGit → Delete (keep local)</td>
+</tr>
+<tr>
+<td>コマンド</td>
+<td><code>git rm --cached ファイル名</code>(フォルダは <code>git rm -r --cached フォルダ名</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>GitHub Desktop には untrack のメニューがないので、コマンドを使います。untrack したあと、commit して push すると、remote からも外れます(手元のファイルは残ります)。</p>
 </div>
 <hr />
 <h2 id="sec10">10. 安全に試すコツ</h2>
@@ -481,28 +628,28 @@ title: 学習メモ
 <tr>
 <th>種類</th>
 <th>commit</th>
-<th>stage</th>
-<th>ファイルの中身</th>
+<th>取り消した commit の変更</th>
+<th>使う場面</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Soft</td>
 <td>取り消す</td>
-<td>残る</td>
-<td>残る</td>
+<td>stage に載った状態で残る(すぐ commit し直せる)</td>
+<td>message を書き直したい、commit をまとめたい</td>
 </tr>
 <tr>
 <td>Mixed(既定)</td>
 <td>取り消す</td>
-<td>取り消す</td>
-<td>残る</td>
+<td>working directory に残る(stage には載っていない)</td>
+<td>入れるファイルを選び直したい</td>
 </tr>
 <tr>
 <td>Hard</td>
 <td>取り消す</td>
-<td>取り消す</td>
 <td>消える</td>
+<td>変更ごと、なかったことにしたい</td>
 </tr>
 </tbody>
 </table>
@@ -514,7 +661,7 @@ title: 学習メモ
 </ul>
 <div class="note note-info">
 <p class="note-title">補足</p>
-<p><strong>HEAD~1</strong>(または <strong>HEAD^</strong>)という名前が出てきたら、「今の commit の1つ前」ということです。<strong>HEAD~2</strong> なら2つ前を指します。</p>
+<p><strong>HEAD~1</strong>(または <strong>HEAD^</strong>)という名前が出てきたら、「今の commit の1つ前」ということです。<strong>HEAD~2</strong> なら2つ前を指します。GUI クライアントでは、戻したい commit を History でクリックして選ぶので、自分で打つことはありません。ネットの解説やエラーメッセージで見かけたときに、意味が分かれば十分です。</p>
 </div>
 <div class="note note-warn">
 <p class="note-title">注意</p>
@@ -532,6 +679,7 @@ title: 学習メモ
 <ul>
 <li><strong>force push</strong> という名前が出てきたら、remote の履歴を、手元の履歴で強制的に上書きするということです。push 済みの commit を reset で消し、force push で remote にも反映する方法もありますが、他の人の履歴と食い違って混乱を招くので、共有 branch では避けるのが基本です。</li>
 <li><strong>force with lease</strong> という名前が出てきたら、「自分が知らない変更が remote に増えていたら、上書きしない」という安全装置つきの force push ということです。自分専用の branch でやむを得ない場合は、こちらを使います。</li>
+<li>たとえば、自分だけが使っている <code>feature</code> branch を push したあとで、秘密情報を commit していたことに気づき、reset で履歴から消したい場合です。<code>main</code> など、ほかの人も使う branch では使いません。</li>
 </ul>
 </div>
 <h3>D. 間違えて Hard Reset してしまった</h3>
@@ -573,13 +721,17 @@ title: 学習メモ
 <hr />
 <h2 id="sec12">12. GUIツールの用語集</h2>
 <p>GUIツールのボタンやメニューは、名前が違っても、Git の同じ操作をしています。左の「Git の用語」を覚えておけば、どのツールでも何をするボタンか分かります。</p>
+<div class="note note-info">
+<p class="note-title">補足</p>
+<p>Fork を使っている場合も、ボタンの名前は Sourcetree とほぼ同じです(Fetch、Pull、Push、Stash、Commit など)。見つからないときは、commit やファイルを右クリックしたメニューを確認してください。</p>
+</div>
 <table>
 <thead>
 <tr>
 <th>意味</th>
 <th>Git の用語</th>
 <th>GitHub Desktop</th>
-<th>SourceTree</th>
+<th>Sourcetree</th>
 <th>TortoiseGit</th>
 </tr>
 </thead>
@@ -645,7 +797,7 @@ title: 学習メモ
 <td>restore(discard)</td>
 <td>Discard Changes</td>
 <td>Discard</td>
-<td>Revert</td>
+<td><strong>Revert</strong> ⚠</td>
 </tr>
 <tr>
 <td>過去に戻す</td>
@@ -659,12 +811,13 @@ title: 学習メモ
 <td>revert</td>
 <td>Revert Changes in Commit</td>
 <td>Reverse commit</td>
-<td>Revert change by this commit</td>
+<td><strong>Revert change by this commit</strong> ⚠</td>
 </tr>
 </tbody>
 </table>
 <div class="note note-warn">
 <p class="note-title">注意</p>
+<p>⚠ の2つは、名前が似ていますが別の操作です。</p>
 <p>TortoiseGit の <strong>Revert</strong> は、「commit 前の変更を破棄する」(restore / discard)という意味で、Git の用語の revert(打ち消しの commit を作る)とは別の操作です。TortoiseGit で打ち消しの commit を作るのは <strong>Revert change by this commit</strong> です。</p>
 </div>
 <div class="note note-info">
@@ -673,7 +826,7 @@ title: 学習メモ
 <ul>
 <li>戻した後の変更は、working directory に未 commit の状態で残ります(Mixed に近い動き)</li>
 <li>変更もいらない場合は、そのあと <strong>Discard Changes</strong> で破棄します(Hard と同じ結果)</li>
-<li>戻せるのは、最後に push した commit か、それより新しい commit までです(それより前には戻せません)</li>
+<li>戻せるのは、まだ push していない commit の範囲だけです。たとえば、A・B を push 済みで、C・D をまだ push していないとき、B・C には戻せますが、A には戻せません</li>
 <li>push 済みの commit を取り消したいときは、reset ではなく <strong>Revert Changes in Commit</strong> を使います</li>
 </ul>
 <p>参考: <a href="https://docs.github.com/en/desktop/managing-commits/resetting-to-a-commit-in-github-desktop">Resetting to a commit in GitHub Desktop</a></p>
@@ -684,7 +837,7 @@ title: 学習メモ
 </div>
 <hr />
 <h2 id="sec13">13. 練習問題(reset と revert を GUI で試す)</h2>
-<p>GitHub Desktop・SourceTree・TortoiseGit のどれでも、同じ流れで試せます。手順は、図と同じ言葉(History、commit、reset、revert)で書いています。</p>
+<p>GitHub Desktop・Sourcetree・TortoiseGit のどれでも、同じ流れで試せます。手順は、図と同じ言葉(History、commit、reset、revert)で書いています。</p>
 <div class="note note-warn">
 <p class="note-title">注意</p>
 <p>練習用の新しい repository で試してください。本物のプロジェクトでは行わないでください。</p>
@@ -707,7 +860,7 @@ title: 学習メモ
 <tr>
 <th>操作</th>
 <th>GitHub Desktop</th>
-<th>SourceTree</th>
+<th>Sourcetree</th>
 <th>TortoiseGit</th>
 </tr>
 </thead>
@@ -740,7 +893,7 @@ title: 学習メモ
 <tr>
 <th>手順</th>
 <th>GitHub Desktop</th>
-<th>SourceTree</th>
+<th>Sourcetree</th>
 <th>TortoiseGit</th>
 </tr>
 </thead>
@@ -785,7 +938,7 @@ title: 学習メモ
 <tr>
 <th>手順</th>
 <th>GitHub Desktop</th>
-<th>SourceTree</th>
+<th>Sourcetree</th>
 <th>TortoiseGit</th>
 </tr>
 </thead>
